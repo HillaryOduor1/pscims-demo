@@ -1,0 +1,16 @@
+# Build output
+obj/
+packages/
+*.pdb
+*.user
+
+# VS
+.vs/
+
+# Ignore everything in bin EXCEPT the DLL
+bin/*
+!bin/PSCIMS.dll
+
+# Keep Web.config with secrets out of the repo
+# (only if you'll use App Settings override on Azure — see below)
+# Web.config
