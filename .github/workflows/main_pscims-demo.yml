@@ -16,44 +16,119 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup MSBuild (for csc.exe and .NET Framework)
-        uses: microsoft/setup-msbuild@v2
-
-      - name: Build PSCIMS.dll with csc.exe
-        shell: cmd
+      - name: Locate csc.exe
+        id: find_csc
+        shell: pwsh
         run: |
-          if not exist bin mkdir bin
-          "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\Roslyn\csc.exe" ^
-            /target:library ^
-            /out:bin\PSCIMS.dll ^
-            /reference:System.dll ^
-            /reference:System.Web.dll ^
-            /reference:System.Data.dll ^
-            /reference:System.Configuration.dll ^
-            /reference:System.Web.Extensions.dll ^
-            /reference:System.Core.dll ^
-            /reference:System.Drawing.dll ^
-            Site.Master.cs ^
-            Site.Master.designer.cs ^
-            jobs\Default.aspx.cs ^
-            jobs\loginPage.aspx.cs ^
-            jobs\loginPage.aspx.designer.cs ^
-            jobs\RegisterProfile.aspx.cs ^
-            jobs\RegisterProfile.aspx.designer.cs ^
-            jobs\ActiveJobsAdverts.aspx.cs ^
-            jobs\ActiveJobsAdverts.aspx.designer.cs ^
-            jobs\ActiveAdvertsInternsInternshipExt.aspx.cs ^
-            jobs\ActiveAdvertsInternsInternshipExt.aspx.designer.cs ^
-            jobs\ELPEXT.aspx.cs ^
-            jobs\ELPEXT.aspx.designer.cs ^
-            jobs\AdvertStatusGlobal.aspx.cs ^
-            jobs\AdvertStatusGlobal.aspx.designer.cs ^
-            jobs\Error.aspx.cs ^
-            jobs\Error.aspx.designer.cs ^
-            jobs\ComingSoon.aspx.cs ^
-            jobs\ComingSoon.aspx.designer.cs ^
-            puio\Default.aspx.cs ^
-            puio\Default.aspx.designer.cs
+          $candidates = @(
+            "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe",
+            "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\Roslyn\csc.exe",
+            "C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\Roslyn\csc.exe",
+            "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Roslyn\csc.exe",
+            "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\Roslyn\csc.exe"
+          )
+          foreach ($path in $candidates) {
+            if (Test-Path $path) {
+              Write-Host "Found csc at: $path"
+              "path=$path" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+              exit 0
+            }
+          }
+          Write-Error "No csc.exe found"
+          exit 1
+
+      - name: Build PSCIMS.dll
+        shell: pwsh
+        run: |
+          $csc = "${{ steps.find_csc.outputs.path }}"
+          if (-not (Test-Path "bin")) { New-Item -ItemType Directory -Path "bin" | Out-Null }
+
+          $sources = @(
+            "Site.Master.cs",
+            "Site.Master.designer.cs",
+            "jobs\Default.aspx.cs",
+            "jobs\loginPage.aspx.cs",
+            "jobs\loginPage.aspx.designer.cs",
+            "jobs\RegisterProfile.aspx.cs",
+            "jobs\RegisterProfile.aspx.designer.cs",
+            "jobs\ActiveJobsAdverts.aspx.cs",
+            "jobs\ActiveJobsAdverts.aspx.designer.cs",
+            "jobs\ActiveAdvertsInternsInternshipExt.aspx.cs",
+            "jobs\ActiveAdvertsInternsInternshipExt.aspx.designer.cs",
+            "jobs\ELPEXT.aspx.cs",
+            "jobs\ELPEXT.aspx.designer.cs",
+            "jobs\AdvertStatusGlobal.aspx.cs",
+            "jobs\AdvertStatusGlobal.aspx.designer.cs",
+            "jobs\Error.aspx.cs",
+            "jobs\Error.aspx.designer.cs",
+            "jobs\ComingSoon.aspx.cs",
+            "jobs\ComingSoon.aspx.designer.cs",
+            "puio\Default.aspx.cs",
+            "puio\Default.aspx.designer.cs"
+          )
+
+          # Verify all source files exist before building
+          $missing = @()
+          foreach ($src in $sources) {
+            if (-not (Test-Path $src)) { $missing += $src }
+          }
+          if ($missing.Count -gt 0) {
+            Write-Host "Missing source files:"
+            $missing | ForEach-Object { Write-Host "  $_" }
+            Write-Error "Cannot build: source files missing. Update the workflow list to match your repo."
+            exit 1
+          }
+
+          $refs = @(
+            "/reference:System.dll",
+            "/reference:System.Web.dll",
+            "/reference:System.Data.dll",
+            "/reference:System.Configuration.dll",
+            "/reference:System.Web.Extensions.dll",
+            "/reference:System.Core.dll",
+            "/reference:System.Drawing.dll"
+          )
+
+          $args = @("/nologo", "/target:library", "/out:bin\PSCIMS.dll") + $refs + $sources
+          & $csc @args
+
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "csc.exe failed with exit code $LASTEXITCODE"
+            exit $LASTEXITCODE
+          }
+          Write-Host "Build succeeded."
+
+      - name: Verify DLL exists
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "bin\PSCIMS.dll")) {
+            Write-Error "bin\PSCIMS.dll was not produced"
+            exit 1
+          }
+          $dll = Get-Item "bin\PSCIMS.dll"
+          Write-Host "DLL size: $($dll.Length) bytes"
+          Write-Host "DLL built at: $($dll.LastWriteTime)"
+
+      - name: Strip source files before deploy
+        shell: pwsh
+        run: |
+          # Remove .cs and .designer.cs files that Azure doesn't need
+          # (the compiled DLL in bin/ replaces them)
+          # KEEP App_Code/*.cs because IIS compiles those at runtime
+          Get-ChildItem -Path "jobs", "puio" -Recurse -Include "*.cs" -File | Remove-Item -Force -Verbose
+
+          # Remove Visual Studio artifacts
+          if (Test-Path ".vs")        { Remove-Item ".vs"        -Recurse -Force }
+          if (Test-Path "obj")        { Remove-Item "obj"        -Recurse -Force }
+          if (Test-Path "packages")   { Remove-Item "packages"   -Recurse -Force }
+
+          # Remove stray build artifacts inside bin except the DLL
+          Get-ChildItem -Path "bin" -File | Where-Object { $_.Name -ne "PSCIMS.dll" } | Remove-Item -Force -Verbose
+
+          # Remove any pdb files
+          Get-ChildItem -Recurse -Include "*.pdb" -File | Remove-Item -Force -Verbose
+
+          Write-Host "Source cleanup complete."
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
