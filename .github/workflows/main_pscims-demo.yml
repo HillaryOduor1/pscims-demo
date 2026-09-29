@@ -37,6 +37,29 @@ jobs:
           Write-Error "No csc.exe found"
           exit 1
 
+      - name: Diagnostic — check secret
+        shell: pwsh
+        run: |
+          $p = '${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_37BCBD8B91014E2EB394626DF6669727 }}'
+          Write-Host "Secret length: $($p.Length)"
+          if ($p.Length -eq 0) {
+            Write-Host "*** SECRET IS EMPTY ***"
+            Write-Host "Go to GitHub → Settings → Secrets → Actions and set AZUREAPPSERVICE_PUBLISHPROFILE_37BCBD8B91014E2EB394626DF6669727"
+            exit 1
+          }
+          if ($p.Length -lt 500) {
+            Write-Host "*** SECRET IS TOO SHORT — likely truncated ***"
+            Write-Host "First 200 chars: $($p.Substring(0, [Math]::Min(200, $p.Length)))"
+            exit 1
+          }
+          Write-Host "First 80 chars: $($p.Substring(0, [Math]::Min(80, $p.Length)))"
+          Write-Host "Last 80 chars:  $($p.Substring([Math]::Max(0, $p.Length - 80)))"
+          if (-not $p.StartsWith("<publishData>")) {
+            Write-Host "*** SECRET DOES NOT START WITH <publishData> — wrong value ***"
+            exit 1
+          }
+          Write-Host "Secret looks valid."
+
       - name: Build PSCIMS.dll
         shell: pwsh
         run: |
@@ -67,7 +90,6 @@ jobs:
             "puio\Default.aspx.designer.cs"
           )
 
-          # Verify all source files exist before building
           $missing = @()
           foreach ($src in $sources) {
             if (-not (Test-Path $src)) { $missing += $src }
@@ -75,7 +97,7 @@ jobs:
           if ($missing.Count -gt 0) {
             Write-Host "Missing source files:"
             $missing | ForEach-Object { Write-Host "  $_" }
-            Write-Error "Cannot build: source files missing. Update the workflow list to match your repo."
+            Write-Error "Cannot build: source files missing."
             exit 1
           }
 
@@ -91,7 +113,6 @@ jobs:
 
           $args = @("/nologo", "/target:library", "/out:bin\PSCIMS.dll") + $refs + $sources
           & $csc @args
-
           if ($LASTEXITCODE -ne 0) {
             Write-Error "csc.exe failed with exit code $LASTEXITCODE"
             exit $LASTEXITCODE
@@ -112,22 +133,12 @@ jobs:
       - name: Strip source files before deploy
         shell: pwsh
         run: |
-          # Remove .cs and .designer.cs files that Azure doesn't need
-          # (the compiled DLL in bin/ replaces them)
-          # KEEP App_Code/*.cs because IIS compiles those at runtime
           Get-ChildItem -Path "jobs", "puio" -Recurse -Include "*.cs" -File | Remove-Item -Force -Verbose
-
-          # Remove Visual Studio artifacts
           if (Test-Path ".vs")        { Remove-Item ".vs"        -Recurse -Force }
           if (Test-Path "obj")        { Remove-Item "obj"        -Recurse -Force }
           if (Test-Path "packages")   { Remove-Item "packages"   -Recurse -Force }
-
-          # Remove stray build artifacts inside bin except the DLL
           Get-ChildItem -Path "bin" -File | Where-Object { $_.Name -ne "PSCIMS.dll" } | Remove-Item -Force -Verbose
-
-          # Remove any pdb files
           Get-ChildItem -Recurse -Include "*.pdb" -File | Remove-Item -Force -Verbose
-
           Write-Host "Source cleanup complete."
 
       - name: Deploy to Azure Web App
