@@ -144,6 +144,6 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'pscims-demo-abdae3amewazb9ae'
+          app-name: 'pscims-demo'
           package: ./
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_37BCBD8B91014E2EB394626DF6669727 }}
