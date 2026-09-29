@@ -1,0 +1,338 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="PSCIMS.Site" %>
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#c9a227" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+    <meta name="description" content="Public Service Commission Information Management System — apply for advertised positions and internships in the Kenya Public Service." />
+    <meta name="format-detection" content="telephone=no" />
+
+    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server">PSCIMS — Public Service Commission</asp:ContentPlaceHolder></title>
+
+    <!-- ==========================================================
+         Favicons
+         - favicon.ico at site root (default for all browsers)
+         - favicon-96x96.png for Android Chrome
+         - apple-touch-icon.png for iOS home screen
+         - psc-logo.webp as modern fallback
+         - site.webmanifest for PWA metadata
+         ========================================================== -->
+    <link rel="icon" href="<%= ResolveUrl("~/favicon.ico") %>" sizes="any" />
+    <link rel="icon" type="image/png" sizes="96x96" href="<%= ResolveUrl("~/Content/img/favicon-96x96.png") %>" />
+    <link rel="icon" type="image/webp" href="<%= ResolveUrl("~/Content/img/psc-logo.webp") %>" />
+    <link rel="apple-touch-icon" sizes="180x180" href="<%= ResolveUrl("~/Content/img/apple-touch-icon.png") %>" />
+    <link rel="manifest" href="<%= ResolveUrl("~/Content/img/site.webmanifest") %>" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="PSCIMS" />
+    <meta name="application-name" content="PSCIMS" />
+    <meta name="msapplication-TileColor" content="#c9a227" />
+    <meta name="msapplication-TileImage" content="<%= ResolveUrl("~/Content/img/web-app-manifest-192x192.png") %>" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+
+    <link href="<%= ResolveUrl("~/Content/css/psc-theme.css") %>" rel="stylesheet" />
+
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('pscims-theme');
+                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = saved || (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) { }
+        })();
+    </script>
+
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
+</head>
+<body>
+    <form id="form1" runat="server">
+
+        <a href="#main" class="skip-link">Skip to main content</a>
+
+        <div class="page-progress" id="pageProgress" aria-hidden="true"></div>
+
+        <div class="shell" id="shell">
+
+            <div class="sidebar-overlay" onclick="PSCIMS.toggleMobile()" aria-hidden="true"></div>
+
+            <!-- ==========================================================
+                 SIDEBAR — text-only brand
+                 ========================================================== -->
+            <aside class="sidebar" role="navigation" aria-label="Main navigation">
+
+                <a href="<%= ResolveUrl("~/jobs/Default.aspx") %>"
+                   class="sidebar__brand"
+                   title="PSCIMS Home">
+                    <div class="sidebar__brand-text">
+                        <div class="sidebar__brand-title">PSCIMS</div>
+                        <div class="sidebar__brand-sub">Public Service Commission</div>
+                    </div>
+                </a>
+
+                <nav class="sidebar__nav">
+
+                    <div class="sidebar__section">Overview</div>
+
+                    <a href="<%= ResolveUrl("~/jobs/Default.aspx") %>"
+                       class="sidebar__link <%= IsActiveIn("jobs", "Default") %>"
+                       data-tooltip="Dashboard"
+                       title="Dashboard">
+                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">dashboard</span>
+                        <span class="sidebar__label">Dashboard</span>
+                    </a>
+
+                    <div class="sidebar__section">Recruitment</div>
+
+                    <a href="<%= ResolveUrl("~/jobs/ActiveJobsAdverts.aspx") %>"
+                       class="sidebar__link <%= IsActive("ActiveJobsAdverts") %>"
+                       data-tooltip="Advertised Jobs"
+                       title="Advertised Jobs">
+                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">work</span>
+                        <span class="sidebar__label">Advertised Jobs</span>
+                    </a>
+
+                    <a href="<%= ResolveUrl("~/jobs/ActiveAdvertsInternsInternshipExt.aspx") %>"
+                       class="sidebar__link <%= IsActive("ActiveAdvertsInternsInternshipExt") %>"
+                       data-tooltip="Internships"
+                       title="Internships">
+                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">school</span>
+                        <span class="sidebar__label">Internships</span>
+                    </a>
+
+                    <a href="<%= ResolveUrl("~/puio/Default.aspx") %>"
+                       class="sidebar__link <%= IsActiveIn("puio", "Default") %>"
+                       data-tooltip="Public Universities &amp; Independent Offices"
+                       title="Public Universities and Independent Offices Jobs">
+                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">account_balance</span>
+                        <span class="sidebar__label">Universities &amp; Ind. Offices</span>
+                    </a>
+
+                    <a href="<%= ResolveUrl("~/jobs/ELPEXT.aspx") %>"
+                       class="sidebar__link <%= IsActive("ELPEXT") %>"
+                       data-tooltip="Emerging Leaders Fellowship"
+                       title="Public Service Emerging Leaders Fellowship Programme">
+                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">workspace_premium</span>
+                        <span class="sidebar__label">Emerging Leaders</span>
+                    </a>
+
+                    <div class="sidebar__section">My Applications</div>
+
+                    <a href="<%= ResolveUrl("~/jobs/loginPage.aspx") %>"
+                       class="sidebar__link <%= IsActive("loginPage") %>"
+                       data-tooltip="Sign in"
+                       title="Sign in to PSCIMS">
+                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">login</span>
+                        <span class="sidebar__label">Sign in</span>
+                    </a>
+
+                    <a href="<%= ResolveUrl("~/jobs/RegisterProfile.aspx") %>"
+                       class="sidebar__link <%= IsActive("RegisterProfile") %>"
+                       data-tooltip="Register"
+                       title="Register a new applicant profile">
+                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">person_add</span>
+                        <span class="sidebar__label">Register</span>
+                    </a>
+
+                    <a href="<%= ResolveUrl("~/jobs/AdvertStatusGlobal.aspx") %>"
+                       class="sidebar__link <%= IsActive("AdvertStatusGlobal") %>"
+                       data-tooltip="Application Status"
+                       title="Check the status of your applications">
+                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">schedule</span>
+                        <span class="sidebar__label">Application Status</span>
+                    </a>
+
+                    <div class="sidebar__section">Resources</div>
+
+                    <a href="<%= ResolveUrl("~/jobs/OtherDocs/OnlinInterviewsInstructions.pdf") %>"
+                       class="sidebar__link"
+                       data-tooltip="Interview Instructions"
+                       title="Online Video Interviews Instructions (PDF)"
+                       target="_blank" rel="noopener">
+                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">description</span>
+                        <span class="sidebar__label">Interview Instructions</span>
+                    </a>
+
+                    <a href="https://www.youtube.com/watch?v=1GdA0NH0wfw"
+                       class="sidebar__link"
+                       data-tooltip="PSIP Documentary"
+                       title="Public Service Internship Programme Documentary"
+                       target="_blank" rel="noopener">
+                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">play_circle</span>
+                        <span class="sidebar__label">PSIP Documentary</span>
+                    </a>
+
+                </nav>
+
+                <div class="sidebar__footer">
+                    <a href="https://www.publicservice.go.ke"
+                       class="sidebar__link"
+                       data-tooltip="publicservice.go.ke"
+                       title="Return to the Public Service Commission website"
+                       target="_blank" rel="noopener">
+                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">open_in_new</span>
+                        <span class="sidebar__label">publicservice.go.ke</span>
+                    </a>
+
+                    <a href="https://hillary-portfolio-v2.vercel.app"
+                       class="sidebar__credit"
+                       data-tooltip="Designed and built by Hillary"
+                       title="Designed and built by Hillary Oduor"
+                       target="_blank" rel="noopener">
+                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">code</span>
+                        <span class="sidebar__label">
+                            Designed &amp; built by <strong>Hillary</strong>
+                        </span>
+                    </a>
+                </div>
+
+            </aside>
+
+            <!-- ==========================================================
+                 HEADER — Coat of Arms + PSC logo + page title + actions
+                 ========================================================== -->
+            <header class="header">
+
+                <button type="button" class="header__toggle"
+                        onclick="PSCIMS.toggleSidebar()"
+                        data-tooltip="Toggle sidebar"
+                        aria-label="Toggle sidebar"
+                        aria-controls="shell"
+                        aria-expanded="false">
+                    <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+                </button>
+
+                <div class="header__brand" aria-label="Public Service Commission">
+                    <img class="header__brand-logo"
+                         src="<%= ResolveUrl("~/Content/img/coat-of-arms.png") %>"
+                         alt="Coat of Arms of the Republic of Kenya" />
+                    <span class="header__brand-divider" aria-hidden="true"></span>
+                    <img class="header__brand-logo header__brand-logo--psc"
+                         src="<%= ResolveUrl("~/Content/img/psc-logo.png") %>"
+                         alt="Public Service Commission" />
+                </div>
+
+                <h1 class="header__title" id="pageTitle">
+                    <asp:ContentPlaceHolder ID="PageTitle" runat="server">Dashboard</asp:ContentPlaceHolder>
+                </h1>
+
+                <div class="header__actions">
+                    <button type="button" class="icon-btn theme-toggle"
+                            onclick="PSCIMS.toggleTheme()"
+                            data-tooltip="Toggle theme"
+                            aria-label="Toggle light and dark theme">
+                        <span class="material-symbols-outlined icon-sun" aria-hidden="true">light_mode</span>
+                        <span class="material-symbols-outlined icon-moon" aria-hidden="true">dark_mode</span>
+                    </button>
+
+                    <a href="<%= ResolveUrl("~/jobs/loginPage.aspx") %>"
+                       class="user-chip"
+                       title="Sign in to your account">
+                        <span class="user-chip__avatar" aria-hidden="true">G</span>
+                        <span class="user-chip__name">Sign in</span>
+                    </a>
+                </div>
+            </header>
+
+            <!-- ==========================================================
+                 MAIN
+                 ========================================================== -->
+            <main id="main" class="main" role="main" tabindex="-1">
+                <div id="mainContent">
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+                </div>
+            </main>
+
+        </div>
+
+        <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+
+    </form>
+
+    <script>
+        window.PSCIMS = {
+            toggleSidebar: function () {
+                var shell = document.getElementById('shell');
+                var toggle = document.querySelector('.header__toggle');
+                var isMobile = window.matchMedia('(max-width: 900px)').matches;
+                if (isMobile) {
+                    this.toggleMobile();
+                } else {
+                    var collapsed = shell.getAttribute('data-collapsed') === 'true';
+                    shell.setAttribute('data-collapsed', collapsed ? 'false' : 'true');
+                    try { localStorage.setItem('pscims-sidebar-collapsed', !collapsed); } catch (e) {}
+                    if (toggle) toggle.setAttribute('aria-expanded', !collapsed ? 'false' : 'true');
+                }
+            },
+            toggleMobile: function () {
+                var shell = document.getElementById('shell');
+                var open = shell.getAttribute('data-mobile-open') === 'true';
+                shell.setAttribute('data-mobile-open', open ? 'false' : 'true');
+                if (open && document.activeElement) {
+                    try { document.activeElement.blur(); } catch (e) {}
+                }
+            },
+            toggleTheme: function () {
+                var html = document.documentElement;
+                var current = html.getAttribute('data-theme') || 'light';
+                var next = current === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-theme', next);
+                try { localStorage.setItem('pscims-theme', next); } catch (e) {}
+            },
+            toast: function (type, title, desc, timeout) {
+                var stack = document.getElementById('toastStack');
+                if (!stack) return;
+                var el = document.createElement('div');
+                el.className = 'toast toast--' + (type || 'info');
+                el.setAttribute('role', 'status');
+                el.innerHTML =
+                    (title ? '<p class="toast__title">' + title + '</p>' : '') +
+                    (desc ? '<p class="toast__desc">' + desc + '</p>' : '');
+                stack.appendChild(el);
+                var ms = timeout || 4000;
+                setTimeout(function () {
+                    el.style.transition = 'opacity .2s, transform .2s';
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateX(8px)';
+                    setTimeout(function () { el.remove(); }, 220);
+                }, ms);
+            },
+            init: function () {
+                var shell = document.getElementById('shell');
+                if (!shell) return;
+
+                try {
+                    if (localStorage.getItem('pscims-sidebar-collapsed') === 'true') {
+                        shell.setAttribute('data-collapsed', 'true');
+                        var toggle = document.querySelector('.header__toggle');
+                        if (toggle) toggle.setAttribute('aria-expanded', 'true');
+                    }
+                } catch (e) {}
+
+                document.querySelectorAll('.sidebar__link').forEach(function (a) {
+                    a.addEventListener('click', function () {
+                        if (window.matchMedia('(max-width: 900px)').matches) {
+                            shell.setAttribute('data-mobile-open', 'false');
+                        }
+                    });
+                });
+
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape' && shell.getAttribute('data-mobile-open') === 'true') {
+                        shell.setAttribute('data-mobile-open', 'false');
+                    }
+                });
+            }
+        };
+        document.addEventListener('DOMContentLoaded', PSCIMS.init);
+    </script>
+
+</body>
+</html>

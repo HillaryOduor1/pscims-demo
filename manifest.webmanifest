@@ -1,0 +1,31 @@
+{
+  "name": "PSCIMS — Public Service Commission",
+  "short_name": "PSCIMS",
+  "description": "Apply for advertised positions and internships in the Kenya Public Service.",
+  "start_url": "/jobs/Default.aspx",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#c9a227",
+  "icons": [
+    {
+      "src": "/Content/img/psc-logo.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "/Content/img/psc-logo.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "/Content/img/psc-logo.webp",
+      "sizes": "any",
+      "type": "image/webp",
+      "purpose": "maskable"
+    }
+  ]
+}

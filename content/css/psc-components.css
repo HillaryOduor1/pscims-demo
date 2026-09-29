@@ -1,0 +1,48 @@
+/* Stat tiles for dashboard-style content */
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+@media (max-width: 800px) { .stat-grid { grid-template-columns: 1fr 1fr; } }
+
+.stat {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  border-left: 4px solid var(--psc-gold);
+  box-shadow: var(--shadow-sm);
+}
+.stat__value {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--psc-green-dark);
+  line-height: 1;
+}
+.stat__label {
+  font-size: 13px;
+  color: var(--gray-500);
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-size: 13px;
+  color: var(--gray-500);
+  padding: 16px 0;
+}
+.breadcrumb a { color: var(--psc-green); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span { margin: 0 8px; }
+
+/* Steps indicator (for application flow) */
+.steps { display: flex; gap: 0; margin: 32px 0; }
+.step {
+  flex: 1;
+  text-align: center;
+  padding: 12px 8px;
+  font-size: 13px;
+  color: var(--gray-500);
+  border-bottom: 3px solid var(--gray-200);
+  position: relative;
+}
+.step.active { color: var(--psc-green-dark); font-weight: 700; border-bottom-color: var(--psc-green); }
+.step.done   { color: var(--psc-green); border-bottom-color: var(--psc-green); }
