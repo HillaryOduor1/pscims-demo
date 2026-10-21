@@ -1,4 +1,5 @@
 <%@ Page Title="Application Status" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AdvertStatusGlobal.aspx.cs" Inherits="PSCIMS.jobs.AdvertStatusGlobal" %>
+<%@ Import Namespace="PSCIMS.Shared" %>
 
 <asp:Content ID="PageTitleC" ContentPlaceHolderID="PageTitle" runat="server">Application Status</asp:Content>
 
@@ -6,26 +7,19 @@
 
     <div class="flex-between mb-6">
         <div>
-            <h2 class="page-title">Status of Advertised Posts</h2>
-            <p class="page-sub">Check whether an advertised position is still open or has closed.</p>
+            <h2 class="page-title"><%= ContentProvider.Get("Status_Title", "Status of Advertised Posts") %></h2>
+            <p class="page-sub"><%= ContentProvider.Get("Status_Sub", "Check whether an advertised position is still open or has closed.") %></p>
         </div>
         <a href="loginPage.aspx" class="btn btn--primary" data-nav>
             Sign in to see your applications
         </a>
     </div>
 
-    <!--<div class="alert alert--info">
-        <div class="alert__title">What this page shows</div>
-        Public status of every position advertised through PSCIMS. To see the status
-        of <em>your own</em> applications, <a href="loginPage.aspx" data-nav>sign in</a>.
-    </div>-->
-
     <div class="card mb-6" style="padding:18px 20px;">
         <div style="display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:12px;align-items:end;">
             <div>
                 <label class="form-label" for="<%= txtSearch.ClientID %>">Search</label>
-                <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control"
-                             placeholder="Job title, reference, ministry…" />
+                <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Job title, reference, ministry…" />
             </div>
             <div>
                 <label class="form-label" for="<%= ddlStatus.ClientID %>">Status</label>
@@ -43,9 +37,7 @@
                     <asp:ListItem Text="Reference (A–Z)" Value="ref" />
                 </asp:DropDownList>
             </div>
-            <asp:Button ID="btnFilter" runat="server" Text="Apply filters"
-                        CssClass="btn btn--primary"
-                        OnClick="btnFilter_Click" />
+            <asp:Button ID="btnFilter" runat="server" Text="Apply filters" CssClass="btn btn--primary" OnClick="btnFilter_Click" />
         </div>
     </div>
 
@@ -55,9 +47,7 @@
             <h3 class="state__title">No adverts match your search</h3>
             <p class="state__desc">Try adjusting the filters or clear them to see all adverts.</p>
             <div class="state__actions">
-                <asp:Button ID="btnClearFilters" runat="server" Text="Clear filters"
-                            CssClass="btn btn--outline"
-                            OnClick="btnClearFilters_Click" />
+                <asp:Button ID="btnClearFilters" runat="server" Text="Clear filters" CssClass="btn btn--outline" OnClick="btnClearFilters_Click" />
             </div>
         </div>
     </asp:PlaceHolder>

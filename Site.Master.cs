@@ -1,16 +1,41 @@
 using System;
 using System.IO;
+using System.Web;
+using System.Web.Security;
 
 namespace PSCIMS
 {
     public partial class Site : System.Web.UI.MasterPage
     {
-        protected void Page_Load(object sender, EventArgs e) { }
+        public bool IsAuthenticated
+        {
+            get
+            {
+                return Request.IsAuthenticated
+                    && Session != null
+                    && Session["ApplicantId"] != null;
+            }
+        }
 
-        /// <summary>
-        /// True when the current page matches the filename, regardless of folder.
-        /// Use for unique filenames only (e.g. loginPage, RegisterProfile).
-        /// </summary>
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            // Toggle Sidebar Navigation
+            phAnonymous.Visible = !IsAuthenticated;
+            phAuthenticated.Visible = IsAuthenticated;
+
+            // Toggle Header Login/Logout Buttons
+            phHeaderAnonymous.Visible = !IsAuthenticated;
+            phHeaderAuthenticated.Visible = IsAuthenticated;
+
+            // CRITICAL FIX: Enforce no-cache headers on ALL pages using this master page
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
+            Response.Cache.SetValidUntilExpires(false);
+            Response.AppendHeader("Pragma", "no-cache");
+        }
+
+        // ---- Sidebar active-link helpers ----
         protected string IsActive(string pageName)
         {
             string current = Path.GetFileNameWithoutExtension(
@@ -19,10 +44,6 @@ namespace PSCIMS
                 ? "active" : "";
         }
 
-        /// <summary>
-        /// True when both the folder AND the filename match.
-        /// Use for Default.aspx which exists in multiple folders.
-        /// </summary>
         protected string IsActiveIn(string folder, string pageName)
         {
             string currentFile = Path.GetFileNameWithoutExtension(
@@ -38,10 +59,6 @@ namespace PSCIMS
             return "active";
         }
 
-        /// <summary>
-        /// Helper for building URLs that carry the current section, so that
-        /// login/register pages can return the user to the right place.
-        /// </summary>
         protected string CurrentSection
         {
             get
@@ -51,31 +68,20 @@ namespace PSCIMS
                 return "jobs";
             }
         }
+
+        protected string CssVersion(string appRelativePath)
+        {
+            try
+            {
+                string physical = Server.MapPath(appRelativePath);
+                if (System.IO.File.Exists(physical))
+                {
+                    var ticks = System.IO.File.GetLastWriteTimeUtc(physical).Ticks;
+                    return ticks.ToString("x");
+                }
+            }
+            catch { }
+            return "1";
+        }
     }
 }
-
-
-/*using System;
-using System.Web.UI;
-
-namespace PSCIMS
-{
-    public partial class Site : System.Web.UI.MasterPage
-    {
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            if (Request.IsAuthenticated)
-            {
-                LoginName1.Visible = true;
-            }
-        }
-
-        protected string IsActive(string pageName)
-        {
-            string current = System.IO.Path.GetFileNameWithoutExtension(
-                Request.AppRelativeCurrentExecutionFilePath);
-            return string.Equals(current, pageName, StringComparison.OrdinalIgnoreCase)
-                ? "active" : "";
-        }
-    }
-}*/

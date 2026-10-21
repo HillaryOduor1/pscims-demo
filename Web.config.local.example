@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appSettings>
+  <!--
+    This is an EXAMPLE file. Copy to Web.config.local and fill in
+    the real credentials for your machine.
+
+    Web.config.local is gitignored — it will never be committed.
+
+    IMPORTANT: the root element must be <appSettings>, NOT <configuration>.
+    ASP.NET merges this file into the appSettings section of Web.config.
+  -->
+
+  <!-- Use "LocalDB" or "Azure" -->
+  <add key="DatabaseTarget" value="Azure" />
+
+  <!-- Azure SQL connection string -->
+  <add key="PSCIMS_Azure"
+       value="Server=tcp:pscims-demo-server.database.windows.net,1433;Initial Catalog=pscims-db;Persist Security Info=False;User ID=pscimsadmin;Password=PUT_YOUR_AZURE_SQL_PASSWORD_HERE;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" />
+
+  <!-- SMTP password for local dev -->
+  <add key="SmtpPass" value="PUT_YOUR_GMAIL_APP_PASSWORD_HERE" />
+</appSettings>

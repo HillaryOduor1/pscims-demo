@@ -40,7 +40,8 @@
                     ID / Passport Number <span class="req" aria-hidden="true">*</span>
                 </label>
                 <asp:TextBox ID="txtIdNum" runat="server" CssClass="form-control"
-                             MaxLength="20" autocomplete="off" inputmode="numeric" required="required" />
+                             MaxLength="20" autocomplete="off" inputmode="numeric"
+                             required="required" />
                 <div class="form-hint">Enter digits only, no spaces or slashes.</div>
             </div>
 
@@ -99,16 +100,26 @@
                 <label class="form-label" for="<%= txtPassword.ClientID %>">
                     Password <span class="req" aria-hidden="true">*</span>
                 </label>
-                <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control"
-                             TextMode="Password" autocomplete="new-password" required="required" />
+                <div class="password-wrapper">
+                    <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control"
+                                 TextMode="Password" autocomplete="new-password" required="required" />
+                    <button type="button" class="password-toggle" onclick="togglePasswordVisibility('<%= txtPassword.ClientID %>', this)" aria-label="Toggle password visibility">
+                        <span class="material-symbols-outlined">visibility</span>
+                    </button>
+                </div>
             </div>
 
             <div class="form-group">
                 <label class="form-label" for="<%= txtPasswordConfirm.ClientID %>">
                     Confirm password <span class="req" aria-hidden="true">*</span>
                 </label>
-                <asp:TextBox ID="txtPasswordConfirm" runat="server" CssClass="form-control"
-                             TextMode="Password" autocomplete="new-password" required="required" />
+                <div class="password-wrapper">
+                    <asp:TextBox ID="txtPasswordConfirm" runat="server" CssClass="form-control"
+                                 TextMode="Password" autocomplete="new-password" required="required" />
+                    <button type="button" class="password-toggle" onclick="togglePasswordVisibility('<%= txtPasswordConfirm.ClientID %>', this)" aria-label="Toggle password visibility">
+                        <span class="material-symbols-outlined">visibility</span>
+                    </button>
+                </div>
             </div>
 
             <hr style="border:none;border-top:1px solid var(--border);margin:28px 0;" />
@@ -125,12 +136,18 @@
                              style="max-width:140px;" />
             </div>
 
+            <asp:HiddenField ID="hfCsrf" runat="server" />
             <asp:HiddenField ID="hfFrom" runat="server" />
 
             <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;">
-                <asp:Button ID="btnSave" runat="server" Text="Create account"
+                <%-- Changed to LinkButton so it renders an <a> tag --%>
+                <asp:LinkButton ID="btnSave" runat="server"
                     CssClass="btn btn--primary btn--lg"
-                    OnClick="btnSave_Click" />
+                    OnClick="btnSave_Click"
+                    OnClientClick="return PSCIMS.btnLoading(this, 'Creating your account…');">
+                    Create account
+                </asp:LinkButton>
+
                 <asp:HyperLink ID="lnkSignIn" runat="server"
                     CssClass="btn btn--outline btn--lg"
                     Text="Already have an account?">
@@ -145,5 +162,19 @@
         </p>
 
     </div>
+
+    <script>
+        function togglePasswordVisibility(inputId, btn) {
+            var input = document.getElementById(inputId);
+            var icon = btn.querySelector('.material-symbols-outlined');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+    </script>
 
 </asp:Content>

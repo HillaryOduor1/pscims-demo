@@ -1,10 +1,14 @@
+# Local secrets — never commit
+Web.config.local
+
+
 # Build output
 obj/
 packages/
 *.pdb
 *.user
 
-# VS
+# VS Psc@1234
 .vs/
 
 # Ignore everything in bin EXCEPT the DLL

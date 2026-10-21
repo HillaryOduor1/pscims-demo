@@ -6,38 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#c9a227" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
-    <meta name="description" content="Public Service Commission Information Management System — apply for advertised positions and internships in the Kenya Public Service." />
     <meta name="format-detection" content="telephone=no" />
 
-    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server">PSCIMS — Public Service Commission</asp:ContentPlaceHolder></title>
+    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server">PSCIMS &mdash; Public Service Commission</asp:ContentPlaceHolder></title>
 
-    <!-- ==========================================================
-         Favicons
-         - favicon.ico at site root (default for all browsers)
-         - favicon-96x96.png for Android Chrome
-         - apple-touch-icon.png for iOS home screen
-         - psc-logo.webp as modern fallback
-         - site.webmanifest for PWA metadata
-         ========================================================== -->
     <link rel="icon" href="<%= ResolveUrl("~/favicon.ico") %>" sizes="any" />
     <link rel="icon" type="image/png" sizes="96x96" href="<%= ResolveUrl("~/Content/img/favicon-96x96.png") %>" />
-    <link rel="icon" type="image/webp" href="<%= ResolveUrl("~/Content/img/psc-logo.webp") %>" />
     <link rel="apple-touch-icon" sizes="180x180" href="<%= ResolveUrl("~/Content/img/apple-touch-icon.png") %>" />
     <link rel="manifest" href="<%= ResolveUrl("~/Content/img/site.webmanifest") %>" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="PSCIMS" />
     <meta name="application-name" content="PSCIMS" />
-    <meta name="msapplication-TileColor" content="#c9a227" />
-    <meta name="msapplication-TileImage" content="<%= ResolveUrl("~/Content/img/web-app-manifest-192x192.png") %>" />
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
 
-    <link href="<%= ResolveUrl("~/Content/css/psc-theme.css") %>" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/Content/css/psc-theme.css") %>?v=<%= CssVersion("~/Content/css/psc-theme.css") %>" rel="stylesheet" />
 
     <script>
         (function () {
@@ -63,9 +49,6 @@
 
             <div class="sidebar-overlay" onclick="PSCIMS.toggleMobile()" aria-hidden="true"></div>
 
-            <!-- ==========================================================
-                 SIDEBAR — text-only brand
-                 ========================================================== -->
             <aside class="sidebar" role="navigation" aria-label="Main navigation">
 
                 <a href="<%= ResolveUrl("~/jobs/Default.aspx") %>"
@@ -78,145 +61,128 @@
                 </a>
 
                 <nav class="sidebar__nav">
+                    <asp:PlaceHolder ID="phAnonymous" runat="server">
+                        <div class="sidebar__section">Overview</div>
+                        <a href="<%= ResolveUrl("~/jobs/Default.aspx") %>" class="sidebar__link <%= IsActiveIn("jobs", "Default") %>" data-tooltip="Home" title="Home">
+                            <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">home</span>
+                            <span class="sidebar__label">Home</span>
+                        </a>
+                        <div class="sidebar__section">Recruitment</div>
+                        <a href="<%= ResolveUrl("~/jobs/ActiveJobsAdverts.aspx") %>" class="sidebar__link <%= IsActive("ActiveJobsAdverts") %>" data-tooltip="Advertised Jobs" title="Advertised Jobs">
+                            <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">work</span>
+                            <span class="sidebar__label">Advertised Jobs</span>
+                        </a>
+                        <a href="<%= ResolveUrl("~/jobs/ActiveAdvertsInternsInternshipExt.aspx") %>" class="sidebar__link <%= IsActive("ActiveAdvertsInternsInternshipExt") %>" data-tooltip="Internships" title="Internships">
+                            <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">school</span>
+                            <span class="sidebar__label">Internships</span>
+                        </a>
+                        <a href="<%= ResolveUrl("~/puio/Default.aspx") %>" class="sidebar__link <%= IsActiveIn("puio", "Default") %>" data-tooltip="Public Universities &amp; Independent Offices" title="Public Universities and Independent Offices Jobs">
+                            <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">account_balance</span>
+                            <span class="sidebar__label">Universities &amp; Ind. Offices</span>
+                        </a>
+                        <a href="<%= ResolveUrl("~/jobs/ELPEXT.aspx") %>" class="sidebar__link <%= IsActive("ELPEXT") %>" data-tooltip="Emerging Leaders Fellowship" title="Public Service Emerging Leaders Fellowship Programme">
+                            <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">workspace_premium</span>
+                            <span class="sidebar__label">Emerging Leaders</span>
+                        </a>
+                        <div class="sidebar__section">Account</div>
+                        <a href="<%= ResolveUrl("~/jobs/loginPage.aspx") %>" class="sidebar__link <%= IsActive("loginPage") %>" data-tooltip="Sign in" title="Sign in to PSCIMS">
+                            <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">login</span>
+                            <span class="sidebar__label">Sign in</span>
+                        </a>
+                        <a href="<%= ResolveUrl("~/jobs/RegisterProfile.aspx") %>" class="sidebar__link <%= IsActive("RegisterProfile") %>" data-tooltip="Register" title="Register a new applicant profile">
+                            <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">person_add</span>
+                            <span class="sidebar__label">Register</span>
+                        </a>
+                    </asp:PlaceHolder>
 
-                    <div class="sidebar__section">Overview</div>
+                    <asp:PlaceHolder ID="phAuthenticated" runat="server" Visible="false">
+                        
+                        <%-- ADMIN SPECIFIC DASHBOARD --%>
+                        <% if (Session["ApplicantRole"] != null && Session["ApplicantRole"].ToString().ToLower() == "admin") { %>
+                            <div class="sidebar__section">My Account</div>
+                            <a href="<%= ResolveUrl("~/Admin/Default.aspx") %>" class="sidebar__link <%= IsActiveIn("Admin", "Default") %>" data-tooltip="Admin Dashboard" title="Admin Dashboard">
+                                <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">space_dashboard</span>
+                                <span class="sidebar__label">Admin Dashboard</span>
+                            </a>
+                            
+                            <div class="sidebar__section">Administration</div>
+                            <a href="<%= ResolveUrl("~/Admin/ManageUsers.aspx") %>" class="sidebar__link <%= IsActive("ManageUsers") %>" data-tooltip="Manage Users" title="Manage Users & Roles">
+                                <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">group</span>
+                                <span class="sidebar__label">Manage Users</span>
+                            </a>
+                            <a href="<%= ResolveUrl("~/Admin/ManageAdverts.aspx") %>" class="sidebar__link <%= IsActive("ManageAdverts") %>" data-tooltip="Manage Adverts" title="Manage Job Adverts">
+                                <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">post_add</span>
+                                <span class="sidebar__label">Manage Adverts</span>
+                            </a>
+                            <a href="<%= ResolveUrl("~/Admin/ViewApplications.aspx") %>" class="sidebar__link <%= IsActive("ViewApplications") %>" data-tooltip="Applications" title="View Applications">
+                                <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">description</span>
+                                <span class="sidebar__label">Applications</span>
+                            </a>
+                            <a href="<%= ResolveUrl("~/Admin/ManageContent.aspx") %>" class="sidebar__link <%= IsActive("ManageContent") %>" data-tooltip="Manage Content" title="Manage Site Content">
+                                <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">article</span>
+                                <span class="sidebar__label">Site Content</span>
+                            </a>
+                        <% } else { %>
+                            <%-- STANDARD APPLICANT DASHBOARD --%>
+                            <div class="sidebar__section">My Account</div>
+                            <a href="<%= ResolveUrl("~/jobs/ApplicantDashboard.aspx") %>" class="sidebar__link <%= IsActive("ApplicantDashboard") %>" data-tooltip="My Dashboard" title="My Applications">
+                                <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">dashboard</span>
+                                <span class="sidebar__label">My Dashboard</span>
+                            </a>
+                        <% } %>
 
-                    <a href="<%= ResolveUrl("~/jobs/Default.aspx") %>"
-                       class="sidebar__link <%= IsActiveIn("jobs", "Default") %>"
-                       data-tooltip="Dashboard"
-                       title="Dashboard">
-                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">dashboard</span>
-                        <span class="sidebar__label">Dashboard</span>
-                    </a>
-
-                    <div class="sidebar__section">Recruitment</div>
-
-                    <a href="<%= ResolveUrl("~/jobs/ActiveJobsAdverts.aspx") %>"
-                       class="sidebar__link <%= IsActive("ActiveJobsAdverts") %>"
-                       data-tooltip="Advertised Jobs"
-                       title="Advertised Jobs">
-                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">work</span>
-                        <span class="sidebar__label">Advertised Jobs</span>
-                    </a>
-
-                    <a href="<%= ResolveUrl("~/jobs/ActiveAdvertsInternsInternshipExt.aspx") %>"
-                       class="sidebar__link <%= IsActive("ActiveAdvertsInternsInternshipExt") %>"
-                       data-tooltip="Internships"
-                       title="Internships">
-                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">school</span>
-                        <span class="sidebar__label">Internships</span>
-                    </a>
-
-                    <a href="<%= ResolveUrl("~/puio/Default.aspx") %>"
-                       class="sidebar__link <%= IsActiveIn("puio", "Default") %>"
-                       data-tooltip="Public Universities &amp; Independent Offices"
-                       title="Public Universities and Independent Offices Jobs">
-                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">account_balance</span>
-                        <span class="sidebar__label">Universities &amp; Ind. Offices</span>
-                    </a>
-
-                    <a href="<%= ResolveUrl("~/jobs/ELPEXT.aspx") %>"
-                       class="sidebar__link <%= IsActive("ELPEXT") %>"
-                       data-tooltip="Emerging Leaders Fellowship"
-                       title="Public Service Emerging Leaders Fellowship Programme">
-                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">workspace_premium</span>
-                        <span class="sidebar__label">Emerging Leaders</span>
-                    </a>
-
-                    <div class="sidebar__section">My Applications</div>
-
-                    <a href="<%= ResolveUrl("~/jobs/loginPage.aspx") %>"
-                       class="sidebar__link <%= IsActive("loginPage") %>"
-                       data-tooltip="Sign in"
-                       title="Sign in to PSCIMS">
-                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">login</span>
-                        <span class="sidebar__label">Sign in</span>
-                    </a>
-
-                    <a href="<%= ResolveUrl("~/jobs/RegisterProfile.aspx") %>"
-                       class="sidebar__link <%= IsActive("RegisterProfile") %>"
-                       data-tooltip="Register"
-                       title="Register a new applicant profile">
-                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">person_add</span>
-                        <span class="sidebar__label">Register</span>
-                    </a>
-
-                    <a href="<%= ResolveUrl("~/jobs/AdvertStatusGlobal.aspx") %>"
-                       class="sidebar__link <%= IsActive("AdvertStatusGlobal") %>"
-                       data-tooltip="Application Status"
-                       title="Check the status of your applications">
-                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">schedule</span>
-                        <span class="sidebar__label">Application Status</span>
-                    </a>
-
-                    <div class="sidebar__section">Resources</div>
-
-                    <a href="<%= ResolveUrl("~/jobs/OtherDocs/OnlinInterviewsInstructions.pdf") %>"
-                       class="sidebar__link"
-                       data-tooltip="Interview Instructions"
-                       title="Online Video Interviews Instructions (PDF)"
-                       target="_blank" rel="noopener">
-                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">description</span>
-                        <span class="sidebar__label">Interview Instructions</span>
-                    </a>
-
-                    <a href="https://www.youtube.com/watch?v=1GdA0NH0wfw"
-                       class="sidebar__link"
-                       data-tooltip="PSIP Documentary"
-                       title="Public Service Internship Programme Documentary"
-                       target="_blank" rel="noopener">
-                        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">play_circle</span>
-                        <span class="sidebar__label">PSIP Documentary</span>
-                    </a>
-
+                        <div class="sidebar__section">Recruitment</div>
+                        <a href="<%= ResolveUrl("~/jobs/ActiveJobsAdverts.aspx") %>" class="sidebar__link <%= IsActive("ActiveJobsAdverts") %>" data-tooltip="Advertised Jobs" title="Advertised Jobs">
+                            <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">work</span>
+                            <span class="sidebar__label">Advertised Jobs</span>
+                        </a>
+                        <a href="<%= ResolveUrl("~/jobs/ActiveAdvertsInternsInternshipExt.aspx") %>" class="sidebar__link <%= IsActive("ActiveAdvertsInternsInternshipExt") %>" data-tooltip="Internships" title="Internships">
+                            <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">school</span>
+                            <span class="sidebar__label">Internships</span>
+                        </a>
+                        <a href="<%= ResolveUrl("~/jobs/AdvertStatusGlobal.aspx") %>" class="sidebar__link <%= IsActive("AdvertStatusGlobal") %>" data-tooltip="Application Status" title="Check the status of your applications">
+                            <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">schedule</span>
+                            <span class="sidebar__label">Application Status</span>
+                        </a>
+                        <a href="<%= ResolveUrl("~/puio/Default.aspx") %>" class="sidebar__link <%= IsActiveIn("puio", "Default") %>" data-tooltip="Public Universities &amp; Independent Offices" title="Public Universities and Independent Offices Jobs">
+                            <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">account_balance</span>
+                            <span class="sidebar__label">Universities &amp; Ind. Offices</span>
+                        </a>
+                        <div class="sidebar__section">Resources</div>
+                        <a href="<%= ResolveUrl("~/jobs/OtherDocs/OnlinInterviewsInstructions.pdf") %>" class="sidebar__link" data-tooltip="Interview Instructions" title="Online Video Interviews Instructions (PDF)" target="_blank" rel="noopener">
+                            <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">description</span>
+                            <span class="sidebar__label">Interview Instructions</span>
+                        </a>
+                        
+                        <div class="sidebar__section">Session</div>
+                        <a href="<%= ResolveUrl("~/jobs/logout.aspx") %>" class="sidebar__link" data-tooltip="Sign out" title="Sign out of PSCIMS">
+                            <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">logout</span>
+                            <span class="sidebar__label">Sign out</span>
+                        </a>
+                    </asp:PlaceHolder>
                 </nav>
 
                 <div class="sidebar__footer">
-                    <a href="https://www.publicservice.go.ke"
-                       class="sidebar__link"
-                       data-tooltip="publicservice.go.ke"
-                       title="Return to the Public Service Commission website"
-                       target="_blank" rel="noopener">
+                    <a href="https://www.publicservice.go.ke" class="sidebar__link" data-tooltip="publicservice.go.ke" title="Return to the Public Service Commission website" target="_blank" rel="noopener">
                         <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">open_in_new</span>
                         <span class="sidebar__label">publicservice.go.ke</span>
                     </a>
-
-                    <a href="https://hillary-portfolio-v2.vercel.app"
-                       class="sidebar__credit"
-                       data-tooltip="Designed and built by Hillary"
-                       title="Designed and built by Hillary Oduor"
-                       target="_blank" rel="noopener">
+                    <a href="https://hillary-portfolio-v2.vercel.app" class="sidebar__credit" data-tooltip="Designed and built by Hillary" title="Designed and built by Hillary Oduor" target="_blank" rel="noopener">
                         <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">code</span>
-                        <span class="sidebar__label">
-                            Designed &amp; built by <strong>Hillary</strong>
-                        </span>
+                        <span class="sidebar__label">Designed &amp; built by <strong>Hillary</strong></span>
                     </a>
                 </div>
-
             </aside>
 
-            <!-- ==========================================================
-                 HEADER — Coat of Arms + PSC logo + page title + actions
-                 ========================================================== -->
             <header class="header">
-
-                <button type="button" class="header__toggle"
-                        onclick="PSCIMS.toggleSidebar()"
-                        data-tooltip="Toggle sidebar"
-                        aria-label="Toggle sidebar"
-                        aria-controls="shell"
-                        aria-expanded="false">
+                <button type="button" class="header__toggle" onclick="PSCIMS.toggleSidebar()" data-tooltip="Toggle sidebar" aria-label="Toggle sidebar" aria-controls="shell" aria-expanded="false">
                     <span class="material-symbols-outlined" aria-hidden="true">menu</span>
                 </button>
 
                 <div class="header__brand" aria-label="Public Service Commission">
-                    <img class="header__brand-logo"
-                         src="<%= ResolveUrl("~/Content/img/coat-of-arms.png") %>"
-                         alt="Coat of Arms of the Republic of Kenya" />
+                    <img class="header__brand-logo" src="<%= ResolveUrl("~/Content/img/coat-of-arms.png") %>" alt="Coat of Arms of the Republic of Kenya" />
                     <span class="header__brand-divider" aria-hidden="true"></span>
-                    <img class="header__brand-logo header__brand-logo--psc"
-                         src="<%= ResolveUrl("~/Content/img/psc-logo.png") %>"
-                         alt="Public Service Commission" />
+                    <img class="header__brand-logo header__brand-logo--psc" src="<%= ResolveUrl("~/Content/img/psc-logo.png") %>" alt="Public Service Commission" onerror="this.style.display='none'" />
                 </div>
 
                 <h1 class="header__title" id="pageTitle">
@@ -224,26 +190,27 @@
                 </h1>
 
                 <div class="header__actions">
-                    <button type="button" class="icon-btn theme-toggle"
-                            onclick="PSCIMS.toggleTheme()"
-                            data-tooltip="Toggle theme"
-                            aria-label="Toggle light and dark theme">
+                    <button type="button" class="icon-btn theme-toggle" onclick="PSCIMS.toggleTheme()" data-tooltip="Toggle theme" aria-label="Toggle light and dark theme">
                         <span class="material-symbols-outlined icon-sun" aria-hidden="true">light_mode</span>
                         <span class="material-symbols-outlined icon-moon" aria-hidden="true">dark_mode</span>
                     </button>
 
-                    <a href="<%= ResolveUrl("~/jobs/loginPage.aspx") %>"
-                       class="user-chip"
-                       title="Sign in to your account">
-                        <span class="user-chip__avatar" aria-hidden="true">G</span>
-                        <span class="user-chip__name">Sign in</span>
-                    </a>
+                    <asp:PlaceHolder ID="phHeaderAnonymous" runat="server">
+                        <a href="<%= ResolveUrl("~/jobs/loginPage.aspx") %>" class="btn btn--outline d-none-mobile" title="Sign in to your account">
+                            <span class="material-symbols-outlined" style="font-size: 20px;">login</span>
+                            Sign in
+                        </a>
+                    </asp:PlaceHolder>
+
+                    <asp:PlaceHolder ID="phHeaderAuthenticated" runat="server" Visible="false">
+                        <a href="<%= ResolveUrl("~/jobs/logout.aspx") %>" class="btn btn--outline d-none-mobile" title="Sign out">
+                            <span class="material-symbols-outlined" style="font-size: 20px;">logout</span>
+                            Sign out
+                        </a>
+                    </asp:PlaceHolder>
                 </div>
             </header>
 
-            <!-- ==========================================================
-                 MAIN
-                 ========================================================== -->
             <main id="main" class="main" role="main" tabindex="-1">
                 <div id="mainContent">
                     <asp:ContentPlaceHolder ID="MainContent" runat="server" />
@@ -275,9 +242,10 @@
                 var shell = document.getElementById('shell');
                 var open = shell.getAttribute('data-mobile-open') === 'true';
                 shell.setAttribute('data-mobile-open', open ? 'false' : 'true');
-                if (open && document.activeElement) {
-                    try { document.activeElement.blur(); } catch (e) {}
-                }
+                
+                var body = document.body;
+                if (!open) { body.style.overflow = 'hidden'; } 
+                else { body.style.overflow = ''; }
             },
             toggleTheme: function () {
                 var html = document.documentElement;
@@ -304,6 +272,36 @@
                     setTimeout(function () { el.remove(); }, 220);
                 }, ms);
             },
+            btnLoading: function (btn, message) {
+                if (!btn) return true;
+                var now = Date.now();
+                var last = parseInt(btn.getAttribute('data-last-submit') || '0', 10);
+                if (last && (now - last) < 5000) return false;
+
+                setTimeout(function () {
+                    if (btn.form && typeof btn.form.checkValidity === 'function' && !btn.form.checkValidity()) {
+                        return; 
+                    }
+                    btn.setAttribute('data-last-submit', now.toString());
+                    var original = btn.value || btn.textContent || 'Submit';
+                    btn.setAttribute('data-original-text', original);
+                    btn.disabled = true;
+                    btn.classList.add('is-loading');
+
+                    if (btn.tagName === 'INPUT') {
+                        btn.value = message || 'Please wait…';
+                    } else {
+                        btn.innerHTML = '<span class="spinner" aria-hidden="true"></span> ' + (message || 'Please wait…');
+                    }
+
+                    var others = document.querySelectorAll('input[type=submit], button[type=submit]');
+                    for (var i = 0; i < others.length; i++) {
+                        if (others[i] !== btn) others[i].disabled = true;
+                    }
+                }, 0);
+
+                return true;
+            },
             init: function () {
                 var shell = document.getElementById('shell');
                 if (!shell) return;
@@ -311,28 +309,30 @@
                 try {
                     if (localStorage.getItem('pscims-sidebar-collapsed') === 'true') {
                         shell.setAttribute('data-collapsed', 'true');
-                        var toggle = document.querySelector('.header__toggle');
-                        if (toggle) toggle.setAttribute('aria-expanded', 'true');
                     }
                 } catch (e) {}
 
-                document.querySelectorAll('.sidebar__link').forEach(function (a) {
-                    a.addEventListener('click', function () {
+                var links = document.querySelectorAll('.sidebar__link');
+                for (var i = 0; i < links.length; i++) {
+                    links[i].addEventListener('click', function () {
                         if (window.matchMedia('(max-width: 900px)').matches) {
                             shell.setAttribute('data-mobile-open', 'false');
+                            document.body.style.overflow = '';
                         }
                     });
-                });
+                }
 
                 document.addEventListener('keydown', function (e) {
                     if (e.key === 'Escape' && shell.getAttribute('data-mobile-open') === 'true') {
                         shell.setAttribute('data-mobile-open', 'false');
+                        document.body.style.overflow = '';
+                        var toggle = document.querySelector('.header__toggle');
+                        if (toggle) toggle.focus();
                     }
                 });
             }
         };
         document.addEventListener('DOMContentLoaded', PSCIMS.init);
     </script>
-
 </body>
 </html>

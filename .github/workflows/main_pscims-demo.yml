@@ -64,7 +64,11 @@ jobs:
             "jobs\ComingSoon.aspx.cs",
             "jobs\ComingSoon.aspx.designer.cs",
             "puio\Default.aspx.cs",
-            "puio\Default.aspx.designer.cs"
+            "puio\Default.aspx.designer.cs",
+            "jobs\VerifyOtp.aspx.cs",
+            "jobs\VerifyOtp.aspx.designer.cs",
+            "jobs\ApplicantDashboard.aspx.cs",
+            "jobs\ApplicantDashboard.aspx.designer.cs",
           )
 
           # Verify all source files exist before building

@@ -7,7 +7,7 @@
     <div class="auth-wrap">
         <div class="auth-card">
             <div class="auth-card__head">
-                <img src="<%= ResolveUrl("~/Content/img/psc-logo.png") %>" alt="Public Service Commission" />
+                <img src="<%= ResolveUrl("~/Content/img/psc-logo.webp") %>" alt="Public Service Commission" onerror="this.style.display='none'" />
                 <h1>Sign in to PSCIMS</h1>
                 <p>Public Service Commission Information Management System</p>
             </div>
@@ -30,16 +30,27 @@
                 <label class="form-label" for="<%= txtPassword.ClientID %>">
                     Password <span class="req" aria-hidden="true">*</span>
                 </label>
-                <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-control"
-                             autocomplete="current-password" required="required" />
+                <div class="password-wrapper">
+                    <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-control"
+                                 autocomplete="current-password" required="required" />
+                    <button type="button" class="password-toggle" onclick="togglePasswordVisibility('<%= txtPassword.ClientID %>', this)" aria-label="Toggle password visibility">
+                        <span class="material-symbols-outlined">visibility</span>
+                    </button>
+                </div>
                 <div class="form-hint">
                     <asp:HyperLink ID="lnkForgot" runat="server" Text="Forgot your password?" />
                 </div>
             </div>
 
-            <asp:Button ID="btnLogin" runat="server" Text="Sign in"
+            <asp:HiddenField ID="hfCsrf" runat="server" />
+
+            <%-- Changed to LinkButton so it renders an <a> tag --%>
+            <asp:LinkButton ID="btnLogin" runat="server"
                 CssClass="btn btn--primary btn--lg btn--block"
-                OnClick="btnLogin_Click" />
+                OnClick="btnLogin_Click"
+                OnClientClick="return PSCIMS.btnLoading(this, 'Signing in…');">
+                Sign in
+            </asp:LinkButton>
 
             <div class="auth-card__footer">
                 New applicant?
@@ -47,5 +58,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function togglePasswordVisibility(inputId, btn) {
+            var input = document.getElementById(inputId);
+            var icon = btn.querySelector('.material-symbols-outlined');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+    </script>
 
 </asp:Content>
