@@ -1,0 +1,116 @@
+/* ============================================================
+   PSCIMS — print stylesheet
+   Loaded via <link media="print"> so it never affects screen.
+   Hide all chrome; print content-only.
+   ============================================================ */
+
+@media print {
+  /* Reset background and colours for ink economy and legibility */
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+
+  /* Hide all interactive chrome */
+  .skip-link,
+  .page-progress,
+  .sidebar,
+  .sidebar-overlay,
+  .header,
+  .header__toggle,
+  .header__actions,
+  .toast-stack,
+  .theme-toggle,
+  .footer,
+  .d-none-mobile,
+  nav,
+  button,
+  .btn,
+  .icon-btn,
+  .action-card,
+  form button,
+  form .form-actions {
+    display: none !important;
+  }
+
+  /* Flatten the shell to a single column */
+  .shell {
+    display: block !important;
+    grid-template-columns: none !important;
+    grid-template-areas: none !important;
+    min-height: 0 !important;
+  }
+  .shell[data-collapsed="true"] {
+    display: block !important;
+    grid-template-columns: none !important;
+  }
+
+  .main {
+    display: block !important;
+    max-width: none !important;
+    width: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    grid-area: auto !important;
+  }
+
+  /* Print-friendly cards and tables */
+  .card {
+    border: 1px solid #ccc !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .table,
+  .table th,
+  .table td {
+    border: 1px solid #ccc !important;
+    color: #000 !important;
+  }
+  .table th {
+    background: #eee !important;
+    color: #000 !important;
+  }
+
+  /* Print-friendly alerts */
+  .alert {
+    border: 1px solid #000 !important;
+    padding: 8pt !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Drop interactive affordances that don't belong on paper */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+    color: #444 !important;
+  }
+  a[href^="#"]::after,
+  a[href^="javascript:"]::after {
+    content: "";
+  }
+
+  /* Preserve page breaks sensibly */
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+    break-after: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}

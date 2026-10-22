@@ -4,8 +4,8 @@
 <asp:Content ID="PageTitleC" ContentPlaceHolderID="PageTitle" runat="server">Submit Application</asp:Content>
 
 <asp:Content ID="Main" ContentPlaceHolderID="MainContent" runat="server">
-    <div style="max-width: 720px; margin: 0 auto;">
-        
+    <div class="form-shell">
+
         <div class="mb-6">
             <h2 class="page-title">Submit Application</h2>
             <p class="page-sub">You are about to apply for the following position.</p>
@@ -30,7 +30,7 @@
 
         <asp:PlaceHolder ID="phForm" runat="server">
             <div class="card mb-6">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                <div class="flex-between">
                     <div>
                         <h3 class="card-title"><asp:Literal ID="litJobTitle" runat="server" /></h3>
                         <p class="card-sub" style="margin-bottom:0;"><asp:Literal ID="litJobMinistry" runat="server" /></p>
@@ -42,10 +42,10 @@
             <div class="card" style="padding:28px;">
                 <h3 class="card-title">Confirm your details</h3>
                 <p class="card-sub">By clicking submit, you confirm that the details in your profile are correct and up-to-date.</p>
-                
-                <div style="margin-top:20px; display:flex; gap:12px;">
-                    <asp:Button ID="btnSubmit" runat="server" Text="Submit Application" 
-                        CssClass="btn btn--primary btn--lg" OnClick="btnSubmit_Click" 
+
+                <div class="form-actions form-actions--start">
+                    <asp:Button ID="btnSubmit" runat="server" Text="Submit Application"
+                        CssClass="btn btn--primary btn--lg" OnClick="btnSubmit_Click"
                         OnClientClick="return PSCIMS.btnLoading(this, 'Submitting…');" />
                     <a href="ApplicantDashboard.aspx" class="btn btn--outline btn--lg">Cancel</a>
                 </div>

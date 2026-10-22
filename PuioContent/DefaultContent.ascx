@@ -70,7 +70,7 @@
 <div class="card mb-6">
     <h3 class="card-title">Quick Guiding Steps</h3>
     <p class="card-sub">Read before you begin your application.</p>
-    <ol style="line-height:1.85;padding-left:20px;margin:0;color:var(--text);">
+    <ol class="prose-list">
         <li>All first-time users are required to <strong>register</strong> by providing ID / Passport Number, Surname, current Email address and a password.</li>
         <li>To apply for any advertised opportunity, <strong>log in</strong> using the ID / Passport Number and the password created in step 1.</li>
         <li>Applicants <strong>MUST</strong> provide complete information — personal details, professional and academic qualifications, experience, membership to professional bodies, referees. <strong>Incomplete applications will not be considered.</strong></li>
@@ -104,7 +104,7 @@
 <div class="card">
     <h3 class="card-title">Resources</h3>
     <p class="card-sub">Download the user manual and guide.</p>
-    <div style="display:flex;gap:20px;flex-wrap:wrap;">
+    <div class="resource-actions">
         <a href="<%= ResolveUrl("~/images/GPCIS_USER_MANUAL.pdf") %>"
            target="_blank" rel="noopener"
            class="btn btn--outline">

@@ -68,7 +68,7 @@
 <div class="card mb-6">
     <h3 class="card-title">Quick Guiding Steps</h3>
     <p class="card-sub">Read before you begin your application.</p>
-    <ol style="line-height:1.85;padding-left:20px;margin:0;color:var(--text);">
+    <ol class="prose-list">
         <li>All first-time users must <strong>register</strong> with ID / Passport Number, Surname, Email and a password.</li>
         <li>To apply for any advertised opportunity, <strong>log in</strong> with your ID and password.</li>
         <li>Provide all required information — <strong>incomplete applications will not be considered</strong>.</li>

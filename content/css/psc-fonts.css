@@ -1,0 +1,75 @@
+/* ============================================================
+   PSCIMS — self-hosted fonts
+   Files sourced from google-webfonts-helper (latin, woff2, v20/v33)
+   and the material-symbols npm package.
+   No external requests to Google.
+   ============================================================ */
+
+/* ---------- Inter (body) ---------- */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/inter/inter-v20-latin-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/inter/inter-v20-latin-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/inter/inter-v20-latin-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/inter/inter-v20-latin-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../fonts/inter/inter-v20-latin-800.woff2') format('woff2');
+}
+
+/* ---------- Merriweather (headings / page-title) ---------- */
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/merriweather/merriweather-v33-latin-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/merriweather/merriweather-v33-latin-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../fonts/merriweather/merriweather-v33-latin-900.woff2') format('woff2');
+}
+
+/* ---------- Material Symbols Outlined (variable) ---------- */
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: block;
+  src: url('../fonts/material-symbols/material-symbols-outlined.woff2') format('woff2');
+}

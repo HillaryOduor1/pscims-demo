@@ -26,9 +26,9 @@
                 </label>
                 <asp:TextBox ID="txtCode" runat="server" CssClass="form-control"
                              MaxLength="6" inputmode="numeric" autocomplete="one-time-code"
-                             required="required"
+                             required="required" aria-describedby="otpCodeHint"
                              style="font-size:24px;letter-spacing:8px;text-align:center;" />
-                <div class="form-hint">Code expires in 10 minutes.</div>
+                <div class="form-hint" id="otpCodeHint">Code expires in 10 minutes.</div>
             </div>
 
             <asp:HiddenField ID="hfCsrf" runat="server" />

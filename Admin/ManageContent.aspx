@@ -32,16 +32,14 @@
     </div>
 
     <div class="table-wrap card">
-        <asp:GridView ID="gvContent" runat="server" AutoGenerateColumns="false" 
+        <asp:GridView ID="gvContent" runat="server" AutoGenerateColumns="false"
             CssClass="table" GridLines="None" OnRowCommand="gvContent_RowCommand" DataKeyNames="ContentKey">
-            
+
             <Columns>
                 <asp:BoundField DataField="ContentKey" HeaderText="Key Name" />
                 <asp:TemplateField HeaderText="Content Value">
                     <ItemTemplate>
-                        <span style="display:block;max-width:400px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-                            <%# Eval("ContentValue") %>
-                        </span>
+                        <span class="table__truncate"><%# Eval("ContentValue") %></span>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:BoundField DataField="LastUpdated" HeaderText="Last Updated" DataFormatString="{0:yyyy-MM-dd HH:mm}" />
@@ -56,21 +54,21 @@
 
     <%-- Edit Modal --%>
     <asp:PlaceHolder ID="phForm" runat="server" Visible="false">
-        <div class="modal-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;">
-            <div class="card" style="width:100%;max-width:600px;position:relative;z-index:10000;">
-                <h3 class="card-title">Edit Content</h3>
+        <div class="modal-overlay">
+            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="contentModalHeading">
+                <h3 class="card-title" id="contentModalHeading">Edit Content</h3>
                 <asp:HiddenField ID="hfContentKey" runat="server" />
-                
+
                 <div class="form-group">
-                    <label class="form-label">Key Name</label>
+                    <label class="form-label" for="<%= txtKeyName.ClientID %>">Key Name</label>
                     <asp:TextBox ID="txtKeyName" runat="server" CssClass="form-control" ReadOnly="true" BackColor="#f0f0f0" />
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Content Value</label>
+                    <label class="form-label" for="<%= txtContentValue.ClientID %>">Content Value</label>
                     <asp:TextBox ID="txtContentValue" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="6" />
                 </div>
-                
-                <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:20px;">
+
+                <div class="form-actions">
                     <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="btn btn--outline" OnClick="btnCancel_Click" CausesValidation="false" />
                     <asp:Button ID="btnSave" runat="server" Text="Save Content" CssClass="btn btn--primary" OnClick="btnSave_Click" />
                 </div>

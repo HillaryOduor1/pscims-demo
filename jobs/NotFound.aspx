@@ -14,5 +14,4 @@
             <a href="Default.aspx" class="btn btn--primary">Return to dashboard</a>
             <a href="ActiveJobsAdverts.aspx" class="btn btn--outline">Browse advertised jobs</a>
         </div>
-    </div>
-</asp:Content>
+    </div

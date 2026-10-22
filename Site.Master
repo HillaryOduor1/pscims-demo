@@ -18,12 +18,13 @@
     <meta name="apple-mobile-web-app-title" content="PSCIMS" />
     <meta name="application-name" content="PSCIMS" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+    <!-- Preload the heavy Material Symbols font so icons appear instantly -->
+    <link rel="preload" href="<%= ResolveUrl("~/Content/fonts/material-symbols/material-symbols-outlined.woff2") %>" as="font" type="font/woff2" crossorigin />
 
+    <link href="<%= ResolveUrl("~/Content/css/psc-fonts.css") %>?v=<%= CssVersion("~/Content/css/psc-fonts.css") %>" rel="stylesheet" />
     <link href="<%= ResolveUrl("~/Content/css/psc-theme.css") %>?v=<%= CssVersion("~/Content/css/psc-theme.css") %>" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/Content/css/psc-components.css") %>?v=<%= CssVersion("~/Content/css/psc-components.css") %>" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/Content/css/psc-print.css") %>?v=<%= CssVersion("~/Content/css/psc-print.css") %>" rel="stylesheet" media="print" />
 
     <script>
         (function () {
@@ -47,9 +48,9 @@
 
         <div class="shell" id="shell">
 
-            <div class="sidebar-overlay" onclick="PSCIMS.toggleMobile()" aria-hidden="true"></div>
+            <div class="sidebar-overlay" id="sidebarOverlay" role="button" tabindex="-1" aria-label="Close navigation" aria-hidden="true"></div>
 
-            <aside class="sidebar" role="navigation" aria-label="Main navigation">
+            <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
 
                 <a href="<%= ResolveUrl("~/jobs/Default.aspx") %>"
                    class="sidebar__brand"
@@ -96,7 +97,7 @@
                     </asp:PlaceHolder>
 
                     <asp:PlaceHolder ID="phAuthenticated" runat="server" Visible="false">
-                        
+
                         <%-- ADMIN SPECIFIC DASHBOARD --%>
                         <% if (Session["ApplicantRole"] != null && Session["ApplicantRole"].ToString().ToLower() == "admin") { %>
                             <div class="sidebar__section">My Account</div>
@@ -104,7 +105,7 @@
                                 <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">space_dashboard</span>
                                 <span class="sidebar__label">Admin Dashboard</span>
                             </a>
-                            
+
                             <div class="sidebar__section">Administration</div>
                             <a href="<%= ResolveUrl("~/Admin/ManageUsers.aspx") %>" class="sidebar__link <%= IsActive("ManageUsers") %>" data-tooltip="Manage Users" title="Manage Users & Roles">
                                 <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">group</span>
@@ -153,7 +154,7 @@
                             <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">description</span>
                             <span class="sidebar__label">Interview Instructions</span>
                         </a>
-                        
+
                         <div class="sidebar__section">Session</div>
                         <a href="<%= ResolveUrl("~/jobs/logout.aspx") %>" class="sidebar__link" data-tooltip="Sign out" title="Sign out of PSCIMS">
                             <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">logout</span>
@@ -175,7 +176,7 @@
             </aside>
 
             <header class="header">
-                <button type="button" class="header__toggle" onclick="PSCIMS.toggleSidebar()" data-tooltip="Toggle sidebar" aria-label="Toggle sidebar" aria-controls="shell" aria-expanded="false">
+                <button type="button" id="sidebarToggle" class="header__toggle" data-tooltip="Toggle sidebar" aria-label="Toggle sidebar" aria-controls="shell" aria-expanded="false">
                     <span class="material-symbols-outlined" aria-hidden="true">menu</span>
                 </button>
 
@@ -185,7 +186,7 @@
                     <img class="header__brand-logo header__brand-logo--psc" src="<%= ResolveUrl("~/Content/img/psc-logo.png") %>" alt="Public Service Commission" onerror="this.style.display='none'" />
                 </div>
 
-                <h1 class="header__title" id="pageTitle">
+                <h1 class="header__title" id="pageTitle" title="<asp:ContentPlaceHolder ID="PageTitleText" runat="server">Dashboard</asp:ContentPlaceHolder>">
                     <asp:ContentPlaceHolder ID="PageTitle" runat="server">Dashboard</asp:ContentPlaceHolder>
                 </h1>
 
@@ -197,14 +198,14 @@
 
                     <asp:PlaceHolder ID="phHeaderAnonymous" runat="server">
                         <a href="<%= ResolveUrl("~/jobs/loginPage.aspx") %>" class="btn btn--outline d-none-mobile" title="Sign in to your account">
-                            <span class="material-symbols-outlined" style="font-size: 20px;">login</span>
+                            <span class="material-symbols-outlined" style="font-size: 20px;" aria-hidden="true">login</span>
                             Sign in
                         </a>
                     </asp:PlaceHolder>
 
                     <asp:PlaceHolder ID="phHeaderAuthenticated" runat="server" Visible="false">
                         <a href="<%= ResolveUrl("~/jobs/logout.aspx") %>" class="btn btn--outline d-none-mobile" title="Sign out">
-                            <span class="material-symbols-outlined" style="font-size: 20px;">logout</span>
+                            <span class="material-symbols-outlined" style="font-size: 20px;" aria-hidden="true">logout</span>
                             Sign out
                         </a>
                     </asp:PlaceHolder>
@@ -223,116 +224,7 @@
 
     </form>
 
-    <script>
-        window.PSCIMS = {
-            toggleSidebar: function () {
-                var shell = document.getElementById('shell');
-                var toggle = document.querySelector('.header__toggle');
-                var isMobile = window.matchMedia('(max-width: 900px)').matches;
-                if (isMobile) {
-                    this.toggleMobile();
-                } else {
-                    var collapsed = shell.getAttribute('data-collapsed') === 'true';
-                    shell.setAttribute('data-collapsed', collapsed ? 'false' : 'true');
-                    try { localStorage.setItem('pscims-sidebar-collapsed', !collapsed); } catch (e) {}
-                    if (toggle) toggle.setAttribute('aria-expanded', !collapsed ? 'false' : 'true');
-                }
-            },
-            toggleMobile: function () {
-                var shell = document.getElementById('shell');
-                var open = shell.getAttribute('data-mobile-open') === 'true';
-                shell.setAttribute('data-mobile-open', open ? 'false' : 'true');
-                
-                var body = document.body;
-                if (!open) { body.style.overflow = 'hidden'; } 
-                else { body.style.overflow = ''; }
-            },
-            toggleTheme: function () {
-                var html = document.documentElement;
-                var current = html.getAttribute('data-theme') || 'light';
-                var next = current === 'dark' ? 'light' : 'dark';
-                html.setAttribute('data-theme', next);
-                try { localStorage.setItem('pscims-theme', next); } catch (e) {}
-            },
-            toast: function (type, title, desc, timeout) {
-                var stack = document.getElementById('toastStack');
-                if (!stack) return;
-                var el = document.createElement('div');
-                el.className = 'toast toast--' + (type || 'info');
-                el.setAttribute('role', 'status');
-                el.innerHTML =
-                    (title ? '<p class="toast__title">' + title + '</p>' : '') +
-                    (desc ? '<p class="toast__desc">' + desc + '</p>' : '');
-                stack.appendChild(el);
-                var ms = timeout || 4000;
-                setTimeout(function () {
-                    el.style.transition = 'opacity .2s, transform .2s';
-                    el.style.opacity = '0';
-                    el.style.transform = 'translateX(8px)';
-                    setTimeout(function () { el.remove(); }, 220);
-                }, ms);
-            },
-            btnLoading: function (btn, message) {
-                if (!btn) return true;
-                var now = Date.now();
-                var last = parseInt(btn.getAttribute('data-last-submit') || '0', 10);
-                if (last && (now - last) < 5000) return false;
-
-                setTimeout(function () {
-                    if (btn.form && typeof btn.form.checkValidity === 'function' && !btn.form.checkValidity()) {
-                        return; 
-                    }
-                    btn.setAttribute('data-last-submit', now.toString());
-                    var original = btn.value || btn.textContent || 'Submit';
-                    btn.setAttribute('data-original-text', original);
-                    btn.disabled = true;
-                    btn.classList.add('is-loading');
-
-                    if (btn.tagName === 'INPUT') {
-                        btn.value = message || 'Please wait…';
-                    } else {
-                        btn.innerHTML = '<span class="spinner" aria-hidden="true"></span> ' + (message || 'Please wait…');
-                    }
-
-                    var others = document.querySelectorAll('input[type=submit], button[type=submit]');
-                    for (var i = 0; i < others.length; i++) {
-                        if (others[i] !== btn) others[i].disabled = true;
-                    }
-                }, 0);
-
-                return true;
-            },
-            init: function () {
-                var shell = document.getElementById('shell');
-                if (!shell) return;
-
-                try {
-                    if (localStorage.getItem('pscims-sidebar-collapsed') === 'true') {
-                        shell.setAttribute('data-collapsed', 'true');
-                    }
-                } catch (e) {}
-
-                var links = document.querySelectorAll('.sidebar__link');
-                for (var i = 0; i < links.length; i++) {
-                    links[i].addEventListener('click', function () {
-                        if (window.matchMedia('(max-width: 900px)').matches) {
-                            shell.setAttribute('data-mobile-open', 'false');
-                            document.body.style.overflow = '';
-                        }
-                    });
-                }
-
-                document.addEventListener('keydown', function (e) {
-                    if (e.key === 'Escape' && shell.getAttribute('data-mobile-open') === 'true') {
-                        shell.setAttribute('data-mobile-open', 'false');
-                        document.body.style.overflow = '';
-                        var toggle = document.querySelector('.header__toggle');
-                        if (toggle) toggle.focus();
-                    }
-                });
-            }
-        };
-        document.addEventListener('DOMContentLoaded', PSCIMS.init);
-    </script>
+    <script src="<%= ResolveUrl("~/Content/js/psc-main.js") %>?v=<%= CssVersion("~/Content/js/psc-main.js") %>"></script>
+    <script src="<%= ResolveUrl("~/Content/js/psc-tables.js") %>?v=<%= CssVersion("~/Content/js/psc-tables.js") %>"></script>
 </body>
 </html>

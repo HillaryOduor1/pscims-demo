@@ -4,7 +4,7 @@
 
 <asp:Content ID="Main" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div style="max-width:720px;margin:0 auto;">
+    <div class="form-shell">
 
         <div class="mb-6">
             <h2 class="page-title">Create your applicant profile</h2>
@@ -40,7 +40,7 @@
                     ID / Passport Number <span class="req" aria-hidden="true">*</span>
                 </label>
                 <asp:TextBox ID="txtIdNum" runat="server" CssClass="form-control"
-                             MaxLength="20" autocomplete="off" inputmode="numeric"
+                             MaxLength="20" autocomplete="off" inputmode="text"
                              required="required" />
                 <div class="form-hint">Enter digits only, no spaces or slashes.</div>
             </div>
@@ -104,7 +104,7 @@
                     <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control"
                                  TextMode="Password" autocomplete="new-password" required="required" />
                     <button type="button" class="password-toggle" onclick="togglePasswordVisibility('<%= txtPassword.ClientID %>', this)" aria-label="Toggle password visibility">
-                        <span class="material-symbols-outlined">visibility</span>
+                        <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
                     </button>
                 </div>
             </div>
@@ -117,7 +117,7 @@
                     <asp:TextBox ID="txtPasswordConfirm" runat="server" CssClass="form-control"
                                  TextMode="Password" autocomplete="new-password" required="required" />
                     <button type="button" class="password-toggle" onclick="togglePasswordVisibility('<%= txtPasswordConfirm.ClientID %>', this)" aria-label="Toggle password visibility">
-                        <span class="material-symbols-outlined">visibility</span>
+                        <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
                     </button>
                 </div>
             </div>
@@ -139,7 +139,7 @@
             <asp:HiddenField ID="hfCsrf" runat="server" />
             <asp:HiddenField ID="hfFrom" runat="server" />
 
-            <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;">
+            <div class="form-actions form-actions--start">
                 <%-- Changed to LinkButton so it renders an <a> tag --%>
                 <asp:LinkButton ID="btnSave" runat="server"
                     CssClass="btn btn--primary btn--lg"

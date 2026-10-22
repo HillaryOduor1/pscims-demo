@@ -17,7 +17,7 @@
 
     <%-- Filters --%>
     <div class="card mb-6" style="padding:18px 20px;">
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:12px;align-items:end;">
+        <div class="filter-grid">
             <div>
                 <label class="form-label" for="<%= txtSearch.ClientID %>">Search</label>
                 <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Job title, reference, ministry…" />
@@ -66,13 +66,13 @@
             <asp:Repeater ID="rptJobs" runat="server">
                 <ItemTemplate>
                     <div class="action-card" style="cursor:default;">
-                        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;">
+                        <div class="job-card__top">
                             <span style="font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);"><%# Eval("Reference") %></span>
                             <span class='badge <%# (bool)Eval("IsOpen") ? "badge--open" : "badge--closed" %>'><%# (bool)Eval("IsOpen") ? "Open" : "Closed" %></span>
                         </div>
                         <p class="action-card__title"><%# Eval("Title") %></p>
                         <p class="action-card__desc" style="margin-bottom:12px;"><%# Eval("Ministry") %> &nbsp;·&nbsp; <%# Eval("Location") %></p>
-                        <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+                        <div class="job-card__footer">
                             <span style="color:var(--text-muted);">Closes <strong style="color:var(--text);"><%# Eval("ClosesOn", "{0:dd MMM yyyy}") %></strong></span>
                             <a href='<%# "loginPage.aspx?jobId=" + Eval("Id") %>' class="btn btn--primary btn--sm" data-nav>Apply</a>
                         </div>

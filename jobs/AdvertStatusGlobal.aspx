@@ -16,7 +16,7 @@
     </div>
 
     <div class="card mb-6" style="padding:18px 20px;">
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:12px;align-items:end;">
+        <div class="filter-grid">
             <div>
                 <label class="form-label" for="<%= txtSearch.ClientID %>">Search</label>
                 <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Job title, reference, ministry…" />

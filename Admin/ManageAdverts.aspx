@@ -8,7 +8,7 @@
             <h2 class="page-title">Manage Job Adverts</h2>
             <p class="page-sub">Create, edit, or close job postings.</p>
         </div>
-        <asp:LinkButton ID="btnAddNew" runat="server" CssClass="btn btn--primary" OnClick="btnAddNew_Click" Text="Add New Advert" />
+        <asp:LinkButton ID="btnAddNew" runat="server" CssClass="btn btn--primary" OnClick="btnAddNew_Click" Text="Add New Advert" aria-haspopup="dialog" />
     </div>
 
     <asp:PlaceHolder ID="phMsg" runat="server" Visible="false">
@@ -42,24 +42,24 @@
 
     <%-- Add/Edit Modal --%>
     <asp:PlaceHolder ID="phForm" runat="server" Visible="false">
-        <div class="modal-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;">
-            <div class="card" style="width:100%;max-width:600px;position:relative;z-index:10000;">
-                <h3 class="card-title">Create / Edit Advert</h3>
+        <div class="modal-overlay">
+            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="advertModalHeading">
+                <h3 class="card-title" id="advertModalHeading">Create / Edit Advert</h3>
                 <asp:HiddenField ID="hfAdvertId" runat="server" />
-                
+
                 <div class="form-group">
-                    <label class="form-label">Title</label>
+                    <label class="form-label" for="<%= txtTitle.ClientID %>">Title</label>
                     <asp:TextBox ID="txtTitle" runat="server" CssClass="form-control" required="required" />
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Description</label>
+                    <label class="form-label" for="<%= txtDesc.ClientID %>">Description</label>
                     <asp:TextBox ID="txtDesc" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="5" required="required" />
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Closing Date</label>
+                    <label class="form-label" for="<%= txtClosingDate.ClientID %>">Closing Date</label>
                     <asp:TextBox ID="txtClosingDate" runat="server" CssClass="form-control" TextMode="Date" required="required" />
                 </div>
-                <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:20px;">
+                <div class="form-actions">
                     <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="btn btn--outline" OnClick="btnCancel_Click" CausesValidation="false" />
                     <asp:Button ID="btnSave" runat="server" Text="Save Advert" CssClass="btn btn--primary" OnClick="btnSave_Click" />
                 </div>

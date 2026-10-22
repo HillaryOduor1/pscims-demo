@@ -46,7 +46,7 @@
 
     <div class="card mb-6">
         <h3 class="card-title">Programme components</h3>
-        <ul style="line-height:1.85;padding-left:20px;margin:0;color:var(--text);">
+        <ul class="prose-list">
             <li><strong>Placement:</strong> Structured attachment to a ministry, state department, or agency.</li>
             <li><strong>Mentorship:</strong> One-on-one pairing with a senior public officer.</li>
             <li><strong>Training:</strong> Leadership, ethics, and public policy curriculum.</li>
@@ -57,7 +57,7 @@
 
     <div class="card mb-6">
         <h3 class="card-title">Eligibility criteria</h3>
-        <ul style="line-height:1.85;padding-left:20px;margin:0;color:var(--text);">
+        <ul class="prose-list">
             <li>Kenyan citizen with a valid national ID or passport.</li>
             <li>Holder of a Master's degree from a recognised university, or a Bachelor's degree with at least five (5) years of relevant professional experience.</li>
             <li>Aged 40 years or below at the time of application.</li>
@@ -68,7 +68,7 @@
 
     <div class="card mb-6">
         <h3 class="card-title">Application process</h3>
-        <ol style="line-height:1.85;padding-left:20px;margin:0;color:var(--text);">
+        <ol class="prose-list">
             <li>Register or sign in to PSCIMS using your ID / Passport Number.</li>
             <li>Complete the online fellowship application form when the window is open.</li>
             <li>Upload certified copies of academic certificates and transcripts.</li>
@@ -84,7 +84,6 @@
     </div>
 
     <div class="state">
-        
         <h3 class="state__title">Applications open soon</h3>
         <p class="state__desc">
             The next ELP cohort application window has not yet been announced.

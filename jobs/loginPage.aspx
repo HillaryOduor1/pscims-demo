@@ -23,7 +23,7 @@
                     ID / Passport Number <span class="req" aria-hidden="true">*</span>
                 </label>
                 <asp:TextBox ID="txtId" runat="server" CssClass="form-control" MaxLength="20"
-                             autocomplete="username" inputmode="numeric" required="required" />
+                             autocomplete="username" inputmode="text" required="required" />
             </div>
 
             <div class="form-group">
@@ -34,7 +34,7 @@
                     <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-control"
                                  autocomplete="current-password" required="required" />
                     <button type="button" class="password-toggle" onclick="togglePasswordVisibility('<%= txtPassword.ClientID %>', this)" aria-label="Toggle password visibility">
-                        <span class="material-symbols-outlined">visibility</span>
+                        <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
                     </button>
                 </div>
                 <div class="form-hint">

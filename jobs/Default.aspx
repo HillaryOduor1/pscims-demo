@@ -7,7 +7,6 @@
 
     <div class="flex-between mb-6">
         <div>
-            <!-- Optional Title -->
             <h2 class="page-title"><%= ContentProvider.Get("Home_Title", "") %></h2>
             <p class="page-sub"><%= ContentProvider.Get("Home_Sub", "") %></p>
         </div>
@@ -67,7 +66,7 @@
     <div class="card mb-6">
         <h3 class="card-title"><%= ContentProvider.Get("Home_Steps_Title", "Quick Guiding Steps") %></h3>
         <p class="card-sub"><%= ContentProvider.Get("Home_Steps_Sub", "Read before you begin your application.") %></p>
-        <ol style="line-height:1.85;padding-left:20px;margin:0;color:var(--text);">
+        <ol class="prose-list">
             <li><%= ContentProvider.Get("Home_Step_1", "All first-time users must <strong>register</strong> with ID / Passport Number, Surname, Email and a password.") %></li>
             <li><%= ContentProvider.Get("Home_Step_2", "To apply for any advertised opportunity, <strong>log in</strong> with your ID and password.") %></li>
             <li><%= ContentProvider.Get("Home_Step_3", "Provide all required information — <strong>incomplete applications will not be considered</strong>.") %></li>

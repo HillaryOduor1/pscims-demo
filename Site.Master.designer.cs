@@ -21,6 +21,9 @@ namespace PSCIMS
         // Header blocks
         protected global::System.Web.UI.WebControls.PlaceHolder phHeaderAnonymous;
         protected global::System.Web.UI.WebControls.PlaceHolder phHeaderAuthenticated;
+
+        // Page-title fallback text for the header <h1 title="..."> attribute
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder PageTitleText;
     }
 }
 

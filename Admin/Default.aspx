@@ -9,21 +9,21 @@
     </div>
 
     <div class="stat-grid">
-        <div class="stat">
+        <a class="stat stat--link" href="ManageUsers.aspx">
             <div class="stat__value">Manage</div>
-            <div class="stat__label"><a href="ManageUsers.aspx">Users & Roles</a></div>
-        </div>
-        <div class="stat">
+            <div class="stat__label">Users &amp; Roles</div>
+        </a>
+        <a class="stat stat--link" href="ManageAdverts.aspx">
             <div class="stat__value">Manage</div>
-            <div class="stat__label"><a href="ManageAdverts.aspx">Job Adverts</a></div>
-        </div>
-        <div class="stat">
+            <div class="stat__label">Job Adverts</div>
+        </a>
+        <a class="stat stat--link" href="ManageContent.aspx">
             <div class="stat__value">Manage</div>
-            <div class="stat__label"><a href="ManageContent.aspx">Site Content</a></div>
-        </div>
-        <div class="stat">
+            <div class="stat__label">Site Content</div>
+        </a>
+        <a class="stat stat--link" href="ViewApplications.aspx">
             <div class="stat__value">Review</div>
-            <div class="stat__label"><a href="ViewApplications.aspx">Applications</a></div>
-        </div>
+            <div class="stat__label">Applications</div>
+        </a>
     </div>
 </asp:Content>

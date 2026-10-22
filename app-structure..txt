@@ -1,0 +1,114 @@
+Admin
+ ┣ Default.aspx
+ ┣ Default.aspx.cs
+ ┣ Default.aspx.designer.cs
+ ┣ ManageAdverts.aspx
+ ┣ ManageAdverts.aspx.cs
+ ┣ ManageAdverts.aspx.designer.cs
+ ┣ ManageContent.aspx
+ ┣ ManageContent.aspx.cs
+ ┣ ManageContent.aspx.designer.cs
+ ┣ ManageUsers.aspx
+ ┣ ManageUsers.aspx.cs
+ ┣ ManageUsers.aspx.designer.cs
+ ┣ ViewApplications.aspx
+ ┣ ViewApplications.aspx.cs
+ ┗ ViewApplications.aspx.designer.cs
+App_Data
+bin
+ ┗ PSCIMS.dll
+content
+ ┣ css
+ ┃ ┣ psc-components.css
+ ┃ ┣ psc-print.css
+ ┃ ┗ psc-theme.css
+ ┣ fonts
+ ┣ img
+ ┃ ┣ apple-touch-icon.png
+ ┃ ┣ coat-of-arms.png
+ ┃ ┣ favicon-96x96.png
+ ┃ ┣ hero-bg.jpg
+ ┃ ┣ psc-logo.png
+ ┃ ┣ site.webmanifest
+ ┃ ┣ web-app-manifest-192x192.png
+ ┃ ┗ web-app-manifest-512x512.png
+ ┗ js
+ ┃ ┗ psc-main.js
+jobs
+ ┣ ActiveAdvertsInternsInternshipExt.aspx
+ ┣ ActiveAdvertsInternsInternshipExt.aspx.cs
+ ┣ ActiveAdvertsInternsInternshipExt.aspx.designer.cs
+ ┣ ActiveJobsAdverts.aspx
+ ┣ ActiveJobsAdverts.aspx.cs
+ ┣ ActiveJobsAdverts.aspx.designer.cs
+ ┣ ActiveJobsAdverts.partial.aspx
+ ┣ AdvertStatusGlobal.aspx
+ ┣ AdvertStatusGlobal.aspx.cs
+ ┣ AdvertStatusGlobal.aspx.designer.cs
+ ┣ ApplicantDashboard.aspx
+ ┣ ApplicantDashboard.aspx.cs
+ ┣ ApplicantDashboard.aspx.designer.cs
+ ┣ Application.aspx
+ ┣ ComingSoon.aspx
+ ┣ ComingSoon.aspx.cs
+ ┣ ComingSoon.aspx.designer.cs
+ ┣ Default.aspx
+ ┣ Default.aspx.cs
+ ┣ Default.partial.aspx
+ ┣ Default.partial.aspx.cs
+ ┣ Default.partial.aspx.designer.cs
+ ┣ ELPEXT.aspx
+ ┣ ELPEXT.aspx.cs
+ ┣ ELPEXT.aspx.designer.cs
+ ┣ Empty.aspx
+ ┣ Error.aspx
+ ┣ Error.aspx.cs
+ ┣ Error.aspx.designer.cs
+ ┣ loginPage.aspx
+ ┣ loginPage.aspx.cs
+ ┣ loginPage.aspx.designer.cs
+ ┣ logout.aspx
+ ┣ logout.aspx.cs
+ ┣ logout.aspx.designer.cs
+ ┣ NotFound.aspx
+ ┣ RegisterProfile.aspx
+ ┣ RegisterProfile.aspx.cs
+ ┣ RegisterProfile.aspx.designer.cs
+ ┣ VerifyOtp.aspx
+ ┣ VerifyOtp.aspx.cs
+ ┗ VerifyOtp.aspx.designer.cs
+JobsContent
+ ┣ ActiveJobsAdvertsContent.ascx
+ ┗ DefaultContent.ascx
+puio
+ ┣ Default.aspx
+ ┣ Default.aspx.cs
+ ┣ Default.aspx.designer.cs
+ ┣ Default.partial.aspx
+ ┣ Default.partial.aspx.cs
+ ┣ Default.partial.aspx.designer.cs
+ ┗ web.config
+PuioContent
+ ┗ DefaultContent.ascx
+Shared
+ ┣ AdvertDal.cs
+ ┣ ApplicantDal.cs
+ ┣ AuditLogger.cs
+ ┣ Config.cs
+ ┣ CsrfProtector.cs
+ ┣ EmailService.cs
+ ┣ InputSanitizer.cs
+ ┣ LoginThrottle.cs
+ ┣ OtpService.cs
+ ┣ PasswordHasher.cs
+ ┣ RoleGuard.cs
+ ┗ SessionContext.cs
+Site.Master
+Site.Master.cs
+Site.Master.designer.cs
+Web.config
+Web.config.local
+Web.config.local.example
+rebuild.bat
+Global.asax
+manifest.webmanifest

@@ -17,7 +17,7 @@
 
     <%-- Filter --%>
     <div class="card mb-6" style="padding:18px 20px;">
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:12px;align-items:end;">
+        <div class="filter-grid">
             <div>
                 <label class="form-label" for="<%= txtSearch.ClientID %>">Search</label>
                 <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Internship title, reference, ministry…" />
@@ -63,13 +63,13 @@
             <asp:Repeater ID="rptInternships" runat="server">
                 <ItemTemplate>
                     <div class="action-card" style="cursor:default;">
-                        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;">
+                        <div class="job-card__top">
                             <span style="font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);"><%# Eval("Reference") %></span>
                             <span class='badge <%# (bool)Eval("IsOpen") ? "badge--open" : "badge--closed" %>'><%# (bool)Eval("IsOpen") ? "Open" : "Closed" %></span>
                         </div>
                         <p class="action-card__title"><%# Eval("Title") %></p>
                         <p class="action-card__desc" style="margin-bottom:12px;"><%# Eval("Ministry") %> &nbsp;·&nbsp; <%# Eval("Location") %></p>
-                        <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+                        <div class="job-card__footer">
                             <span style="color:var(--text-muted);">Closes <strong style="color:var(--text);"><%# Eval("ClosesOn", "{0:dd MMM yyyy}") %></strong></span>
                             <a href='<%# "loginPage.aspx?internshipId=" + Eval("Id") %>' class="btn btn--primary btn--sm" data-nav>Apply</a>
                         </div>
@@ -81,7 +81,7 @@
 
     <div class="card mb-6" style="margin-top:32px;">
         <h3 class="card-title"><%= ContentProvider.Get("Int_Eligibility_Title", "Eligibility") %></h3>
-        <ul style="line-height:1.85;padding-left:20px;margin:0;color:var(--text);">
+        <ul class="prose-list">
             <li><%= ContentProvider.Get("Int_Eligibility_1", "Kenyan citizen with a valid national ID.") %></li>
             <li><%= ContentProvider.Get("Int_Eligibility_2", "Holder of a Bachelor's degree from a recognised university, obtained within the last three (3) years.") %></li>
             <li><%= ContentProvider.Get("Int_Eligibility_3", "Must not have previously participated in a PSIP cohort.") %></li>
@@ -92,7 +92,7 @@
     <div class="card mb-6">
         <h3 class="card-title"><%= ContentProvider.Get("Int_Req_Title", "Application requirements") %></h3>
         <p class="card-sub"><%= ContentProvider.Get("Int_Req_Sub", "Prepare the following before you begin.") %></p>
-        <ul style="line-height:1.85;padding-left:20px;margin:0;color:var(--text);">
+        <ul class="prose-list">
             <li><%= ContentProvider.Get("Int_Req_1", "National ID or Passport") %></li>
             <li><%= ContentProvider.Get("Int_Req_2", "KCSE Certificate") %></li>
             <li><%= ContentProvider.Get("Int_Req_3", "University Degree Certificate and Transcripts") %></li>

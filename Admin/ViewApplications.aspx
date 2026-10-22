@@ -20,8 +20,7 @@
                 <asp:BoundField DataField="SubmissionDate" HeaderText="Date Applied" DataFormatString="{0:yyyy-MM-dd HH:mm}" />
                 <asp:TemplateField HeaderText="CV / Documents" ItemStyle-Width="150px">
                     <ItemTemplate>
-                        <%-- Assuming you have a generic handler for downloading files --%>
-                        <a href='<%# ResolveUrl("~/DownloadFile.ashx?appId=" + Eval("ApplicationId")) %>' class="btn btn--sm btn--outline" target="_blank">Download CV</a>
+                        <a href='<%# ResolveUrl("~/DownloadFile.ashx?appId=" + Eval("ApplicationId")) %>' class="btn btn--sm btn--outline" target="_blank" rel="noopener noreferrer">Download CV</a>
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
