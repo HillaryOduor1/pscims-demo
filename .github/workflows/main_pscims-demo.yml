@@ -37,25 +37,21 @@ jobs:
           Write-Error "No csc.exe found"
           exit 1
 
-      - name: Diagnostic — check secret
+      - name: Diagnostic - check secret
         shell: pwsh
         run: |
           $p = '${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_37BCBD8B91014E2EB394626DF6669727 }}'
           Write-Host "Secret length: $($p.Length)"
           if ($p.Length -eq 0) {
             Write-Host "*** SECRET IS EMPTY ***"
-            Write-Host "Go to GitHub → Settings → Secrets → Actions and set AZUREAPPSERVICE_PUBLISHPROFILE_37BCBD8B91014E2EB394626DF6669727"
             exit 1
           }
           if ($p.Length -lt 500) {
-            Write-Host "*** SECRET IS TOO SHORT — likely truncated ***"
-            Write-Host "First 200 chars: $($p.Substring(0, [Math]::Min(200, $p.Length)))"
+            Write-Host "*** SECRET IS TOO SHORT - likely truncated ***"
             exit 1
           }
-          Write-Host "First 80 chars: $($p.Substring(0, [Math]::Min(80, $p.Length)))"
-          Write-Host "Last 80 chars:  $($p.Substring([Math]::Max(0, $p.Length - 80)))"
           if (-not $p.StartsWith("<publishData>")) {
-            Write-Host "*** SECRET DOES NOT START WITH <publishData> — wrong value ***"
+            Write-Host "*** SECRET DOES NOT START WITH <publishData> - wrong value ***"
             exit 1
           }
           Write-Host "Secret looks valid."
@@ -66,14 +62,39 @@ jobs:
           $csc = "${{ steps.find_csc.outputs.path }}"
           if (-not (Test-Path "bin")) { New-Item -ItemType Directory -Path "bin" | Out-Null }
 
+          # -------------------------------------------------------------
+          # COMPLETE LIST — every .cs and .designer.cs file in the app.
+          # No trailing comma on the final entry.
+          # -------------------------------------------------------------
           $sources = @(
             "Site.Master.cs",
             "Site.Master.designer.cs",
+
+            "Shared\AdvertDal.cs",
+            "Shared\ApplicantDal.cs",
+            "Shared\AuditLogger.cs",
+            "Shared\Config.cs",
+            "Shared\ContentProvider.cs",
+            "Shared\CsrfProtector.cs",
+            "Shared\EmailService.cs",
+            "Shared\InputSanitizer.cs",
+            "Shared\LoginThrottle.cs",
+            "Shared\OtpService.cs",
+            "Shared\PasswordHasher.cs",
+            "Shared\RoleGuard.cs",
+            "Shared\SessionContext.cs",
+
             "jobs\Default.aspx.cs",
             "jobs\loginPage.aspx.cs",
             "jobs\loginPage.aspx.designer.cs",
             "jobs\RegisterProfile.aspx.cs",
             "jobs\RegisterProfile.aspx.designer.cs",
+            "jobs\VerifyOtp.aspx.cs",
+            "jobs\VerifyOtp.aspx.designer.cs",
+            "jobs\ApplicantDashboard.aspx.cs",
+            "jobs\ApplicantDashboard.aspx.designer.cs",
+            "jobs\logout.aspx.cs",
+            "jobs\logout.aspx.designer.cs",
             "jobs\ActiveJobsAdverts.aspx.cs",
             "jobs\ActiveJobsAdverts.aspx.designer.cs",
             "jobs\ActiveAdvertsInternsInternshipExt.aspx.cs",
@@ -86,14 +107,25 @@ jobs:
             "jobs\Error.aspx.designer.cs",
             "jobs\ComingSoon.aspx.cs",
             "jobs\ComingSoon.aspx.designer.cs",
+            "jobs\Application.aspx.cs",
+            "jobs\Application.aspx.designer.cs",
+
             "puio\Default.aspx.cs",
             "puio\Default.aspx.designer.cs",
-            "jobs\VerifyOtp.aspx.cs",
-            "jobs\VerifyOtp.aspx.designer.cs",
-            "jobs\ApplicantDashboard.aspx.cs",
-            "jobs\ApplicantDashboard.aspx.designer.cs",
+
+            "Admin\Default.aspx.cs",
+            "Admin\Default.aspx.designer.cs",
+            "Admin\ManageAdverts.aspx.cs",
+            "Admin\ManageAdverts.aspx.designer.cs",
+            "Admin\ManageContent.aspx.cs",
+            "Admin\ManageContent.aspx.designer.cs",
+            "Admin\ManageUsers.aspx.cs",
+            "Admin\ManageUsers.aspx.designer.cs",
+            "Admin\ViewApplications.aspx.cs",
+            "Admin\ViewApplications.aspx.designer.cs"
           )
 
+          # Fail early if any expected file is missing
           $missing = @()
           foreach ($src in $sources) {
             if (-not (Test-Path $src)) { $missing += $src }
@@ -137,7 +169,9 @@ jobs:
       - name: Strip source files before deploy
         shell: pwsh
         run: |
-          Get-ChildItem -Path "jobs", "puio" -Recurse -Include "*.cs" -File | Remove-Item -Force -Verbose
+          Get-ChildItem -Path "jobs", "puio", "Admin", "Shared" -Recurse -Include "*.cs" -File -ErrorAction SilentlyContinue | Remove-Item -Force -Verbose
+          Remove-Item "Site.Master.cs"          -Force -ErrorAction SilentlyContinue
+          Remove-Item "Site.Master.designer.cs" -Force -ErrorAction SilentlyContinue
           if (Test-Path ".vs")        { Remove-Item ".vs"        -Recurse -Force }
           if (Test-Path "obj")        { Remove-Item "obj"        -Recurse -Force }
           if (Test-Path "packages")   { Remove-Item "packages"   -Recurse -Force }
