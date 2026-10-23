@@ -196,7 +196,6 @@ button, input, select, textarea {
   flex-shrink: 0;
   color: var(--sidebar-text);
   padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
   transition: width .2s ease;
   z-index: 100;
 }
@@ -252,8 +251,8 @@ button, input, select, textarea {
 
 .sidebar__nav {
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 12px 8px;
@@ -429,6 +428,7 @@ button, input, select, textarea {
 
 .sidebar__footer {
   padding: 10px 8px;
+  /* Safe area inset moved here to prevent double-counting with .sidebar */
   padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--sidebar-border);
   flex-shrink: 0;
@@ -735,7 +735,6 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
     transition: transform .25s ease;
     box-shadow: var(--shadow-lg);
     padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
     padding-left: env(safe-area-inset-left, 0px);
   }
   
@@ -751,7 +750,6 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
     -webkit-overflow-scrolling: touch;
     padding-bottom: 24px;
     min-height: 0;
-    height: 100%;
   }
 
   .sidebar__footer {
@@ -1794,12 +1792,32 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   -webkit-text-fill-color: transparent; 
 }
 
-.btn .material-symbols-outlined,
+/* ============================================================ */
+/* FORCE ICON VISIBILITY FOR HEADER CONTROLS                    */
+/* This overrides any conflicting rules in psc-components.css   */
+/* ============================================================ */
+.header__toggle .material-symbols-outlined,
 .icon-btn .material-symbols-outlined,
-.theme-toggle .material-symbols-outlined,
+.theme-toggle .material-symbols-outlined {
+  color: var(--text, #0f0f0f) !important;
+  -webkit-text-fill-color: var(--text, #0f0f0f) !important;
+  font-family: 'Material Symbols Outlined', sans-serif;
+  font-size: 22px;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+}
+
+/* Sidebar icons need explicit color */
 .sidebar__icon {
   color: inherit !important;
-  /* FIX FOR iOS ICON VISIBILITY */
   -webkit-text-fill-color: inherit !important;
 }
 
@@ -1838,7 +1856,8 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
 
 /* 2. Fallback for flexbox gap on iOS < 14.1 */
 @supports not (gap: 1px) {
-  .header > * + * { margin-left: 16px; }
+  .header > * + * { margin-left: 10px; }
+  .header__brand > * + * { margin-left: 8px; }
   .header__actions > * + * { margin-left: 8px; }
   .sidebar__link > * + * { margin-left: 12px; }
   .job-card__top > * + * { margin-left: 12px; }
@@ -1848,5 +1867,38 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   @media (max-width: 600px) {
     .flex-between { -ms-flex-direction: column; flex-direction: column; }
     .flex-between > * + * { margin-left: 0; margin-top: 12px; }
+  }
+}
+
+/* 3. Mobile Header sizing for iPhone 6 (320px) */
+@media (max-width: 640px) {
+  .header {
+    padding-left: 8px;
+    padding-right: 8px;
+    gap: 6px;
+  }
+  .header__toggle,
+  .theme-toggle {
+    width: 44px;
+    height: 44px;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+  .header__brand {
+    min-width: 0;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+  }
+  .header__title {
+    min-width: 0;
+    font-size: 13px;
+    padding-left: 0;
+  }
+  .header__actions {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
   }
 }
