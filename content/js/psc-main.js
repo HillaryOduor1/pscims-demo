@@ -177,7 +177,7 @@
         }
     }, 150);
 
-    /* ---------- Public API additions ---------- */
+    /* ---------- Public API ---------- */
     window.PSCIMS = window.PSCIMS || {};
 
     window.PSCIMS.toggleSidebar = function () {
@@ -185,12 +185,21 @@
     };
     window.PSCIMS.toggleMobile = function () { toggleMobile(); };
 
+    window.PSCIMS.toggleTheme = function () {
+        var html = document.documentElement;
+        var current = html.getAttribute('data-theme') || 'light';
+        var next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        try { localStorage.setItem('pscims-theme', next); } catch (e) {}
+    };
+
     window.PSCIMS.toast = function (type, title, desc, timeout) {
         var stack = document.getElementById('toastStack');
         if (!stack) { return; }
         var el = document.createElement('div');
         el.className = 'toast toast--' + (type || 'info');
         el.setAttribute('role', 'status');
+        
         if (title) {
             var tp = document.createElement('p'); tp.className = 'toast__title';
             tp.appendChild(document.createTextNode(title)); el.appendChild(tp);
@@ -249,7 +258,6 @@
         var shell = getShell();
         if (!shell) { return; }
 
-        /* Restore sidebar state */
         try {
             if (localStorage.getItem('pscims-sidebar-collapsed') === 'true') {
                 setAttr(shell, 'data-collapsed', 'true');
@@ -258,10 +266,8 @@
             }
         } catch(e) {}
 
-        /* Global Click Delegation (Replaces inline onclick) */
         on(document, 'click', function (e) {
             var target = e.target || e.srcElement;
-            // Walk up the DOM to find data-action
             while (target && target !== document) {
                 var action = getAttr(target, 'data-action');
                 if (action === 'toggle-theme') {
@@ -276,7 +282,6 @@
             }
         });
 
-        /* Drawer controls */
         var overlay = getOverlay();
         on(overlay, 'click', function (e) { if (e && e.preventDefault) { e.preventDefault(); } closeMobile(); });
         on(overlay, 'keydown', function (e) {
