@@ -216,7 +216,7 @@
                         <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">open_in_new</span>
                         <span class="sidebar__label">publicservice.go.ke</span>
                     </a>
-                    <a href="https://hillary-portfolio-v2.vercel.app" class="sidebar__credit" data-tooltip="Designed and built by Hillary" title="Designed and built by Hillary Oduor" target="_blank" rel="noopener">
+                    <a href="https://hillary-porfolio-v2.vercel.app" class="sidebar__credit" data-tooltip="Designed and built by Hillary" title="Designed and built by Hillary Oduor" target="_blank" rel="noopener">
                         <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">code</span>
                         <span class="sidebar__label">Designed &amp; built by <strong>Hillary</strong></span>
                     </a>
@@ -242,7 +242,6 @@
                     </button>
                     <asp:PlaceHolder ID="phHeaderAnonymous" runat="server">
                         <a href="<%= ResolveUrl("~/jobs/loginPage.aspx") %>" class="btn btn--outline d-none-mobile" title="Sign in to your account">
-                            <span class="material-symbols-outlined" style="font-size: 20px;" aria-hidden="true">login</span>
                             Sign in
                         </a>
                     </asp:PlaceHolder>
