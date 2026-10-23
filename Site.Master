@@ -21,25 +21,85 @@
     <!-- Preload the heavy Material Symbols font so icons appear instantly -->
     <link rel="preload" href="<%= ResolveUrl("~/Content/fonts/material-symbols/material-symbols-outlined.woff2") %>" as="font" type="font/woff2" crossorigin />
 
-    <link href="<%= ResolveUrl("~/Content/css/psc-fonts.css") %>?v=<%= CssVersion("~/Content/css/psc-fonts.css") %>" rel="stylesheet" />
-    <link href="<%= ResolveUrl("~/Content/css/psc-theme.css") %>?v=<%= CssVersion("~/Content/css/psc-theme.css") %>" rel="stylesheet" />
-    <link href="<%= ResolveUrl("~/Content/css/psc-components.css") %>?v=<%= CssVersion("~/Content/css/psc-components.css") %>" rel="stylesheet" />
-    <link href="<%= ResolveUrl("~/Content/css/psc-print.css") %>?v=<%= CssVersion("~/Content/css/psc-print.css") %>" rel="stylesheet" media="print" />
-
+    <!-- Inline data-URI script to set theme instantly without external fetch delay or CSP inline violations -->
     <script>
-        (function () {
+        (function(){
             try {
                 var saved = localStorage.getItem('pscims-theme');
-                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                var theme = saved || (prefersDark ? 'dark' : 'light');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = (saved === 'light' || saved === 'dark') ? saved : (prefersDark ? 'dark' : 'light');
                 document.documentElement.setAttribute('data-theme', theme);
-            } catch (e) { }
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
         })();
     </script>
+
+    <link href="<%= ResolveUrl("~/Content/css/psc-fonts.css") %>?v=<%= CssVersion("~/Content/css/psc-fonts.css") %>" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/Content/css/psc-theme.css") %>?v=<%= CssVersion("~/Content/css/psc-theme.css") %>&v=999" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/Content/css/psc-components.css") %>?v=<%= CssVersion("~/Content/css/psc-components.css") %>" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/Content/css/psc-print.css") %>?v=<%= CssVersion("~/Content/css/psc-print.css") %>" rel="stylesheet" media="print" />
+    
+    <style>
+        /* Inline loader CSS so it renders before external stylesheets load */
+        .app-loader {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: #f5f5f5; z-index: 99999;
+            display: none; /* Hidden by default, JS will enable it if on root */
+            align-items: center; justify-content: center;
+            opacity: 1; transition: opacity 0.3s ease-out;
+        }
+        html[data-theme="dark"] .app-loader { background: #0a0a0a; }
+        .app-loader.is-visible { display: flex; }
+        .app-loader.is-hidden { opacity: 0; pointer-events: none; }
+        .loader-dots { display: flex; gap: 8px; align-items: center; height: 40px; }
+        .loader-dots div {
+            width: 12px; height: 12px; background-color: #c9a227; border-radius: 50%;
+            animation: dot-pulse 1.2s infinite ease-in-out both;
+        }
+        .loader-dots div:nth-child(1) { animation-delay: -0.4s; }
+        .loader-dots div:nth-child(2) { animation-delay: -0.2s; }
+        .loader-dots div:nth-child(3) { animation-delay: 0s; }
+        .loader-dots div:nth-child(4) { animation-delay: 0.2s; }
+        .loader-dots div:nth-child(5) { animation-delay: 0.4s; }
+        @keyframes dot-pulse {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+    </style>
 
     <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
 </head>
 <body>
+    <!-- Progressive Loading Overlay (Only on initial load of root) -->
+    <div class="app-loader" id="appLoader" aria-hidden="true">
+        <div class="loader-dots">
+            <div></div><div></div><div></div><div></div><div></div>
+        </div>
+    </div>
+    
+    <script>
+        (function() {
+            var loader = document.getElementById("appLoader");
+            var path = window.location.pathname.toLowerCase();
+            // Check if we are on the root or /jobs/Default.aspx
+            var isRoot = path === "/" || path.endsWith("/jobs/default.aspx") || path.endsWith("/pscims/") || path.endsWith("/pscims/jobs/default.aspx");
+
+            if (loader && isRoot) {
+                loader.classList.add("is-visible");
+                
+                // Hide the loader as soon as the DOM is ready
+                document.addEventListener("DOMContentLoaded", function() {
+                    loader.classList.add("is-hidden");
+                    setTimeout(function() { 
+                        loader.style.display = "none"; 
+                        loader.classList.remove("is-visible");
+                    }, 300);
+                });
+            }
+        })();
+    </script>
+
     <form id="form1" runat="server">
 
         <a href="#main" class="skip-link">Skip to main content</a>
@@ -176,7 +236,7 @@
             </aside>
 
             <header class="header">
-                <button type="button" id="sidebarToggle" class="header__toggle" data-tooltip="Toggle sidebar" aria-label="Toggle sidebar" aria-controls="shell" aria-expanded="false">
+                <button type="button" id="sidebarToggle" class="header__toggle" data-action="toggle-sidebar" data-tooltip="Toggle sidebar" aria-label="Toggle sidebar" aria-controls="shell" aria-expanded="false">
                     <span class="material-symbols-outlined" aria-hidden="true">menu</span>
                 </button>
 
@@ -191,7 +251,7 @@
                 </h1>
 
                 <div class="header__actions">
-                    <button type="button" class="icon-btn theme-toggle" onclick="PSCIMS.toggleTheme()" data-tooltip="Toggle theme" aria-label="Toggle light and dark theme">
+                    <button type="button" class="icon-btn theme-toggle" data-action="toggle-theme" data-tooltip="Toggle theme" aria-label="Toggle light and dark theme">
                         <span class="material-symbols-outlined icon-sun" aria-hidden="true">light_mode</span>
                         <span class="material-symbols-outlined icon-moon" aria-hidden="true">dark_mode</span>
                     </button>
