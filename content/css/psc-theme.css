@@ -95,7 +95,10 @@ html[data-theme="dark"] {
   -webkit-box-sizing: border-box; 
 }
 html, body { height: 100%; }
-html { -webkit-text-size-adjust: 100%; }
+html { 
+  -webkit-text-size-adjust: 100%; 
+  -ms-text-size-adjust: 100%;
+}
 
 body {
   margin: 0;
@@ -108,23 +111,25 @@ body {
   -moz-osx-font-smoothing: grayscale;
   transition: background-color .2s, color .2s;
   text-rendering: optimizeLegibility;
-  /* Prevent iOS 6 from stopping long scroll on body */
-  -webkit-overflow-scrolling: touch;
+  /* Critical for smooth scrolling on iOS */
+  -webkit-overflow-scrolling: touch; 
 }
 
 a {
   color: var(--accent-hover);
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
   touch-action: manipulation;
 }
 
 a:hover { color: var(--accent); text-decoration: underline; }
 img { max-width: 100%; height: auto; display: block; }
 
-button {
+button, input, select, textarea {
   font-family: inherit;
   -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
   touch-action: manipulation;
 }
 
@@ -166,6 +171,7 @@ button {
   min-height: 100vh;
   min-height: 100dvh;
   position: relative;
+  overflow-x: hidden; /* Stops iPhone 6 horizontal bounce */
 }
 
 /* Sidebar */
@@ -191,6 +197,7 @@ button {
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
   transition: width .2s ease;
+  z-index: 100;
 }
 
 .shell[data-collapsed="true"] .sidebar {
@@ -377,6 +384,7 @@ button {
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
   z-index: 999;
   box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  -webkit-transform: translateY(-50%) translateX(-8px);
 }
 
 .shell[data-collapsed="true"] .sidebar__link::before,
@@ -394,6 +402,7 @@ button {
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
   z-index: 999;
+  -webkit-transform: translateY(-50%) translateX(-8px);
 }
 
 .shell[data-collapsed="true"] .sidebar__link:hover::after,
@@ -403,6 +412,7 @@ button {
   opacity: 1;
   visibility: visible;
   transform: translateY(-50%) translateX(0);
+  -webkit-transform: translateY(-50%) translateX(0);
 }
 
 .shell[data-collapsed="true"] .sidebar__link:hover::before,
@@ -412,6 +422,7 @@ button {
   opacity: 1;
   visibility: visible;
   transform: translateY(-50%) translateX(0);
+  -webkit-transform: translateY(-50%) translateX(0);
 }
 
 .sidebar__footer {
@@ -1089,6 +1100,7 @@ html[data-theme="dark"] .action-card:hover { background: var(--surface-3); }
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   text-align: center;
+  -webkit-appearance: none;
 }
 .btn:active { transform: translateY(1px); }
 .btn:disabled { opacity: .5; cursor: not-allowed; }
@@ -1149,7 +1161,7 @@ html[data-theme="dark"] .action-card:hover { background: var(--surface-3); }
   padding: 11px 14px;
   min-height: 44px;
   font-family: inherit;
-  font-size: 16px;
+  font-size: 16px; /* Critical: Prevents iOS auto-zoom on focus */
   color: var(--text);
   background: var(--surface);
   border: 1px solid var(--border-strong);
@@ -1158,6 +1170,7 @@ html[data-theme="dark"] .action-card:hover { background: var(--surface-3); }
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  -webkit-border-radius: var(--radius); /* Older iOS requires vendor prefix */
 }
 
 .form-control:focus {
@@ -1414,6 +1427,7 @@ html[data-theme="dark"] .badge--open { background: rgba(224,181,68,.15); color: 
   max-width: 560px;
   max-height: 85vh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 @media (max-width: 640px) {
   .modal-overlay {
@@ -1772,7 +1786,7 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
 }
 
 /* ============================================================ */
-/* COMPATIBILITY LAYER FOR OLD IOS / SAFARI (iPhone 6, etc) */
+/* EXTREME COMPATIBILITY LAYER FOR iOS 6 / iPhone 6 AND BELOW   */
 /* ============================================================ */
 
 /* 1. Disable dangerous filters on old iOS */
@@ -1791,7 +1805,7 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   .job-card__top > * + * { margin-left: 12px; }
   .flex-between > * + * { margin-top: 12px; }
   .flex-between > * + * { margin-left: 12px; }
-  /* Force flex-direction column on very old devices if items wrap */
+  
   @media (max-width: 600px) {
     .flex-between { -ms-flex-direction: column; flex-direction: column; }
     .flex-between > * + * { margin-left: 0; margin-top: 12px; }
