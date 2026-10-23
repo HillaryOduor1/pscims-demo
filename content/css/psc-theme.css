@@ -568,7 +568,7 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   -ms-grid-row: 2;
   -ms-grid-column: 2;
   grid-area: main;
-  padding: 28px 32px 48px;
+  padding: 32px 32px 48px; /* Slightly increased top padding to push buttons down */
   padding-left: max(32px, env(safe-area-inset-left, 0px));
   padding-right: max(32px, env(safe-area-inset-right, 0px));
   max-width: 1400px;
@@ -681,7 +681,7 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   }
 
   .main {
-    padding: 20px 16px 40px;
+    padding: 24px 16px 40px; /* Added more top padding on mobile */
     padding-left: max(16px, env(safe-area-inset-left, 0px));
     padding-right: max(16px, env(safe-area-inset-right, 0px));
     padding-bottom: max(40px, env(safe-area-inset-bottom, 0px));
