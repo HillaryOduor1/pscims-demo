@@ -14,14 +14,16 @@
     <link rel="icon" type="image/png" sizes="96x96" href="<%= ResolveUrl("~/Content/img/favicon-96x96.png") %>" />
     <link rel="apple-touch-icon" sizes="180x180" href="<%= ResolveUrl("~/Content/img/apple-touch-icon.png") %>" />
     <link rel="manifest" href="<%= ResolveUrl("~/Content/img/site.webmanifest") %>" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+    <!-- Replaced deprecated apple meta with modern mobile meta -->
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="PSCIMS" />
     <meta name="application-name" content="PSCIMS" />
 
-    <!-- Preload the heavy Material Symbols font so icons appear instantly -->
+    <!-- Preload local Material Symbols font to prevent layout shift -->
     <link rel="preload" href="<%= ResolveUrl("~/Content/fonts/material-symbols/material-symbols-outlined.woff2") %>" as="font" type="font/woff2" crossorigin />
 
-    <!-- Inline data-URI script to set theme instantly without external fetch delay or CSP inline violations -->
+    <!-- Inline script to set theme instantly before body renders -->
     <script>
         (function(){
             try {
@@ -41,11 +43,11 @@
     <link href="<%= ResolveUrl("~/Content/css/psc-print.css") %>?v=<%= CssVersion("~/Content/css/psc-print.css") %>" rel="stylesheet" media="print" />
     
     <style>
-        /* Inline loader CSS so it renders before external stylesheets load */
+        /* Initial loader CSS */
         .app-loader {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: #f5f5f5; z-index: 99999;
-            display: none; /* Hidden by default, JS will enable it if on root */
+            display: none;
             align-items: center; justify-content: center;
             opacity: 1; transition: opacity 0.3s ease-out;
         }
@@ -82,13 +84,10 @@
         (function() {
             var loader = document.getElementById("appLoader");
             var path = window.location.pathname.toLowerCase();
-            // Check if we are on the root or /jobs/Default.aspx
             var isRoot = path === "/" || path.endsWith("/jobs/default.aspx") || path.endsWith("/pscims/") || path.endsWith("/pscims/jobs/default.aspx");
 
             if (loader && isRoot) {
                 loader.classList.add("is-visible");
-                
-                // Hide the loader as soon as the DOM is ready
                 document.addEventListener("DOMContentLoaded", function() {
                     loader.classList.add("is-hidden");
                     setTimeout(function() { 
@@ -103,18 +102,13 @@
     <form id="form1" runat="server">
 
         <a href="#main" class="skip-link">Skip to main content</a>
-
         <div class="page-progress" id="pageProgress" aria-hidden="true"></div>
 
         <div class="shell" id="shell">
-
             <div class="sidebar-overlay" id="sidebarOverlay" role="button" tabindex="-1" aria-label="Close navigation" aria-hidden="true"></div>
 
             <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
-
-                <a href="<%= ResolveUrl("~/jobs/Default.aspx") %>"
-                   class="sidebar__brand"
-                   title="PSCIMS Home">
+                <a href="<%= ResolveUrl("~/jobs/Default.aspx") %>" class="sidebar__brand" title="PSCIMS Home">
                     <div class="sidebar__brand-text">
                         <div class="sidebar__brand-title">PSCIMS</div>
                         <div class="sidebar__brand-sub">Public Service Commission</div>
@@ -157,15 +151,12 @@
                     </asp:PlaceHolder>
 
                     <asp:PlaceHolder ID="phAuthenticated" runat="server" Visible="false">
-
-                        <%-- ADMIN SPECIFIC DASHBOARD --%>
                         <% if (Session["ApplicantRole"] != null && Session["ApplicantRole"].ToString().ToLower() == "admin") { %>
                             <div class="sidebar__section">My Account</div>
                             <a href="<%= ResolveUrl("~/Admin/Default.aspx") %>" class="sidebar__link <%= IsActiveIn("Admin", "Default") %>" data-tooltip="Admin Dashboard" title="Admin Dashboard">
                                 <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">space_dashboard</span>
                                 <span class="sidebar__label">Admin Dashboard</span>
                             </a>
-
                             <div class="sidebar__section">Administration</div>
                             <a href="<%= ResolveUrl("~/Admin/ManageUsers.aspx") %>" class="sidebar__link <%= IsActive("ManageUsers") %>" data-tooltip="Manage Users" title="Manage Users & Roles">
                                 <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">group</span>
@@ -184,14 +175,12 @@
                                 <span class="sidebar__label">Site Content</span>
                             </a>
                         <% } else { %>
-                            <%-- STANDARD APPLICANT DASHBOARD --%>
                             <div class="sidebar__section">My Account</div>
                             <a href="<%= ResolveUrl("~/jobs/ApplicantDashboard.aspx") %>" class="sidebar__link <%= IsActive("ApplicantDashboard") %>" data-tooltip="My Dashboard" title="My Applications">
                                 <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">dashboard</span>
                                 <span class="sidebar__label">My Dashboard</span>
                             </a>
                         <% } %>
-
                         <div class="sidebar__section">Recruitment</div>
                         <a href="<%= ResolveUrl("~/jobs/ActiveJobsAdverts.aspx") %>" class="sidebar__link <%= IsActive("ActiveJobsAdverts") %>" data-tooltip="Advertised Jobs" title="Advertised Jobs">
                             <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">work</span>
@@ -214,7 +203,6 @@
                             <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">description</span>
                             <span class="sidebar__label">Interview Instructions</span>
                         </a>
-
                         <div class="sidebar__section">Session</div>
                         <a href="<%= ResolveUrl("~/jobs/logout.aspx") %>" class="sidebar__link" data-tooltip="Sign out" title="Sign out of PSCIMS">
                             <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">logout</span>
@@ -239,30 +227,25 @@
                 <button type="button" id="sidebarToggle" class="header__toggle" data-action="toggle-sidebar" data-tooltip="Toggle sidebar" aria-label="Toggle sidebar" aria-controls="shell" aria-expanded="false">
                     <span class="material-symbols-outlined" aria-hidden="true">menu</span>
                 </button>
-
                 <div class="header__brand" aria-label="Public Service Commission">
                     <img class="header__brand-logo" src="<%= ResolveUrl("~/Content/img/coat-of-arms.png") %>" alt="Coat of Arms of the Republic of Kenya" />
                     <span class="header__brand-divider" aria-hidden="true"></span>
                     <img class="header__brand-logo header__brand-logo--psc" src="<%= ResolveUrl("~/Content/img/psc-logo.png") %>" alt="Public Service Commission" onerror="this.style.display='none'" />
                 </div>
-
                 <h1 class="header__title" id="pageTitle" title="<asp:ContentPlaceHolder ID="PageTitleText" runat="server">Dashboard</asp:ContentPlaceHolder>">
                     <asp:ContentPlaceHolder ID="PageTitle" runat="server">Dashboard</asp:ContentPlaceHolder>
                 </h1>
-
                 <div class="header__actions">
                     <button type="button" class="icon-btn theme-toggle" data-action="toggle-theme" data-tooltip="Toggle theme" aria-label="Toggle light and dark theme">
                         <span class="material-symbols-outlined icon-sun" aria-hidden="true">light_mode</span>
                         <span class="material-symbols-outlined icon-moon" aria-hidden="true">dark_mode</span>
                     </button>
-
                     <asp:PlaceHolder ID="phHeaderAnonymous" runat="server">
                         <a href="<%= ResolveUrl("~/jobs/loginPage.aspx") %>" class="btn btn--outline d-none-mobile" title="Sign in to your account">
                             <span class="material-symbols-outlined" style="font-size: 20px;" aria-hidden="true">login</span>
                             Sign in
                         </a>
                     </asp:PlaceHolder>
-
                     <asp:PlaceHolder ID="phHeaderAuthenticated" runat="server" Visible="false">
                         <a href="<%= ResolveUrl("~/jobs/logout.aspx") %>" class="btn btn--outline d-none-mobile" title="Sign out">
                             <span class="material-symbols-outlined" style="font-size: 20px;" aria-hidden="true">logout</span>
@@ -277,11 +260,8 @@
                     <asp:ContentPlaceHolder ID="MainContent" runat="server" />
                 </div>
             </main>
-
         </div>
-
         <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
-
     </form>
 
     <script src="<%= ResolveUrl("~/Content/js/psc-main.js") %>?v=<%= CssVersion("~/Content/js/psc-main.js") %>"></script>

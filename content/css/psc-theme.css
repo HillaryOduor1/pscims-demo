@@ -1,10 +1,5 @@
-/* ============================================================
-   PSCIMS — Public Service Commission Information Management System
-   Dashboard theme · Gold sidebar · Light & Dark
-   WCAG AA target · IE11 fallback layer (scoped to -ms-high-contrast)
-   ============================================================ */
+/* PSCIMS Theme - Main stylesheet */
 
-/* ---------- Design tokens ---------- */
 :root {
   --accent:           #c9a227;
   --accent-hover:     #b08d1f;
@@ -95,7 +90,6 @@ html[data-theme="dark"] {
   color-scheme: dark;
 }
 
-/* ---------- Reset / base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 html, body { height: 100%; }
 html { -webkit-text-size-adjust: 100%; }
@@ -147,7 +141,6 @@ button {
 }
 .skip-link:focus { top: 12px; }
 
-/* ---------- Safe-area helpers (guarded) ---------- */
 @supports (padding: env(safe-area-inset-top)) {
   .safe-top    { padding-top:    env(safe-area-inset-top, 0px); }
   .safe-right  { padding-right:  env(safe-area-inset-right, 0px); }
@@ -155,9 +148,7 @@ button {
   .safe-left   { padding-left:   env(safe-area-inset-left, 0px); }
 }
 
-/* ============================================================
-   DASHBOARD SHELL
-   ============================================================ */
+/* App Layout */
 .shell {
   display: -ms-grid;
   display: grid;
@@ -178,7 +169,7 @@ button {
   grid-template-columns: var(--sidebar-w-collapsed) 1fr;
 }
 
-/* ---------- Sidebar ---------- */
+/* Sidebar */
 .sidebar {
   -ms-grid-row: 1;
   -ms-grid-row-span: 2;
@@ -302,7 +293,6 @@ button {
   width: 22px;
   height: 22px;
   flex-shrink: 0;
-  /* FORCES THE ICONS TO BE VISIBLE EVEN WITH GLOBAL TRANSPARENT COLOR */
   color: var(--sidebar-text) !important; 
   -webkit-user-select: none;
   user-select: none;
@@ -336,7 +326,6 @@ button {
   justify-content: center;
 }
 
-/* ---------- Sidebar Tooltips (Collapsed state) ---------- */
 .shell[data-collapsed="true"] .sidebar__link::after,
 .shell[data-collapsed="true"] .sidebar__credit::after {
   content: attr(data-tooltip);
@@ -360,7 +349,6 @@ button {
   box-shadow: 0 4px 16px rgba(0,0,0,0.3);
 }
 
-/* Little arrow pointing to the icon */
 .shell[data-collapsed="true"] .sidebar__link::before,
 .shell[data-collapsed="true"] .sidebar__credit::before {
   content: "";
@@ -378,7 +366,6 @@ button {
   z-index: 999;
 }
 
-/* Hover / Focus states */
 .shell[data-collapsed="true"] .sidebar__link:hover::after,
 .shell[data-collapsed="true"] .sidebar__link:focus-visible::after,
 .shell[data-collapsed="true"] .sidebar__credit:hover::after,
@@ -396,11 +383,6 @@ button {
   visibility: visible;
   transform: translateY(-50%) translateX(0);
 }
-.shell[data-collapsed="true"] .sidebar__link:hover::after,
-.shell[data-collapsed="true"] .sidebar__link:focus-visible::after {
-  opacity: 1;
-  transform: translateY(-50%) translateX(0);
-}
 
 .sidebar__footer {
   padding: 10px 8px;
@@ -409,9 +391,7 @@ button {
   flex-shrink: 0;
 }
 
-/* ============================================================
-   HEADER
-   ============================================================ */
+/* Header */
 .header {
   -ms-grid-row: 1;
   -ms-grid-column: 2;
@@ -438,13 +418,12 @@ button {
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: transparent;
-  color: transparent; /* Hides the "menu" text */
+  color: transparent; 
   cursor: pointer;
   transition: background .15s, border-color .15s;
   flex-shrink: 0;
 }
 
-/* FORCES THE HAMBURGER ICON TO BE VISIBLE */
 .header__toggle .material-symbols-outlined {
   color: var(--text) !important;
 }
@@ -584,7 +563,7 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   flex-shrink: 0;
 }
 
-/* ---------- Main ---------- */
+/* Main Content Area */
 .main {
   -ms-grid-row: 2;
   -ms-grid-column: 2;
@@ -621,14 +600,13 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   .page-sub { font-size: clamp(14px, 1.4vw, 15px); }
 }
 
-/* ---------- Responsive ---------- */
+/* Responsive Breakpoints */
 @media (max-width: 1100px) {
   .header__brand-logo { height: 38px; }
   .header__brand-logo--psc { height: 38px; }
   .header__brand { gap: 10px; }
 }
 
-/* ---------- Mobile drawer (CSS works in IE11: display:grid replaced by media query, position:fixed drawer) ---------- */
 @media (max-width: 900px) {
   .shell {
     display: block;
@@ -642,7 +620,6 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
     grid-template-columns: none;
   }
 
-  /* JS-managed body lock — replaces :has() */
   body.is-drawer-open {
     overflow: hidden;
     position: fixed;
@@ -687,7 +664,6 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
     padding: 10px 14px;
     gap: 12px;
   }
-  /*.shell[data-mobile-open="true"] .sidebar__icon { display: none; }*/
 
   .sidebar-overlay {
     display: none;
@@ -746,10 +722,7 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   }
 }
 
-/* ============================================================
-   UI PRIMITIVES
-   ============================================================ */
-
+/* Cards and Layout Grids */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -776,8 +749,9 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   display: grid;
   -ms-grid-columns: (1fr)[2];
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-bottom: 28px;
+  /* Use margins instead of gap to support older Android WebViews */
+  margin: -8px;
+  margin-bottom: 20px; 
 }
 @supports (grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr))) {
   .stat-grid {
@@ -785,7 +759,7 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   }
 }
 @media (max-width: 480px) {
-  .stat-grid { grid-template-columns: 1fr; }
+  .stat-grid { grid-template-columns: 1fr; margin: 0; margin-bottom: 12px; }
 }
 @media (min-width: 800px) {
   .stat-grid { grid-template-columns: repeat(4, 1fr); }
@@ -796,7 +770,12 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 20px 22px;
+  margin: 8px;
 }
+@media (max-width: 480px) {
+  .stat { margin: 0 0 16px 0; }
+}
+
 .stat__value {
   font-size: 24px;
   font-weight: 800;
@@ -818,7 +797,6 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   overflow-wrap: anywhere;
 }
 
-/* Clickable stat card (Admin/Default) */
 a.stat--link {
   display: block;
   text-decoration: none;
@@ -845,8 +823,8 @@ html[data-theme="dark"] a.stat--link:focus-visible {
   display: grid;
   -ms-grid-columns: 1fr;
   grid-template-columns: 1fr;
-  gap: 16px;
-  margin-bottom: 28px;
+  margin: -8px;
+  margin-bottom: 20px;
 }
 @media (min-width: 600px) {
   .action-grid { -ms-grid-columns: 1fr 1fr; grid-template-columns: repeat(2, 1fr); }
@@ -863,7 +841,7 @@ html[data-theme="dark"] a.stat--link:focus-visible {
   }
 }
 @media (max-width: 480px) {
-  .action-grid { grid-template-columns: 1fr; }
+  .action-grid { grid-template-columns: 1fr; margin: 0; margin-bottom: 12px; }
 }
 
 .action-card {
@@ -878,6 +856,10 @@ html[data-theme="dark"] a.stat--link:focus-visible {
   min-height: 44px;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
+  margin: 8px;
+}
+@media (max-width: 480px) {
+  .action-card { margin: 0 0 16px 0; }
 }
 .action-card:hover {
   border-color: var(--accent);
@@ -905,32 +887,44 @@ html[data-theme="dark"] .action-card:hover { background: var(--surface-3); }
   overflow-wrap: anywhere;
 }
 
-/* Job / internship card internals (was inline flex) */
 .job-card__top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 12px;
   margin-bottom: 8px;
   flex-wrap: wrap;
+  margin-left: -6px;
+  margin-right: -6px;
 }
+.job-card__top > * {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
 .job-card__footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 12px;
-  gap: 8px;
   flex-wrap: wrap;
+  margin-left: -4px;
+  margin-right: -4px;
+}
+.job-card__footer > * {
+  margin-left: 4px;
+  margin-right: 4px;
 }
 
-/* Generic filter grid (was inline 2fr 1fr 1fr auto) */
 .filter-grid {
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 1fr;
   grid-template-columns: 1fr;
-  gap: 12px;
+  margin: -6px;
   align-items: end;
+}
+.filter-grid > * {
+  margin: 6px;
 }
 @media (min-width: 900px) {
   .filter-grid {
@@ -939,6 +933,7 @@ html[data-theme="dark"] .action-card:hover { background: var(--surface-3); }
   }
 }
 
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -1001,7 +996,7 @@ html[data-theme="dark"] .action-card:hover { background: var(--surface-3); }
   .btn--sm { min-height: 44px; padding: 9px 16px; }
 }
 
-/* Form primitives */
+/* Forms */
 .form-group { margin-bottom: 18px; }
 .form-label {
   display: block;
@@ -1065,13 +1060,16 @@ textarea.form-control {
 
 .form-actions {
   display: flex;
-  gap: 12px;
   justify-content: flex-end;
   flex-wrap: wrap;
   margin-top: 20px;
+  margin-left: -6px;
+  margin-right: -6px;
+}
+.form-actions > * {
+  margin: 6px;
 }
 .form-actions--start { justify-content: flex-start; }
-@media (max-width: 480px) { .form-actions--start { justify-content: stretch; } }
 
 @media (max-width: 480px) {
   .form-actions { justify-content: stretch; }
@@ -1111,10 +1109,10 @@ textarea.form-control {
   font-size: 20px;
 }
 
+/* Alerts & Badges */
 .alert {
   padding: 14px 16px;
   border-radius: var(--radius);
-  /*border-left: 3px solid;*/
   font-size: 14px;
   margin-bottom: 20px;
   overflow-wrap: anywhere;
@@ -1128,6 +1126,22 @@ textarea.form-control {
   margin-bottom: 4px;
   color: var(--text);
 }
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.badge--open     { background: var(--accent-soft); color: #6b5309; }
+html[data-theme="dark"] .badge--open { background: rgba(224,181,68,.15); color: var(--accent-bright); }
+.badge--closed   { background: var(--surface-2); color: var(--text-muted); }
+.badge--success  { background: var(--success-bg); color: var(--success); }
+.badge--danger   { background: var(--danger-bg); color: var(--danger); }
+.badge--info     { background: var(--info-bg); color: var(--info); }
 
 /* Tables */
 .table-wrap {
@@ -1167,13 +1181,11 @@ textarea.form-control {
 .table tr:last-child td { border-bottom: none; }
 .table tr:hover td { background: var(--surface-2); }
 
-/* GridView ItemStyle-Width override on narrow screens (was forcing fixed px) */
 @media (max-width: 768px) {
   .table td { width: auto !important; }
   .table th { width: auto !important; }
 }
 
-/* Mobile stacked-card mode (psc-tables.js adds .js-stack and data-label) */
 .table.js-stack { min-width: 0; }
 @media (max-width: 767px) {
   .table.js-stack thead { display: none; }
@@ -1205,7 +1217,6 @@ textarea.form-control {
     margin-bottom: 2px;
   }
 }
-/* Appended to the UI PRIMITIVES section of psc-theme.css */
 .table__truncate {
   display: block;
   max-width: 400px;
@@ -1222,23 +1233,49 @@ textarea.form-control {
 }
 .table.js-stack .table__truncate { white-space: normal; max-width: none; }
 
-.badge {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .5px;
+/* Modals */
+.modal-overlay {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  padding-top: max(16px, env(safe-area-inset-top, 0px));
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
 }
-.badge--open     { background: var(--accent-soft); color: #6b5309; }
-html[data-theme="dark"] .badge--open { background: rgba(224,181,68,.15); color: var(--accent-bright); }
-.badge--closed   { background: var(--surface-2); color: var(--text-muted); }
-.badge--success  { background: var(--success-bg); color: var(--success); }
-.badge--danger   { background: var(--danger-bg); color: var(--danger); }
-.badge--info     { background: var(--info-bg); color: var(--info); }
+.modal {
+  position: relative;
+  z-index: 10000;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 24px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+@media (max-width: 640px) {
+  .modal-overlay {
+    align-items: stretch;
+    padding: 0;
+  }
+  .modal {
+    max-width: none;
+    max-height: none;
+    min-height: 100vh;
+    min-height: 100dvh;
+    border-radius: 0;
+    border: none;
+  }
+}
 
-/* Empty / error states */
+/* States and Toasts */
 .state {
   text-align: center;
   padding: 60px 24px;
@@ -1257,7 +1294,6 @@ html[data-theme="dark"] .badge--open { background: rgba(224,181,68,.15); color: 
 html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
 .state__mark--error { color: var(--danger); }
 .state__mark--info  { color: var(--info); }
-
 .state__title {
   font-family: var(--font-serif);
   font-size: 24px;
@@ -1275,22 +1311,26 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
 }
 .state__actions {
   display: flex;
-  gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
+  margin: -6px;
+}
+.state__actions > * {
+  margin: 6px;
 }
 
-/* Toast */
 .toast-stack {
   position: fixed;
   top: 16px;
   right: 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
   z-index: 500;
   pointer-events: none;
   max-width: calc(100vw - 32px);
+}
+.toast-stack > * + * {
+  margin-top: 10px;
 }
 @supports (top: env(safe-area-inset-top)) {
   .toast-stack {
@@ -1301,7 +1341,6 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
 .toast {
   background: var(--surface);
   border: 1px solid var(--border);
-  /*border-left: 4px solid var(--accent);*/
   border-radius: var(--radius);
   padding: 14px 16px;
   min-width: 280px;
@@ -1314,7 +1353,6 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   from { opacity: 0; transform: translateY(-8px) translateX(8px); }
   to   { opacity: 1; transform: translateY(0) translateX(0); }
 }
-
 .toast__title {
   font-weight: 700;
   font-size: 14px;
@@ -1344,7 +1382,7 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   .toast { min-width: 0; width: 100%; max-width: 100%; }
 }
 
-/* Auth card */
+/* Auth Layout */
 .auth-wrap {
   min-height: calc(100vh - var(--header-h) - 40px);
   min-height: calc(100dvh - var(--header-h) - 40px);
@@ -1404,7 +1442,7 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   color: var(--text-muted);
 }
 
-/* Sidebar credit */
+/* Footer Elements */
 .sidebar__credit {
   display: flex;
   align-items: center;
@@ -1449,30 +1487,6 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   width: 18px;
   height: 18px;
 }
-.shell[data-collapsed="true"] .sidebar__credit::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  left: calc(100% + 12px);
-  top: 50%;
-  transform: translateY(-50%) translateX(-4px);
-  background: #0f0f0f;
-  color: #fdf6e3;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .15s, transform .15s;
-  z-index: 300;
-  box-shadow: 0 4px 12px rgba(0,0,0,.25);
-}
-.shell[data-collapsed="true"] .sidebar__credit:hover::after,
-.shell[data-collapsed="true"] .sidebar__credit:focus-visible::after {
-  opacity: 1;
-  transform: translateY(-50%) translateX(0);
-}
 @media (max-width: 900px) {
   .shell[data-mobile-open="true"] .sidebar__credit {
     justify-content: flex-start;
@@ -1481,7 +1495,7 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   }
 }
 
-/* Prose list */
+/* Utilities */
 .prose-list {
   line-height: 1.85;
   padding-left: 20px;
@@ -1489,15 +1503,14 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   color: var(--text);
   overflow-wrap: anywhere;
 }
-
-/* Resource actions (PuioContent) */
 .resource-actions {
   display: flex;
-  gap: 20px;
   flex-wrap: wrap;
+  margin: -10px;
 }
-
-/* Utility */
+.resource-actions > * {
+  margin: 10px;
+}
 .text-center { text-align: center; }
 .mt-0 { margin-top: 0; }
 .mb-0 { margin-bottom: 0; }
@@ -1507,8 +1520,11 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
   flex-wrap: wrap;
+  margin: -6px;
+}
+.flex-between > * {
+  margin: 6px;
 }
 .sr-only {
   position: absolute;
@@ -1526,13 +1542,13 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   }
 }
 
-/* ---------- Material Symbols Outlined (variable) ---------- */
+/* Material Symbols Font overrides */
 @font-face {
   font-family: 'Material Symbols Outlined';
   font-style: normal;
   font-weight: 100 700;
   font-display: block;
-  src: url('https://fonts.gstatic.com/s/materialsymbolsoutlined/v213/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHOejdc0kzUJPvbB--NyU9MK8DOMocyBFBdPsQQ.woff2') format('woff2');
+  src: url('../fonts/material-symbols/material-symbols-outlined.woff2') format('woff2');
 }
 
 .material-symbols-outlined {
@@ -1551,19 +1567,16 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  
-  /* HIDES THE TEXT UNTIL ICON LOADS */
   color: transparent; 
 }
 
-/* Forces the icons inside buttons (like "Sign in") to be visible */
 .btn .material-symbols-outlined,
 .icon-btn .material-symbols-outlined,
-.theme-toggle .material-symbols-outlined.sidebar__icon {
+.theme-toggle .material-symbols-outlined,
+.sidebar__icon {
   color: inherit !important;
 }
 
-/* Loading state */
 .btn.is-loading {
   cursor: progress;
   opacity: 0.85;
@@ -1585,154 +1598,46 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   to { transform: rotate(360deg); }
 }
 
-/* ============================================================
-   MODALS (extracted from inline styles on Admin pages)
-   ============================================================ */
-.modal-overlay {
-  position: fixed;
-  top: 0; right: 0; bottom: 0; left: 0;
-  background: rgba(0,0,0,.5);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  padding-top: max(16px, env(safe-area-inset-top, 0px));
-  padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
-  overflow-y: auto;
-}
-.modal {
-  position: relative;
-  z-index: 10000;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  padding: 24px;
-  width: 100%;
-  max-width: 560px;
-  max-height: 85vh;
-  overflow-y: auto;
-}
-@media (max-width: 640px) {
-  .modal-overlay {
-    align-items: stretch;
-    padding: 0;
-  }
-  .modal {
-    max-width: none;
-    max-height: none;
-    min-height: 100vh;
-    min-height: 100dvh;
-    border-radius: 0;
-    border: none;
-  }
-}
-
-/* ============================================================
-   IE11 FALLBACK LAYER
-   Scoped to IE11 via (-ms-high-contrast) feature query — never parsed
-   by modern browsers. Overrides -ms-grid placements to ensure the
-   desktop sidebar/header/main grid lays out correctly.
-   ============================================================ */
+/* IE11 specific overrides */
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-  /* Desktop grid: sidebar (col1, rows1-2), header (col2, row1), main (col2, row2) */
   .sidebar { -ms-grid-column: 1; -ms-grid-row: 1; -ms-grid-row-span: 2; }
   .header  { -ms-grid-column: 2; -ms-grid-row: 1; }
   .main    { -ms-grid-column: 2; -ms-grid-row: 2; }
 
-  /* Collapsed desktop */
   .shell[data-collapsed="true"] { -ms-grid-columns: 68px 1fr; }
 
-  /* Mobile: display:block wins, so no grid needed */
   @media (max-width: 900px) {
     .sidebar { -ms-grid-column: auto; -ms-grid-row: auto; -ms-grid-row-span: 1; }
     .header  { -ms-grid-column: auto; -ms-grid-row: auto; }
     .main    { -ms-grid-column: auto; -ms-grid-row: auto; }
   }
 
-  /* -ms-grid does not support auto-fill/auto-fit; stat-grid uses explicit 2-col at <800 and 4-col at >=800 */
   .stat-grid { -ms-grid-columns: (1fr)[2]; }
   @media (min-width: 800px) { .stat-grid { -ms-grid-columns: (1fr)[4]; } }
   @media (max-width: 480px) { .stat-grid { -ms-grid-columns: 1fr; } }
 
-  /* -ms-grid auto-placement doesn't work; action-grid uses explicit 1/2/3-col */
   .action-grid { -ms-grid-columns: 1fr; }
   @media (min-width: 600px) { .action-grid { -ms-grid-columns: (1fr)[2]; } }
   @media (min-width: 900px) { .action-grid { -ms-grid-columns: (1fr)[3]; } }
   @media (max-width: 480px) { .action-grid { -ms-grid-columns: 1fr; } }
 
-  /* filter-grid explicit at >=900 */
   .filter-grid { -ms-grid-columns: 1fr; }
   @media (min-width: 900px) { .filter-grid { -ms-grid-columns: 2fr 1fr 1fr auto; } }
 
-  /* IE11 does not support gap on flex; add margins on known pairs */
   .header > * + * { margin-left: 16px; }
   .header__actions > * + * { margin-left: 8px; }
   .sidebar__link > * + * { margin-left: 12px; }
   .job-card__top > * + * { margin-left: 12px; }
 
-  /* IE11 flex-grow on header__title */
   .header__title { -ms-flex: 1 1 0%; flex: 1 1 0%; }
-
-  /* object-fit fallback */
   .header__brand-logo,
   .auth-card__head img { height: auto; max-height: 44px; }
 
-  /* dvh unsupported: fallback to vh (already declared first) */
   .shell { min-height: 100vh; }
   .sidebar { height: 100vh; }
   .auth-wrap { min-height: calc(100vh - 112px); }
   .modal { max-height: 85vh; }
-  
-  /* ---------------------------------------------------------
-     FIX: IE11 does not support `gap` in Grid or Flexbox.
-     We use margins to replicate the gap, and negative margins
-     on the parent to prevent the outer edges from expanding.
-     --------------------------------------------------------- */
 
-  /* 1. Grid layouts (stat-grid, action-grid, filter-grid) */
-  .stat-grid, .action-grid, .filter-grid {
-    margin: -8px; /* Negative margin compensates for child margins */
-  }
-  
-  .stat, .action-card, .filter-grid > * {
-    margin: 8px; /* Replaces gap: 16px; */
-  }
-
-  /* Adjust for different breakpoints where gap changes */
-  @media (max-width: 480px) {
-    .action-grid, .stat-grid { margin: 0; }
-    .action-card, .stat { margin: 0 0 16px 0; } /* Stack vertically with bottom margin */
-  }
-
-  /* 2. Flexbox layouts (flex-between, job-card__top, etc) */
-  .flex-between {
-    margin: -6px; /* Negative margin compensates for child margins */
-  }
-  .flex-between > * {
-    margin: 6px; /* Replaces gap: 12px; */
-  }
-
-  .job-card__top {
-    margin: -6px;
-  }
-  .job-card__top > * {
-    margin: 6px;
-  }
-  
-  .job-card__footer {
-    margin: -4px;
-  }
-  .job-card__footer > * {
-    margin: 4px;
-  }
-    /* ---------------------------------------------------------
-     FIX: IE11 Icon Visibility (Home, Theme Toggle)
-     IE11 drops `font-feature-settings` without the prefix.
-     --------------------------------------------------------- */
-  
-  /* 1. Force IE11 to process ligatures */
   .material-symbols-outlined,
   .sidebar__icon,
   .theme-toggle .icon-sun,
@@ -1740,7 +1645,6 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
     font-feature-settings: "liga" !important;
   }
 
-  /* 2. Override the transparent text color so icons actually show in IE11 */
   .sidebar__icon,
   .theme-toggle .icon-sun,
   .theme-toggle .icon-moon,
@@ -1749,10 +1653,7 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
     color: inherit !important;
   }
   
-  /* Make sure the theme toggle icons get the right color */
   .theme-toggle .icon-sun { color: var(--text) !important; }
   .theme-toggle .icon-moon { color: var(--text) !important; }
-  
-  /* Make sure the sidebar icons get the right color */
   .sidebar__icon { color: var(--sidebar-text) !important; }
 }
