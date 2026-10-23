@@ -568,7 +568,7 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   -ms-grid-row: 2;
   -ms-grid-column: 2;
   grid-area: main;
-  padding: 32px 32px 48px; /* Slightly increased top padding to push buttons down */
+  padding: 32px 32px 48px;
   padding-left: max(32px, env(safe-area-inset-left, 0px));
   padding-right: max(32px, env(safe-area-inset-right, 0px));
   max-width: 1400px;
@@ -681,7 +681,7 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   }
 
   .main {
-    padding: 24px 16px 40px; /* Added more top padding on mobile */
+    padding: 24px 16px 40px;
     padding-left: max(16px, env(safe-area-inset-left, 0px));
     padding-right: max(16px, env(safe-area-inset-right, 0px));
     padding-bottom: max(40px, env(safe-area-inset-bottom, 0px));
@@ -749,9 +749,9 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   display: grid;
   -ms-grid-columns: (1fr)[2];
   grid-template-columns: repeat(2, 1fr);
-  /* Use margins instead of gap to support older Android WebViews */
   margin: -8px;
-  margin-bottom: 20px; 
+  margin-top: 24px; /* Added explicit top gap to separate from header button */
+  margin-bottom: 24px; 
 }
 @supports (grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr))) {
   .stat-grid {
@@ -759,7 +759,7 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   }
 }
 @media (max-width: 480px) {
-  .stat-grid { grid-template-columns: 1fr; margin: 0; margin-bottom: 12px; }
+  .stat-grid { grid-template-columns: 1fr; margin: 0; margin-top: 16px; margin-bottom: 16px; }
 }
 @media (min-width: 800px) {
   .stat-grid { grid-template-columns: repeat(4, 1fr); }
@@ -824,7 +824,8 @@ html[data-theme="dark"] a.stat--link:focus-visible {
   -ms-grid-columns: 1fr;
   grid-template-columns: 1fr;
   margin: -8px;
-  margin-bottom: 20px;
+  margin-top: 24px; /* Added explicit top gap to separate from Quick Actions heading */
+  margin-bottom: 24px;
 }
 @media (min-width: 600px) {
   .action-grid { -ms-grid-columns: 1fr 1fr; grid-template-columns: repeat(2, 1fr); }
@@ -841,12 +842,15 @@ html[data-theme="dark"] a.stat--link:focus-visible {
   }
 }
 @media (max-width: 480px) {
-  .action-grid { grid-template-columns: 1fr; margin: 0; margin-bottom: 12px; }
+  .action-grid { grid-template-columns: 1fr; margin: 0; margin-top: 16px; margin-bottom: 16px; }
 }
 
+/* Modernized Card styling */
 .action-card {
-  display: block;
-  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -866,11 +870,64 @@ html[data-theme="dark"] a.stat--link:focus-visible {
   box-shadow: var(--shadow);
   text-decoration: none;
   color: var(--text);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   background: var(--surface-2);
 }
 html[data-theme="dark"] .action-card:hover { background: var(--surface-3); }
 
+/* New card typography classes */
+.job-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.job-card__ref {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.job-card__title {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--text);
+  line-height: 1.35;
+  letter-spacing: -0.2px;
+}
+.job-card__desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+.job-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  margin-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.job-card__date {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.job-card__date strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Forces the title and description block to stretch, pushing the footer down */
+.action-card > div:first-child {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Legacy classes kept for other pages */
 .action-card__title {
   font-size: 15px;
   font-weight: 700;
@@ -899,20 +956,6 @@ html[data-theme="dark"] .action-card:hover { background: var(--surface-3); }
 .job-card__top > * {
   margin-left: 6px;
   margin-right: 6px;
-}
-
-.job-card__footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  flex-wrap: wrap;
-  margin-left: -4px;
-  margin-right: -4px;
-}
-.job-card__footer > * {
-  margin-left: 4px;
-  margin-right: 4px;
 }
 
 .filter-grid {

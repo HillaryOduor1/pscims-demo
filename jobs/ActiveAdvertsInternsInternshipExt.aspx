@@ -63,14 +63,16 @@
             <asp:Repeater ID="rptInternships" runat="server">
                 <ItemTemplate>
                     <div class="action-card" style="cursor:default;">
-                        <div class="job-card__top">
-                            <span style="font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);"><%# Eval("Reference") %></span>
-                            <span class='badge <%# (bool)Eval("IsOpen") ? "badge--open" : "badge--closed" %>'><%# (bool)Eval("IsOpen") ? "Open" : "Closed" %></span>
+                        <div>
+                            <div class="job-card__header">
+                                <span class="job-card__ref"><%# Eval("Reference") %></span>
+                                <span class='badge <%# (bool)Eval("IsOpen") ? "badge--open" : "badge--closed" %>'><%# (bool)Eval("IsOpen") ? "Open" : "Closed" %></span>
+                            </div>
+                            <p class="job-card__title"><%# Eval("Title").ToString().Replace(" — ", " ") %></p>
+                            <p class="job-card__desc"><%# Eval("Ministry") %> &middot; <%# Eval("Location") %></p>
                         </div>
-                        <p class="action-card__title"><%# Eval("Title") %></p>
-                        <p class="action-card__desc" style="margin-bottom:12px;"><%# Eval("Ministry") %> &nbsp;·&nbsp; <%# Eval("Location") %></p>
                         <div class="job-card__footer">
-                            <span style="color:var(--text-muted);">Closes <strong style="color:var(--text);"><%# Eval("ClosesOn", "{0:dd MMM yyyy}") %></strong></span>
+                            <span class="job-card__date">Closes <strong><%# Eval("ClosesOn", "{0:dd MMM yyyy}") %></strong></span>
                             <a href='<%# "loginPage.aspx?internshipId=" + Eval("Id") %>' class="btn btn--primary btn--sm" data-nav>Apply</a>
                         </div>
                     </div>

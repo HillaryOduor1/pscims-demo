@@ -38,6 +38,8 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe ^
   jobs\Application.aspx.designer.cs ^
   jobs\loginPage.aspx.cs ^
   jobs\loginPage.aspx.designer.cs ^
+  jobs\ForgotPassword.aspx.cs ^
+  jobs\ForgotPassword.aspx.designer.cs ^
   jobs\RegisterProfile.aspx.cs ^
   jobs\RegisterProfile.aspx.designer.cs ^
   jobs\VerifyOtp.aspx.cs ^

@@ -7,7 +7,7 @@
     <div class="auth-wrap">
         <div class="auth-card">
             <div class="auth-card__head">
-                <img src="<%= ResolveUrl("~/Content/img/psc-logo.webp") %>" alt="Public Service Commission" onerror="this.style.display='none'" />
+                <img src="<%= ResolveUrl("~/Content/img/psc-logo.png") %>" alt="Public Service Commission" onerror="this.style.display='none'" />
                 <h1>Sign in to PSCIMS</h1>
                 <p>Public Service Commission Information Management System</p>
             </div>
@@ -38,13 +38,12 @@
                     </button>
                 </div>
                 <div class="form-hint">
-                    <asp:HyperLink ID="lnkForgot" runat="server" Text="Forgot your password?" />
+                    <asp:HyperLink ID="lnkForgot" runat="server" Text="Forgot your password?" NavigateUrl="~/jobs/ForgotPassword.aspx" />
                 </div>
             </div>
 
             <asp:HiddenField ID="hfCsrf" runat="server" />
 
-            <%-- Changed to LinkButton so it renders an <a> tag --%>
             <asp:LinkButton ID="btnLogin" runat="server"
                 CssClass="btn btn--primary btn--lg btn--block"
                 OnClick="btnLogin_Click"
