@@ -3,28 +3,81 @@
 <html lang="en" data-theme="light">
 <head runat="server">
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, shrink-to-fit=no" />
+
+    <!-- COLOR SCHEME + iOS STATUS BAR -->
+    <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#c9a227" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
     <meta name="format-detection" content="telephone=no" />
-    
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="PSCIMS" />
 
-    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server">PSCIMS &mdash; Public Service Commission</asp:ContentPlaceHolder></title>
+    <!-- PRIMARY SEO -->
+    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server">PSCIMS &mdash; Public Service Commission Kenya</asp:ContentPlaceHolder></title>
+    <meta name="description" content="PSCIMS &mdash; Public Service Commission Kenya Information Management System. Apply for advertised jobs, internships, and track your applications in a citizen-centric public service." />
+    <meta name="keywords" content="PSCIMS, Public Service Commission, PSC Kenya, public service, careers, government jobs, Kenya, civil service, internships, applications" />
+    <meta name="author" content="Hillary Oduor on behalf of The Public Service Commission Kenya" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
 
-    <link rel="icon" href="<%= ResolveUrl("~/favicon.ico") %>" sizes="any" />
-    <link rel="icon" type="image/png" sizes="96x96" href="<%= ResolveUrl("~/Content/img/favicon-96x96.png") %>" />
-    <link rel="apple-touch-icon" sizes="180x180" href="<%= ResolveUrl("~/Content/img/apple-touch-icon.png") %>" />
+    <!-- Manifest -->
     <link rel="manifest" href="<%= ResolveUrl("~/Content/img/site.webmanifest") %>" />
+
+    <!-- CANONICAL + HREFLANG + OPEN GRAPH + TWITTER (overridable per page) -->
+    <asp:ContentPlaceHolder ID="SEOMeta" runat="server">
+        <link rel="canonical" href="<%= Request.Url.GetLeftPart(UriPartial.Path) %>" />
+        <link rel="alternate" hreflang="en" href="<%= Request.Url.GetLeftPart(UriPartial.Path) %>" />
+        <link rel="alternate" hreflang="x-default" href="<%= Request.Url.GetLeftPart(UriPartial.Path) %>" />
+
+        <!-- OPEN GRAPH (WhatsApp, Facebook, LinkedIn) -->
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="PSCIMS" />
+        <meta property="og:locale" content="en_KE" />
+        <meta property="og:url" content="<%= Request.Url.GetLeftPart(UriPartial.Path) %>" />
+        <meta property="og:title" content="PSCIMS &mdash; Public Service Commission Kenya" />
+        <meta property="og:description" content="PSCIMS &mdash; Apply for advertised jobs, internships, and track your applications with the Public Service Commission Kenya." />
+        <meta property="og:image" content="<%= Request.Url.GetLeftPart(UriPartial.Authority) + ResolveUrl("~/Content/img/pscims-og.jpg") %>" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="PSCIMS &mdash; Public Service Commission Kenya" />
+
+        <!-- TWITTER / X CARDS -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@PSCKenya" />
+        <meta name="twitter:creator" content="@PSCKenya" />
+        <meta name="twitter:url" content="<%= Request.Url.GetLeftPart(UriPartial.Path) %>" />
+        <meta name="twitter:title" content="PSCIMS &mdash; Public Service Commission Kenya" />
+        <meta name="twitter:description" content="PSCIMS &mdash; Apply for advertised jobs, internships, and track your applications with the Public Service Commission Kenya." />
+        <meta name="twitter:image" content="<%= Request.Url.GetLeftPart(UriPartial.Authority) + ResolveUrl("~/Content/img/pscims-og.jpg") %>" />
+        <meta name="twitter:image:alt" content="PSCIMS &mdash; Public Service Commission Kenya" />
+    </asp:ContentPlaceHolder>
+
+    <!-- ANDROID / CHROME PWA -->
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="application-name" content="PSCIMS" />
 
+    <!-- APPLE / iOS PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="PSCIMS" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- FAVICON SET -->
+    <link rel="icon" href="<%= ResolveUrl("~/favicon.ico") %>" sizes="any" />
+    <link rel="icon" type="image/png" sizes="96x96" href="<%= ResolveUrl("~/Content/img/favicon-96x96.png") %>" />
+    <link rel="icon" type="image/png" sizes="32x32" href="<%= ResolveUrl("~/Content/img/favicon-96x96.png") %>" />
+    <link rel="icon" type="image/png" sizes="16x16" href="<%= ResolveUrl("~/Content/img/favicon-96x96.png") %>" />
+    <link rel="shortcut icon" href="<%= ResolveUrl("~/Content/img/favicon-96x96.png") %>" />
+    <link rel="apple-touch-icon" sizes="180x180" href="<%= ResolveUrl("~/Content/img/apple-touch-icon.png") %>" />
+
+    <!-- PERFORMANCE — FONT LOADING -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" href="<%= ResolveUrl("~/Content/fonts/material-symbols/material-symbols-outlined.woff2") %>" as="font" type="font/woff2" crossorigin />
 
+    <!-- CRITICAL: THEME INIT (ES5) -->
     <script>
-        (function(){
+        (function () {
             try {
                 var saved = localStorage.getItem('pscims-theme');
                 var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -40,69 +93,61 @@
     <link href="<%= ResolveUrl("~/Content/css/psc-theme.css") %>?v=<%= CssVersion("~/Content/css/psc-theme.css") %>&v=999" rel="stylesheet" />
     <link href="<%= ResolveUrl("~/Content/css/psc-components.css") %>?v=<%= CssVersion("~/Content/css/psc-components.css") %>" rel="stylesheet" />
     <link href="<%= ResolveUrl("~/Content/css/psc-print.css") %>?v=<%= CssVersion("~/Content/css/psc-print.css") %>" rel="stylesheet" media="print" />
-    
-    <style>
-        /* Initial loader CSS */
-        .app-loader {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: #f5f5f5; z-index: 99999;
-            display: none;
-            align-items: center; justify-content: center;
-            opacity: 1; transition: opacity 0.3s ease-out;
+
+    <!-- STRUCTURED DATA — JSON-LD -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "PSCIMS \u2014 Public Service Commission Kenya",
+            "alternateName": "PSCIMS",
+            "url": "<%= Request.Url.GetLeftPart(UriPartial.Authority) %>/",
+            "description": "PSCIMS \u2014 Public Service Commission Kenya Information Management System for job applications and recruitment.",
+            "publisher": {
+                "@type": "GovernmentOrganization",
+                "name": "Public Service Commission Kenya",
+                "alternateName": "PSC Kenya",
+                "url": "https://www.publicservice.go.ke",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "<%= Request.Url.GetLeftPart(UriPartial.Authority) + ResolveUrl("~/Content/img/favicon-96x96.png") %>",
+                    "width": 96,
+                    "height": 96
+                }
+            }
         }
-        html[data-theme="dark"] .app-loader { background: #0a0a0a; }
-        .app-loader.is-visible { display: flex; }
-        .app-loader.is-hidden { opacity: 0; pointer-events: none; }
-        .loader-dots { display: flex; gap: 8px; align-items: center; height: 40px; }
-        .loader-dots div {
-            width: 12px; height: 12px; background-color: #c9a227; border-radius: 50%;
-            animation: dot-pulse 1.2s infinite ease-in-out both;
-            -webkit-animation: dot-pulse 1.2s infinite ease-in-out both;
-        }
-        .loader-dots div:nth-child(1) { animation-delay: -0.4s; -webkit-animation-delay: -0.4s; }
-        .loader-dots div:nth-child(2) { animation-delay: -0.2s; -webkit-animation-delay: -0.2s; }
-        .loader-dots div:nth-child(3) { animation-delay: 0s; -webkit-animation-delay: 0s; }
-        .loader-dots div:nth-child(4) { animation-delay: 0.2s; -webkit-animation-delay: 0.2s; }
-        .loader-dots div:nth-child(5) { animation-delay: 0.4s; -webkit-animation-delay: 0.4s; }
-        @keyframes dot-pulse {
-            0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
-            40% { transform: scale(1); opacity: 1; }
-        }
-        @-webkit-keyframes dot-pulse {
-            0%, 80%, 100% { -webkit-transform: scale(0); opacity: 0.3; }
-            40% { -webkit-transform: scale(1); opacity: 1; }
-        }
-    </style>
+    </script>
 
     <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
 </head>
 <body>
+    <!-- INITIAL APP LOADER -->
     <div class="app-loader" id="appLoader" aria-hidden="true">
-        <div class="loader-dots">
-            <div></div><div></div><div></div><div></div><div></div>
-        </div>
+        <div class="psc-loader"></div>
     </div>
-    
+
     <script>
-        (function() {
-            // ES5 Compatible string check (replaces endsWith)
+        (function () {
+            // ES5-compatible string check (replaces endsWith)
             function endsWithCompat(value, suffix) {
                 return value.indexOf(suffix, value.length - suffix.length) !== -1;
             }
 
             var loader = document.getElementById("appLoader");
             var path = window.location.pathname.toLowerCase();
-            var isRoot = path === "/" || 
-                         endsWithCompat(path, "/jobs/default.aspx") || 
-                         endsWithCompat(path, "/pscims/") || 
-                         endsWithCompat(path, "/pscims/jobs/default.aspx");
+            var isRoot =
+                path === "/" ||
+                path === "/pscims" ||
+                endsWithCompat(path, "/jobs/default.aspx") ||
+                endsWithCompat(path, "/pscims/") ||
+                endsWithCompat(path, "/pscims/jobs/default.aspx");
 
             if (loader && isRoot) {
                 loader.classList.add("is-visible");
-                document.addEventListener("DOMContentLoaded", function() {
+                document.addEventListener("DOMContentLoaded", function () {
                     loader.classList.add("is-hidden");
-                    setTimeout(function() { 
-                        loader.style.display = "none"; 
+                    setTimeout(function () {
+                        loader.style.display = "none";
                         loader.classList.remove("is-visible");
                     }, 300);
                 });
@@ -234,43 +279,48 @@
                 </div>
             </aside>
 
-            <header class="header">
-                <button type="button" id="sidebarToggle" class="header__toggle" data-action="toggle-sidebar" data-tooltip="Toggle sidebar" aria-label="Toggle sidebar" aria-controls="shell" aria-expanded="false">
-                    <span class="material-symbols-outlined" aria-hidden="true">menu</span>
-                </button>
-                <div class="header__brand" aria-label="Public Service Commission">
-                    <img class="header__brand-logo" src="<%= ResolveUrl("~/Content/img/coat-of-arms.png") %>" alt="Coat of Arms of the Republic of Kenya" />
-                    <span class="header__brand-divider" aria-hidden="true"></span>
-                    <img class="header__brand-logo header__brand-logo--psc" src="<%= ResolveUrl("~/Content/img/psc-logo.png") %>" alt="Public Service Commission" onerror="this.style.display='none'" />
-                </div>
-                <h1 class="header__title" id="pageTitle" title="<asp:ContentPlaceHolder ID="PageTitleText" runat="server">Dashboard</asp:ContentPlaceHolder>">
-                    <asp:ContentPlaceHolder ID="PageTitle" runat="server">Dashboard</asp:ContentPlaceHolder>
-                </h1>
-                <div class="header__actions">
-                    <button type="button" class="icon-btn theme-toggle" data-action="toggle-theme" data-tooltip="Toggle theme" aria-label="Toggle light and dark theme">
-                        <span class="material-symbols-outlined icon-sun" aria-hidden="true">light_mode</span>
-                        <span class="material-symbols-outlined icon-moon" aria-hidden="true">dark_mode</span>
+            <!-- MAIN WRAPPER TO FIX DESKTOP LAYOUT -->
+            <div class="main-wrapper">
+                <header class="header">
+                    <button type="button" id="sidebarToggle" class="header__toggle" data-action="toggle-sidebar" data-tooltip="Toggle sidebar" aria-label="Toggle sidebar" aria-controls="shell" aria-expanded="false">
+                        <span class="material-symbols-outlined" aria-hidden="true">menu</span>
                     </button>
-                    <asp:PlaceHolder ID="phHeaderAnonymous" runat="server">
-                        <a href="<%= ResolveUrl("~/jobs/loginPage.aspx") %>" class="btn btn--outline d-none-mobile" title="Sign in to your account">
-                            <span class="material-symbols-outlined" style="font-size: 20px;" aria-hidden="true">login</span>
-                            Sign in
-                        </a>
-                    </asp:PlaceHolder>
-                    <asp:PlaceHolder ID="phHeaderAuthenticated" runat="server" Visible="false">
-                        <a href="<%= ResolveUrl("~/jobs/logout.aspx") %>" class="btn btn--outline d-none-mobile" title="Sign out">
-                            <span class="material-symbols-outlined" style="font-size: 20px;" aria-hidden="true">logout</span>
-                            Sign out
-                        </a>
-                    </asp:PlaceHolder>
-                </div>
-            </header>
+                    <div class="header__brand" aria-label="Public Service Commission">
+                        <img class="header__brand-logo" src="<%= ResolveUrl("~/Content/img/coat-of-arms.png") %>" alt="Coat of Arms of the Republic of Kenya" />
+                        <span class="header__brand-divider" aria-hidden="true"></span>
+                        <img class="header__brand-logo header__brand-logo--psc" src="<%= ResolveUrl("~/Content/img/psc-logo.png") %>" alt="Public Service Commission" onerror="this.style.display='none'" />
+                    </div>
+                    <h1 class="header__title" id="pageTitle" title="<asp:ContentPlaceHolder ID="PageTitleText" runat="server">Dashboard</asp:ContentPlaceHolder>">
+                        <asp:ContentPlaceHolder ID="PageTitle" runat="server">Dashboard</asp:ContentPlaceHolder>
+                    </h1>
+                    <div class="header__actions">
+                        <button type="button" class="icon-btn theme-toggle" data-action="toggle-theme" data-tooltip="Toggle theme" aria-label="Toggle light and dark theme">
+                            <span class="material-symbols-outlined icon-sun" aria-hidden="true">light_mode</span>
+                            <span class="material-symbols-outlined icon-moon" aria-hidden="true">dark_mode</span>
+                        </button>
+                        <asp:PlaceHolder ID="phHeaderAnonymous" runat="server">
+                            <a href="<%= ResolveUrl("~/jobs/loginPage.aspx") %>" class="btn btn--outline d-none-mobile" title="Sign in to your account">
+                                <span class="material-symbols-outlined" style="font-size: 20px;" aria-hidden="true">login</span>
+                                Sign in
+                            </a>
+                        </asp:PlaceHolder>
+                        <asp:PlaceHolder ID="phHeaderAuthenticated" runat="server" Visible="false">
+                            <a href="<%= ResolveUrl("~/jobs/logout.aspx") %>" class="btn btn--outline d-none-mobile" title="Sign out">
+                                <span class="material-symbols-outlined" style="font-size: 20px;" aria-hidden="true">logout</span>
+                                Sign out
+                            </a>
+                        </asp:PlaceHolder>
+                    </div>
+                </header>
 
-            <main id="main" class="main" role="main" tabindex="-1">
-                <div id="mainContent">
-                    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
-                </div>
-            </main>
+                <main id="main" class="main" role="main" tabindex="-1">
+                    <div id="mainContent">
+                        <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+                    </div>
+                </main>
+            </div>
+            <!-- END MAIN WRAPPER -->
+
         </div>
         <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
     </form>

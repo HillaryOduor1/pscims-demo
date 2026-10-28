@@ -159,20 +159,16 @@ button, input, select, textarea {
   .safe-left   { padding-left:   env(safe-area-inset-left, 0px); }
 }
 
-/* App Layout */
+/* ============================================================ */
+/* APP LAYOUT (DESKTOP)                                         */
+/* Uses fixed sidebar and margin-left to prevent flex collapse  */
+/* ============================================================ */
 .shell {
-  display: -ms-grid;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  min-height: 100vh;
-  min-height: 100dvh;
+  display: block; /* Changed from flex to block for perfect stacking */
+  height: 100vh;
+  height: 100dvh;
   position: relative;
-  overflow-x: hidden; 
+  overflow: hidden;
 }
 
 /* Sidebar */
@@ -187,9 +183,10 @@ button, input, select, textarea {
       -ms-flex-direction: column;
           flex-direction: column;
   overflow: hidden;
-  position: -webkit-sticky;
-  position: sticky;
+  position: fixed; /* Fixed to left side */
   top: 0;
+  left: 0;
+  bottom: 0;
   height: 100vh;
   height: 100dvh;
   width: var(--sidebar-w);
@@ -198,10 +195,6 @@ button, input, select, textarea {
   padding-top: env(safe-area-inset-top, 0px);
   transition: width .2s ease;
   z-index: 100;
-}
-
-.shell[data-collapsed="true"] .sidebar {
-  width: var(--sidebar-w-collapsed);
 }
 
 .sidebar__brand {
@@ -261,7 +254,7 @@ button, input, select, textarea {
   overscroll-behavior: contain;
   -ms-overflow-style: -ms-autohiding-scrollbar;
   -webkit-overflow-scrolling: touch;
-  min-height: 0; /* Critical for flexbox scrolling on iOS */
+  min-height: 0;
 }
 .sidebar__nav::-webkit-scrollbar { width: 6px; }
 .sidebar__nav::-webkit-scrollbar-thumb {
@@ -428,7 +421,6 @@ button, input, select, textarea {
 
 .sidebar__footer {
   padding: 10px 8px;
-  /* Safe area inset moved here to prevent double-counting with .sidebar */
   padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--sidebar-border);
   flex-shrink: 0;
@@ -448,16 +440,14 @@ button, input, select, textarea {
   padding-top: env(safe-area-inset-top, 0px);
   padding-right: max(20px, env(safe-area-inset-right, 0px));
   gap: 16px;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  min-height: var(--header-h);
+  height: var(--header-h);
+  width: calc(100% - var(--sidebar-w));
+  margin-left: var(--sidebar-w);
   flex-shrink: 0;
-  width: 100%;
+  transition: width .2s ease, margin-left .2s ease;
+  z-index: 50;
 }
 
-/* HEADER ICON FIX: Explicitly target icons inside buttons */
 .header__toggle {
   width: 44px; height: 44px;
   display: -webkit-inline-box;
@@ -563,7 +553,6 @@ button, input, select, textarea {
   position: relative;
 }
 
-/* HEADER ICON FIX: Explicitly target icons inside theme toggle */
 .icon-btn .material-symbols-outlined,
 .theme-toggle .icon-sun,
 .theme-toggle .icon-moon {
@@ -655,12 +644,25 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   padding-left: max(32px, env(safe-area-inset-left, 0px));
   padding-right: max(32px, env(safe-area-inset-right, 0px));
   max-width: 1400px;
-  width: 100%;
+  width: calc(100% - var(--sidebar-w));
+  margin-left: var(--sidebar-w);
+  height: calc(100vh - var(--header-h));
+  height: calc(100dvh - var(--header-h));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   min-width: 0;
   position: relative;
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  transition: width .2s ease, margin-left .2s ease;
+}
+
+/* Collapsed States */
+.shell[data-collapsed="true"] .sidebar {
+  width: var(--sidebar-w-collapsed);
+}
+.shell[data-collapsed="true"] .header,
+.shell[data-collapsed="true"] .main {
+  width: calc(100% - var(--sidebar-w-collapsed));
+  margin-left: var(--sidebar-w-collapsed);
 }
 
 .page-title {
@@ -686,21 +688,16 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   .page-sub { font-size: clamp(14px, 1.4vw, 15px); }
 }
 
-/* Responsive Breakpoints */
-@media (max-width: 1100px) {
-  .header__brand-logo { height: 38px; }
-  .header__brand-logo--psc { height: 38px; }
-  .header__brand { gap: 10px; }
-}
-
-/* MOBILE OVERRIDES - FIXES STICKY HEADER AND SIDEBAR SCROLL */
+/* ============================================================ */
+/* MOBILE OVERRIDES (iPhone 6+ etc)                             */
+/* ============================================================ */
 @media (max-width: 900px) {
   .shell {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
     display: block;
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: visible; /* Restores native body scroll */
   }
 
   body.is-drawer-open {
@@ -711,21 +708,23 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
     right: 0;
   }
 
-  /* Sticky Header on Mobile */
+  /* Sticky Header */
   .header {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
     width: 100%;
+    margin-left: 0;
+    height: auto;
+    min-height: var(--header-h);
   }
 
-  /* Fix Sidebar Cutoff: use height:100% so it doesn't go behind the iOS Safari toolbar */
+  /* Off-canvas Sidebar */
   .sidebar {
     position: fixed;
     top: 0; left: 0; bottom: 0;
     width: 300px;
     max-width: 85vw;
-    height: 100%;
     height: 100vh;
     height: 100dvh;
     z-index: 200;
@@ -744,7 +743,7 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
     -webkit-transform: translateX(0);
   }
 
-  /* Ensure nav scrolls smoothly to reveal footer */
+  /* Ensure nav scrolls smoothly */
   .sidebar__nav {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -794,13 +793,24 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
     padding-left: max(16px, env(safe-area-inset-left, 0px));
     padding-right: max(16px, env(safe-area-inset-right, 0px));
     padding-bottom: max(40px, env(safe-area-inset-bottom, 0px));
+    width: 100%;
+    margin-left: 0;
+    height: auto;
+    overflow-y: visible;
   }
+  
   .header { padding: 0 12px; gap: 10px; }
 
   .header__brand-logo { height: 34px; }
   .header__brand-logo--psc { height: 34px; }
   .header__brand-divider { height: 26px; }
   .header__brand { gap: 8px; }
+}
+
+@media (max-width: 1100px) {
+  .header__brand-logo { height: 38px; }
+  .header__brand-logo--psc { height: 38px; }
+  .header__brand { gap: 10px; }
 }
 
 @media (max-width: 640px) {
@@ -1788,14 +1798,9 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   color: transparent; 
-  /* FIX FOR iOS TEXT VISIBILITY */
   -webkit-text-fill-color: transparent; 
 }
 
-/* ============================================================ */
-/* FORCE ICON VISIBILITY FOR HEADER CONTROLS                    */
-/* This overrides any conflicting rules in psc-components.css   */
-/* ============================================================ */
 .header__toggle .material-symbols-outlined,
 .icon-btn .material-symbols-outlined,
 .theme-toggle .material-symbols-outlined {
@@ -1815,7 +1820,6 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   font-feature-settings: 'liga';
 }
 
-/* Sidebar icons need explicit color */
 .sidebar__icon {
   color: inherit !important;
   -webkit-text-fill-color: inherit !important;
@@ -1842,11 +1846,7 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   to { transform: rotate(360deg); }
 }
 
-/* ============================================================ */
-/* EXTREME COMPATIBILITY LAYER FOR iOS 6 / iPhone 6 AND BELOW   */
-/* ============================================================ */
-
-/* 1. Disable dangerous filters on old iOS */
+/* Extreme Compatibility Layer for iOS 6 / iPhone 6 and below */
 @supports not (backdrop-filter: blur(10px)) {
   .modal-overlay, .sidebar-overlay {
     -webkit-backdrop-filter: none !important;
@@ -1854,7 +1854,6 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   }
 }
 
-/* 2. Fallback for flexbox gap on iOS < 14.1 */
 @supports not (gap: 1px) {
   .header > * + * { margin-left: 10px; }
   .header__brand > * + * { margin-left: 8px; }
@@ -1870,7 +1869,6 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   }
 }
 
-/* 3. Mobile Header sizing for iPhone 6 (320px) */
 @media (max-width: 640px) {
   .header {
     padding-left: 8px;
@@ -1900,5 +1898,117 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
     -webkit-flex-shrink: 0;
     -ms-flex-negative: 0;
     flex-shrink: 0;
+  }
+}
+
+/* ============================================================ */
+/* INITIAL APP LOADER (Full Screen Overlay)                     */
+/* ============================================================ */
+
+.app-loader {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0;
+  background: var(--bg, #f5f5f5); 
+  z-index: 99999;
+  display: none;
+  align-items: center; 
+  justify-content: center;
+  opacity: 1; 
+  transition: opacity 0.3s ease-out;
+}
+
+html[data-theme="dark"] .app-loader { 
+  background: var(--bg, #0a0a0a); 
+}
+
+.app-loader.is-visible { 
+  display: flex; 
+}
+
+.app-loader.is-hidden { 
+  opacity: 0; 
+  pointer-events: none; 
+}
+
+/* ============================================================ */
+/* PSC ORBIT LOADER (React/Tailwind style)                      */
+/* Theme-aware via --accent.                                    */
+/* Falls back to a solid dot where CSS vars are unsupported.    */
+/* ============================================================ */
+
+.psc-loader {
+  --size: 1px;
+
+  display: block;
+  width: calc(12 * var(--size));
+  height: calc(12 * var(--size));
+  margin: calc(15 * var(--size)) auto;
+  border-radius: 50%;
+  position: relative;
+  box-sizing: border-box;
+  color: var(--accent, #c9a227); /* Uses your theme's gold accent */
+  background-color: transparent;
+  animation: pscLoaderOrbit 2s linear infinite;
+}
+
+@keyframes pscLoaderOrbit {
+  0% {
+    box-shadow:
+      calc(14 * var(--size)) 0 0 calc(-2 * var(--size)),
+      calc(38 * var(--size)) 0 0 calc(-2 * var(--size)),
+      calc(-14 * var(--size)) 0 0 calc(-2 * var(--size)),
+      calc(-38 * var(--size)) 0 0 calc(-2 * var(--size));
+  }
+  25% {
+    box-shadow:
+      calc(14 * var(--size)) 0 0 calc(-2 * var(--size)),
+      calc(38 * var(--size)) 0 0 calc(-2 * var(--size)),
+      calc(-14 * var(--size)) 0 0 calc(-2 * var(--size)),
+      calc(-38 * var(--size)) 0 0 calc(2 * var(--size));
+  }
+  50% {
+    box-shadow:
+      calc(14 * var(--size)) 0 0 calc(-2 * var(--size)),
+      calc(38 * var(--size)) 0 0 calc(-2 * var(--size)),
+      calc(-14 * var(--size)) 0 0 calc(2 * var(--size)),
+      calc(-38 * var(--size)) 0 0 calc(-2 * var(--size));
+  }
+  75% {
+    box-shadow:
+      calc(14 * var(--size)) 0 0 calc(2 * var(--size)),
+      calc(38 * var(--size)) 0 0 calc(-2 * var(--size)),
+      calc(-14 * var(--size)) 0 0 calc(-2 * var(--size)),
+      calc(-38 * var(--size)) 0 0 calc(-2 * var(--size));
+  }
+  100% {
+    box-shadow:
+      calc(14 * var(--size)) 0 0 calc(-2 * var(--size)),
+      calc(38 * var(--size)) 0 0 calc(2 * var(--size)),
+      calc(-14 * var(--size)) 0 0 calc(-2 * var(--size)),
+      calc(-38 * var(--size)) 0 0 calc(-2 * var(--size));
+  }
+}
+
+/* Chrome < 49 / older Safari: no CSS custom properties.
+   The whole box-shadow animation is invalid there, so swap
+   in a plain solid dot. */
+@supports not (--test: 1) {
+  .psc-loader {
+    width: 24px;
+    height: 24px;
+    background-color: #c9a227;
+    box-shadow: none;
+    animation: none;
+  }
+}
+
+/* Slower, calmer rhythm for reduced-motion users — the loader
+   still communicates "working", just without the busy pulse. */
+@media (prefers-reduced-motion: reduce) {
+  .psc-loader {
+    animation-duration: 4s;
   }
 }
