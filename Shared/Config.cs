@@ -14,20 +14,28 @@ namespace PSCIMS.Shared
         private const int CacheSeconds = 30;
 
         /// <summary>
-        /// Resolves the active connection string. 
-        /// Now configured to ALWAYS use Azure.
+        /// Resolves the active connection string dynamically based on Web.config.
         /// </summary>
         public static string ConnectionString
         {
             get
             {
-                string azure = ConfigurationManager.AppSettings["PSCIMS_Azure"];
-                if (!string.IsNullOrEmpty(azure))
+                string target = GetTarget();
+
+                if (string.Equals(target, "MonsterASP", StringComparison.OrdinalIgnoreCase))
                 {
-                    return azure;
+                    string monster = ConfigurationManager.AppSettings["PSCIMS_MonsterASP"];
+                    if (!string.IsNullOrEmpty(monster))
+                        return monster;
+                }
+                else if (string.Equals(target, "Azure", StringComparison.OrdinalIgnoreCase))
+                {
+                    string azure = ConfigurationManager.AppSettings["PSCIMS_Azure"];
+                    if (!string.IsNullOrEmpty(azure))
+                        return azure;
                 }
 
-                // Fallback just in case the Azure string is completely missing from Web.config
+                // Fallback to LocalDB if the selected target is missing
                 string local = ConfigurationManager.AppSettings["PSCIMS_LocalDB"];
                 if (!string.IsNullOrEmpty(local))
                     return local;
@@ -37,13 +45,13 @@ namespace PSCIMS.Shared
                     return legacy.ConnectionString;
 
                 throw new InvalidOperationException(
-                    "No database connection string configured. Set PSCIMS_Azure in Web.config.local.");
+                    "No database connection string configured. Set PSCIMS_MonsterASP or PSCIMS_Azure in Web.config.");
             }
         }
 
         public static string WhichDatabase()
         {
-            return "Azure";
+            return GetTarget();
         }
 
         /// <summary>
