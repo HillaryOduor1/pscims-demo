@@ -7,7 +7,7 @@
     <div class="auth-wrap">
         <div class="auth-card">
             <div class="auth-card__head">
-                <img src="<%= ResolveUrl("~/Content/img/psc-logo.webp") %>"
+                <img src="<%= ResolveUrl("~/Content/img/psc-logo.png") %>"
                      alt="Public Service Commission"
                      onerror="this.style.display='none'" />
                 <h1>Verify your email</h1>
@@ -35,14 +35,12 @@
 
             <asp:Button ID="btnVerify" runat="server" Text="Verify email"
                 CssClass="btn btn--primary btn--lg btn--block"
-                OnClick="btnVerify_Click"
-                OnClientClick="return PSCIMS.btnLoading(this, 'Verifying…');" />
+                OnClick="btnVerify_Click" />
 
             <div class="auth-card__footer">
                 Didn't receive it?
                 <asp:LinkButton ID="lnkResend" runat="server" Text="Resend code"
-                    OnClick="lnkResend_Click"
-                    OnClientClick="return PSCIMS.btnLoading(this, 'Sending new code…');" />
+                    OnClick="lnkResend_Click" />
             </div>
         </div>
     </div>

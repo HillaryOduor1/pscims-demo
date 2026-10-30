@@ -140,7 +140,7 @@ namespace PSCIMS.Shared
         private static string GetTarget()
         {
             string t = ConfigurationManager.AppSettings["DatabaseTarget"];
-            return string.IsNullOrEmpty(t) ? "Azure" : t.Trim();
+            return string.IsNullOrEmpty(t) ? "MonsterASP" : t.Trim();
         }
     }
 }

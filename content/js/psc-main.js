@@ -1,11 +1,8 @@
-/* ============================================================
-   PSCIMS — psc-main.js
-   ES5 only. Targets IE11+ and all modern browsers.
-   ============================================================ */
+/*ES5 only. Targets IE11+ and all modern browsers.*/
 (function () {
     'use strict';
 
-    /* ---------- Shims ---------- */
+    /* Shims */
     function on(el, evt, fn) {
         if (!el) { return; }
         if (el.addEventListener) {
@@ -64,7 +61,7 @@
         return window.innerWidth <= 900;
     }
 
-    /* ---------- Drawer state ---------- */
+    /*Drawer state */
     var FOCUSABLE_SEL = 'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
     var savedScrollY = 0;
     var drawerOpen = false;
@@ -177,7 +174,7 @@
         }
     }, 150);
 
-    /* ---------- Public API ---------- */
+    /*Public API */
     window.PSCIMS = window.PSCIMS || {};
 
     window.PSCIMS.toggleSidebar = function () {
@@ -217,18 +214,11 @@
         }, timeout || 4000);
     };
 
+    // Keep the function for backwards compatibility, but it's no longer used in OnClientClick
     window.PSCIMS.btnLoading = function (btn, message) {
         if (!btn) { return true; }
-        
-        // If the form is invalid, let the browser handle validation natively without locking the button
-        if (btn.form && typeof btn.form.checkValidity === 'function' && !btn.form.checkValidity()) {
-            return true;
-        }
-
         var now = new Date().getTime();
         var last = parseInt(btn.getAttribute('data-last-submit') || '0', 10);
-        
-        // Block double-clicks within 1.5 seconds ONLY
         if (last && (now - last) < 1500) { return false; }
 
         btn.setAttribute('data-last-submit', String(now));
@@ -238,7 +228,6 @@
         btn.disabled = true;
         addClass(btn, 'is-loading');
 
-        // Show spinner text
         setTimeout(function () {
             if (btn.tagName === 'INPUT') {
                 btn.value = message || 'Please wait\u2026';
@@ -248,12 +237,8 @@
                 btn.appendChild(sp);
                 btn.appendChild(document.createTextNode(' ' + (message || 'Please wait\u2026')));
             }
-            // Disable other submit buttons to prevent conflicting posts
-            var others = document.querySelectorAll('input[type=submit], button[type=submit]');
-            for (var i = 0; i < others.length; i++) { if (others[i] !== btn) { others[i].disabled = true; } }
         }, 0);
 
-        // FAILSAFE: Re-enable the button after 8 seconds if the page hasn't redirected
         setTimeout(function () {
             if (btn.disabled) {
                 btn.disabled = false;
@@ -271,7 +256,7 @@
         return true;
     };
 
-    /* ---------- Init ---------- */
+    /* Init */
     window.PSCIMS.init = function () {
         if (window.PSCIMS._inited) { return; }
         window.PSCIMS._inited = true;

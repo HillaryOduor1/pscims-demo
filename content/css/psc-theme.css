@@ -1,5 +1,4 @@
 /* PSCIMS Theme - Main stylesheet */
-
 :root {
   --accent:           #c9a227;
   --accent-hover:     #b08d1f;
@@ -159,10 +158,7 @@ button, input, select, textarea {
   .safe-left   { padding-left:   env(safe-area-inset-left, 0px); }
 }
 
-/* ============================================================ */
-/* APP LAYOUT (DESKTOP)                                         */
-/* Uses fixed sidebar and margin-left to prevent flex collapse  */
-/* ============================================================ */
+/* APP LAYOUT (DESKTOP)Uses fixed sidebar and margin-left to prevent flex collapse*/
 .shell {
   display: block; /* Changed from flex to block for perfect stacking */
   height: 100vh;
@@ -688,9 +684,8 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   .page-sub { font-size: clamp(14px, 1.4vw, 15px); }
 }
 
-/* ============================================================ */
-/* MOBILE OVERRIDES (iPhone 6+ etc)                             */
-/* ============================================================ */
+/* MOBILE OVERRIDES (iPhone 6+ etc)*/
+
 @media (max-width: 900px) {
   .shell {
     display: block;
@@ -1901,9 +1896,7 @@ html[data-theme="dark"] .state__mark { color: var(--accent-bright); }
   }
 }
 
-/* ============================================================ */
-/* INITIAL APP LOADER (Full Screen Overlay)                     */
-/* ============================================================ */
+/* INITIAL APP LOADER (Full Screen Overlay)  */
 
 .app-loader {
   position: fixed; 
@@ -1933,11 +1926,7 @@ html[data-theme="dark"] .app-loader {
   pointer-events: none; 
 }
 
-/* ============================================================ */
-/* PSC ORBIT LOADER (React/Tailwind style)                      */
-/* Theme-aware via --accent.                                    */
-/* Falls back to a solid dot where CSS vars are unsupported.    */
-/* ============================================================ */
+/*PSC ORBIT LOADER (React/Tailwind style).Theme-aware via --accent.Falls back to a solid dot where CSS vars are unsupported.    */
 
 .psc-loader {
   --size: 1px;
@@ -1992,9 +1981,7 @@ html[data-theme="dark"] .app-loader {
   }
 }
 
-/* Chrome < 49 / older Safari: no CSS custom properties.
-   The whole box-shadow animation is invalid there, so swap
-   in a plain solid dot. */
+/* Chrome < 49 / older Safari: no CSS custom properties.The whole box-shadow animation is invalid there, so swap in a plain solid dot. */
 @supports not (--test: 1) {
   .psc-loader {
     width: 24px;
@@ -2005,8 +1992,7 @@ html[data-theme="dark"] .app-loader {
   }
 }
 
-/* Slower, calmer rhythm for reduced-motion users — the loader
-   still communicates "working", just without the busy pulse. */
+/* Slower, calmer rhythm for reduced-motion users — the loader still communicates "working", just without the busy pulse. */
 @media (prefers-reduced-motion: reduce) {
   .psc-loader {
     animation-duration: 4s;

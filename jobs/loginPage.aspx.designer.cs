@@ -8,7 +8,6 @@ namespace PSCIMS.jobs
         protected global::System.Web.UI.WebControls.TextBox txtPassword;
         protected global::System.Web.UI.WebControls.HiddenField hfCsrf;
         
-        // Changed to LinkButton
         protected global::System.Web.UI.WebControls.LinkButton btnLogin; 
         
         protected global::System.Web.UI.WebControls.HyperLink lnkRegister;

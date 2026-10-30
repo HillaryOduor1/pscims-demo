@@ -1,6 +1,4 @@
-/* ============================================================
-   PSCIMS — Theme Initialization & Toggle
-   ============================================================ */
+/* PSCIMS — Theme Initialization & Toggle */
 (function () {
     'use strict';
 

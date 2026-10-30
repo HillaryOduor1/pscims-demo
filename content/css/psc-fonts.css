@@ -1,11 +1,4 @@
-/* ============================================================
-   PSCIMS — self-hosted fonts
-   Files sourced from google-webfonts-helper (latin, woff2, v20/v33)
-   and the material-symbols npm package.
-   No external requests to Google.
-   ============================================================ */
-
-/* ---------- Inter (body) ---------- */
+/*Inter (body) */
 @font-face {
   font-family: 'Inter';
   font-style: normal;
@@ -42,7 +35,7 @@
   src: url('../fonts/inter/inter-v20-latin-800.woff2') format('woff2');
 }
 
-/* ---------- Merriweather (headings / page-title) ---------- */
+/* Merriweather (headings / page-title)*/
 @font-face {
   font-family: 'Merriweather';
   font-style: normal;
@@ -65,7 +58,7 @@
   src: url('../fonts/merriweather/merriweather-v33-latin-900.woff2') format('woff2');
 }
 
-/* ---------- Material Symbols Outlined (variable) ---------- */
+/*Material Symbols Outlined (variable) */
 @font-face {
   font-family: 'Material Symbols Outlined';
   font-style: normal;

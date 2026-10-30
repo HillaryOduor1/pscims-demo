@@ -22,8 +22,7 @@
                 <label class="form-label" for="<%= txtId.ClientID %>">
                     ID / Passport Number <span class="req" aria-hidden="true">*</span>
                 </label>
-                <asp:TextBox ID="txtId" runat="server" CssClass="form-control" MaxLength="20"
-                             autocomplete="username" inputmode="text" required="required" />
+                <asp:TextBox ID="txtId" runat="server" CssClass="form-control" MaxLength="20" autocomplete="username" inputmode="text" required="required" />
             </div>
 
             <div class="form-group">
@@ -31,8 +30,7 @@
                     Password <span class="req" aria-hidden="true">*</span>
                 </label>
                 <div class="password-wrapper">
-                    <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-control"
-                                 autocomplete="current-password" required="required" />
+                    <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-control" autocomplete="current-password" required="required" />
                     <button type="button" class="password-toggle" onclick="togglePasswordVisibility('<%= txtPassword.ClientID %>', this)" aria-label="Toggle password visibility">
                         <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
                     </button>

@@ -1,8 +1,4 @@
-/* ============================================================
-   PSCIMS — print stylesheet
-   Loaded via <link media="print"> so it never affects screen.
-   Hide all chrome; print content-only.
-   ============================================================ */
+/*PSCIMS — print stylesheet.Loaded via <link media="print"> so it never affects screen.Hide all chrome; print content-only.*/
 
 @media print {
   /* Reset background and colours for ink economy and legibility */

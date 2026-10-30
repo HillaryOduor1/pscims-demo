@@ -27,10 +27,6 @@ namespace PSCIMS.Shared
 
     public static class AdvertDal
     {
-        /*private static string ConnStr
-        {
-            get { return ConfigurationManager.ConnectionStrings["PSCIMS"].ConnectionString; }
-        }*/
         private static string ConnStr
         {
             get { return Config.ConnectionString; }

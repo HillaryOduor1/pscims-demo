@@ -1,14 +1,13 @@
 /* psc-components.css
- *
- * Intentionally empty as of the Phase 2 refactor.
- *
- * The component rules previously in this file (stat tiles, breadcrumb,
- * steps indicator) have been merged into psc-theme.css so the cascade
- * is single-sourced and no rule is duplicated or dead. This file is
- * retained as an empty stub because Site.Master references it via a
- * <link> tag; removing the file without removing the <link> would
- * produce a 404 on every page.
- *
- * Do not add rules here. Add them to psc-theme.css in the
- * "UI PRIMITIVES" or "MODALS" section instead.
+ Intentionally empty .
+ 
+ The component rules previously in this file (stat tiles, breadcrumb,
+ steps indicator) have been merged into psc-theme.css so the cascade
+ is single-sourced and no rule is duplicated or dead. This file is
+ retained as an empty stub because Site.Master references it via a
+ <link> tag; removing the file without removing the <link> would
+ produce a 404 on every page.
+ 
+ Do not add rules here. Add them to psc-theme.css in the
+ "UI PRIMITIVES" or "MODALS" section instead.
  */

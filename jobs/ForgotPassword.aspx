@@ -23,8 +23,7 @@
                     <label class="form-label" for="<%= txtIdentifier.ClientID %>">
                         ID / Passport Number or Email <span class="req" aria-hidden="true">*</span>
                     </label>
-                    <asp:TextBox ID="txtIdentifier" runat="server" CssClass="form-control" 
-                                 placeholder="Enter your ID or email" required="required" />
+                    <asp:TextBox ID="txtIdentifier" runat="server" CssClass="form-control" placeholder="Enter your ID or email" required="required" />
                 </div>
 
                 <asp:HiddenField ID="hfCsrf" runat="server" />
@@ -57,9 +56,7 @@
                     <label class="form-label" for="<%= txtOtp.ClientID %>">
                         Verification Code <span class="req" aria-hidden="true">*</span>
                     </label>
-                    <asp:TextBox ID="txtOtp" runat="server" CssClass="form-control" 
-                                 MaxLength="6" inputmode="numeric" autocomplete="one-time-code"
-                                 style="font-size:24px;letter-spacing:8px;text-align:center;" required="required" />
+                    <asp:TextBox ID="txtOtp" runat="server" CssClass="form-control" MaxLength="6" inputmode="numeric" autocomplete="one-time-code" style="font-size:24px;letter-spacing:8px;text-align:center;" required="required" />
                 </div>
 
                 <div class="form-group">
@@ -67,8 +64,7 @@
                         New Password <span class="req" aria-hidden="true">*</span>
                     </label>
                     <div class="password-wrapper">
-                        <asp:TextBox ID="txtNewPassword" runat="server" CssClass="form-control"
-                                     TextMode="Password" autocomplete="new-password" required="required" />
+                        <asp:TextBox ID="txtNewPassword" runat="server" CssClass="form-control" TextMode="Password" autocomplete="new-password" required="required" />
                         <button type="button" class="password-toggle" onclick="togglePasswordVisibility('<%= txtNewPassword.ClientID %>', this)" aria-label="Toggle password visibility">
                             <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
                         </button>
@@ -80,8 +76,7 @@
                         Confirm New Password <span class="req" aria-hidden="true">*</span>
                     </label>
                     <div class="password-wrapper">
-                        <asp:TextBox ID="txtConfirmPassword" runat="server" CssClass="form-control"
-                                     TextMode="Password" autocomplete="new-password" required="required" />
+                        <asp:TextBox ID="txtConfirmPassword" runat="server" CssClass="form-control" TextMode="Password" autocomplete="new-password" required="required" />
                         <button type="button" class="password-toggle" onclick="togglePasswordVisibility('<%= txtConfirmPassword.ClientID %>', this)" aria-label="Toggle password visibility">
                             <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
                         </button>

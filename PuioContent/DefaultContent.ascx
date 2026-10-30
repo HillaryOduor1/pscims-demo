@@ -13,15 +13,6 @@
     </a>
 </div>
 
-<!--<div class="alert alert-info" style="margin-bottom:24px;">
-    <div class="alert__title">Shared applicant profile</div>
-    Applicants to public universities and independent offices use the same applicant
-    profile as those applying for mainstream public service positions. If you already
-    have a PSCIMS account,
-    <a href="<%= ResolveUrl("~/jobs/loginPage.aspx") %>" data-nav>sign in</a>
-    to continue.
-</div>-->
-
 <div class="stat-grid">
     <div class="stat">
         <div class="stat__value">7</div>

@@ -71,12 +71,12 @@ namespace PSCIMS.jobs
             return new List<AdvertStatus>
             {
                 new AdvertStatus { Reference="PSC/HRM/01/2026", Title="Senior Human Resource Management Officer", Ministry="Public Service Commission", ClosesOn=DateTime.Today.AddDays(14), IsOpen=true },
-                new AdvertStatus { Reference="MOH/CS/02/2026",   Title="Chief Pharmacist",                        Ministry="Ministry of Health",          ClosesOn=DateTime.Today.AddDays(7),  IsOpen=true },
-                new AdvertStatus { Reference="MOE/TCH/03/2026",  Title="Senior Teacher — Mathematics",            Ministry="Ministry of Education",       ClosesOn=DateTime.Today.AddDays(21), IsOpen=true },
-                new AdvertStatus { Reference="TNT/ACC/04/2026",  Title="Principal Accountant",                    Ministry="The National Treasury",       ClosesOn=DateTime.Today.AddDays(3),  IsOpen=true },
+                new AdvertStatus { Reference="MOH/CS/02/2026",   Title="Chief Pharmacist",Ministry="Ministry of Health",ClosesOn=DateTime.Today.AddDays(7),  IsOpen=true },
+                new AdvertStatus { Reference="MOE/TCH/03/2026",  Title="Senior Teacher — Mathematics",Ministry="Ministry of Education",ClosesOn=DateTime.Today.AddDays(21), IsOpen=true },
+                new AdvertStatus { Reference="TNT/ACC/04/2026",  Title="Principal Accountant",        Ministry="The National Treasury",ClosesOn=DateTime.Today.AddDays(3),  IsOpen=true },
                 new AdvertStatus { Reference="MOI/ICT/05/2026",  Title="Information Communication Technology Officer", Ministry="Ministry of Interior", ClosesOn=DateTime.Today.AddDays(10), IsOpen=true },
-                new AdvertStatus { Reference="PSC/ICT/06/2026",  Title="ICT Officer I",                           Ministry="Public Service Commission",   ClosesOn=DateTime.Today.AddDays(-2), IsOpen=false },
-                new AdvertStatus { Reference="MOH/NUR/07/2025",  Title="Senior Nursing Officer",                  Ministry="Ministry of Health",          ClosesOn=DateTime.Today.AddDays(-30), IsOpen=false }
+                new AdvertStatus { Reference="PSC/ICT/06/2026",  Title="ICT Officer I",                Ministry="Public Service Commission",ClosesOn=DateTime.Today.AddDays(-2), IsOpen=false },
+                new AdvertStatus { Reference="MOH/NUR/07/2025",  Title="Senior Nursing Officer",        Ministry="Ministry of Health",ClosesOn=DateTime.Today.AddDays(-30), IsOpen=false }
             };
         }
     }

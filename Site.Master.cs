@@ -27,7 +27,7 @@ namespace PSCIMS
             phHeaderAnonymous.Visible = !IsAuthenticated;
             phHeaderAuthenticated.Visible = IsAuthenticated;
 
-            // CRITICAL FIX: Enforce no-cache headers on ALL pages using this master page
+            //Enforce no-cache headers on ALL pages using this master page
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.Cache.SetNoStore();
             Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
@@ -35,7 +35,7 @@ namespace PSCIMS
             Response.AppendHeader("Pragma", "no-cache");
         }
 
-        // ---- Sidebar active-link helpers ----
+        //Sidebar active-link helpers
         protected string IsActive(string pageName)
         {
             string current = Path.GetFileNameWithoutExtension(

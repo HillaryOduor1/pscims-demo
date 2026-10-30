@@ -1,18 +1,4 @@
-/* ============================================================
-   PSCIMS — psc-tables.js
-   ES5 only. Targets IE9+.
-   Adds class="js-stack" and data-label="<th text>" to every
-   table.table inside .table-wrap, so the responsive CSS in
-   psc-theme.css can render the table as a stacked-card list
-   below 768px.
-
-   Does NOT:
-   - clone or move nodes
-   - touch server-control IDs
-   - bind or unbind any events
-   - parse innerHTML
-   - depend on any library
-   ============================================================ */
+/* ES5 only. Targets IE9+.Adds class="js-stack" and data-label="<th text>" to every table.table inside .table-wrap, so the responsive CSS in psc-theme.css can render the table as a stacked-card list below 768px.It does NOT:clone or move nodes,touch server-control IDs,bind or unbind any events,parse innerHTML, depend on any library */
 (function () {
     'use strict';
 
@@ -36,8 +22,7 @@
             var tables = wraps[w].getElementsByTagName('table');
             for (var t = 0; t < tables.length; t++) {
                 var tbl = tables[t];
-                /* Only process tables with class "table" (the site's
-                   data-grid class), and only once per element. */
+                /* Only process tables with class "table" (the site's data-grid class), and only once per element. */
                 if (!tbl.className || !/\btable\b/.test(tbl.className)) { continue; }
                 if (/\bjs-stack\b/.test(tbl.className)) { continue; }
 

@@ -31,7 +31,7 @@ namespace PSCIMS.jobs
 
             if (!IsPostBack)
             {
-                // --- Capture Application Intent ---
+                // Capture Application Intent
                 string jobId = Request.QueryString["jobId"];
                 string intId = Request.QueryString["internshipId"];
                 
@@ -55,7 +55,6 @@ namespace PSCIMS.jobs
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            // ... (rest of the login logic remains the same) ...
             AuditLogger.Log("login_attempt_start", null, true, "Login button clicked, ID=" + (txtId.Text ?? ""));
 
             if (!CsrfProtector.Validate(Context, hfCsrf.Value))
