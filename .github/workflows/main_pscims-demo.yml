@@ -1,4 +1,4 @@
-name: Build and deploy PSCIMS to Azure Web App
+name: Build PSCIMS
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: windows-latest
     permissions:
       contents: read
@@ -36,25 +36,6 @@ jobs:
           }
           Write-Error "No csc.exe found"
           exit 1
-
-      - name: Diagnostic - check secret
-        shell: pwsh
-        run: |
-          $p = '${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_37BCBD8B91014E2EB394626DF6669727 }}'
-          Write-Host "Secret length: $($p.Length)"
-          if ($p.Length -eq 0) {
-            Write-Host "*** SECRET IS EMPTY ***"
-            exit 1
-          }
-          if ($p.Length -lt 500) {
-            Write-Host "*** SECRET IS TOO SHORT - likely truncated ***"
-            exit 1
-          }
-          if (-not $p.StartsWith("<publishData>")) {
-            Write-Host "*** SECRET DOES NOT START WITH <publishData> - wrong value ***"
-            exit 1
-          }
-          Write-Host "Secret looks valid."
 
       - name: Build PSCIMS.dll
         shell: pwsh
@@ -179,9 +160,12 @@ jobs:
           Get-ChildItem -Recurse -Include "*.pdb" -File | Remove-Item -Force -Verbose
           Write-Host "Source cleanup complete."
 
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v3
+      # -------------------------------------------------------------
+      # NEW STEP: Save the compiled files as an artifact for manual download
+      # -------------------------------------------------------------
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
         with:
-          app-name: 'pscims-demo'
-          package: ./
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_37BCBD8B91014E2EB394626DF6669727 }}
+          name: PSCIMS-Build
+          path: ./
+          retention-days: 7
