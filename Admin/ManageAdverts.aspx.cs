@@ -63,7 +63,7 @@ namespace PSCIMS.Admin
                 if (string.IsNullOrEmpty(hfAdvertId.Value))
                 {
                     cmd.CommandText = "INSERT INTO dbo.Adverts (Reference, Title, Ministry, Location, Description, OpensOn, ClosesOn, IsActive) " +
-                                      "VALUES (@Ref, @T, 'Admin', 'Nairobi', @D, GETDATE(), @C, 1)";
+                                      "VALUES (@Ref, @T, 'Admin', 'Nairobi', @D, SYSUTCDATETIME(), @C, 1)";
                     cmd.Parameters.AddWithValue("@Ref", "ADM/" + DateTime.Now.Ticks.ToString().Substring(10));
                 }
                 else

@@ -1998,3 +1998,46 @@ html[data-theme="dark"] .app-loader {
     animation-duration: 4s;
   }
 }
+/* ADMIN MOBILE TABLE FIXES */
+
+@media (max-width: 767px) {
+    /* Hide certain columns on mobile to save space */
+    .hide-on-mobile {
+        display: none !important;
+    }
+
+    /* Style the stacked labels for mobile tables */
+    .table.js-stack td[data-label]::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+    }
+
+    /* Make the action buttons span full width on mobile */
+    .table.js-stack .actions-cell {
+        padding-top: 12px;
+        padding-bottom: 8px;
+        border-top: 1px dashed var(--border);
+        margin-top: 8px;
+    }
+
+    /* Adjust the mobile modal to slide up from bottom like a bottom sheet */
+    .modal-overlay {
+        align-items: flex-end !important;
+        padding: 0 !important;
+    }
+
+    .modal {
+        border-radius: 20px 20px 0 0 !important;
+        max-height: 90vh !important;
+        min-height: auto !important;
+        padding: 20px !important;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+}
