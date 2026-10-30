@@ -11,12 +11,10 @@
   -->
 
   <!-- Use "LocalDB" or "Azure" -->
-  <add key="DatabaseTarget" value="Azure" />
+  <add key="DatabaseTarget" value="MonsterASP" />
 
-  <!-- Azure SQL connection string -->
-  <add key="PSCIMS_Azure"
-       value="Server=tcp:pscims-demo-server.database.windows.net,1433;Initial Catalog=pscims-db;Persist Security Info=False;User ID=pscimsadmin;Password=PUT_YOUR_AZURE_SQL_PASSWORD_HERE;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" />
-
+  <!-- MonsterASP connection string -->
+  <add key="PSCIMS_MonsterASP" value="Server=db76711.databaseasp.net; Database=db76711; User Id=db76711; Password=9Kf+s8-Y#M3n; Encrypt=False; MultipleActiveResultSets=True;" />
   <!-- SMTP password for local dev -->
   <add key="SmtpPass" value="PUT_YOUR_GMAIL_APP_PASSWORD_HERE" />
 </appSettings>
