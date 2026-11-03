@@ -10,7 +10,7 @@
             <h2 class="page-title"><%= ContentProvider.Get("Home_Title", "") %></h2>
             <p class="page-sub"><%= ContentProvider.Get("Home_Sub", "") %></p>
         </div>
-        <a href="RegisterProfile.aspx" class="btn btn--primary btn--lg">
+        <a href="<%= ResolveUrl("~/jobs/RegisterProfile.aspx") %>" class="btn btn--primary btn--lg">
             <%= ContentProvider.Get("Home_RegisterBtn", "Register as a new applicant") %>
         </a>
     </div>
@@ -37,27 +37,27 @@
     <h3 class="card-title" style="font-size:17px;margin-bottom:12px;"><%= ContentProvider.Get("Home_QuickActions_Title", "Quick Actions") %></h3>
 
     <div class="action-grid mb-6">
-        <a href="RegisterProfile.aspx" class="action-card">
+        <a href="<%= ResolveUrl("~/jobs/RegisterProfile.aspx") %>" class="action-card">
             <p class="action-card__title"><%= ContentProvider.Get("Home_Action_Reg_Title", "Register / Sign up") %></p>
             <p class="action-card__desc"><%= ContentProvider.Get("Home_Action_Reg_Desc", "Create your applicant profile using your ID or Passport number.") %></p>
         </a>
-        <a href="loginPage.aspx" class="action-card">
+        <a href="<%= ResolveUrl("~/jobs/loginPage.aspx") %>" class="action-card">
             <p class="action-card__title"><%= ContentProvider.Get("Home_Action_SignIn_Title", "Sign in") %></p>
             <p class="action-card__desc"><%= ContentProvider.Get("Home_Action_SignIn_Desc", "Access your account to apply and manage applications.") %></p>
         </a>
-        <a href="ActiveJobsAdverts.aspx" class="action-card">
+        <a href="<%= ResolveUrl("~/jobs/ActiveJobsAdverts.aspx") %>" class="action-card">
             <p class="action-card__title"><%= ContentProvider.Get("Home_Action_Jobs_Title", "Advertised Jobs") %></p>
             <p class="action-card__desc"><%= ContentProvider.Get("Home_Action_Jobs_Desc", "Browse all currently open positions in the public service.") %></p>
         </a>
-        <a href="ActiveAdvertsInternsInternshipExt.aspx" class="action-card">
+        <a href="<%= ResolveUrl("~/jobs/ActiveAdvertsInternsInternshipExt.aspx") %>" class="action-card">
             <p class="action-card__title"><%= ContentProvider.Get("Home_Action_Int_Title", "Internships") %></p>
             <p class="action-card__desc"><%= ContentProvider.Get("Home_Action_Int_Desc", "Current internship opportunities under the PSIP programme.") %></p>
         </a>
-        <a href="loginPage.aspx" class="action-card">
+        <a href="<%= ResolveUrl("~/jobs/loginPage.aspx") %>" class="action-card">
             <p class="action-card__title"><%= ContentProvider.Get("Home_Action_Apps_Title", "My Applications") %></p>
             <p class="action-card__desc"><%= ContentProvider.Get("Home_Action_Apps_Desc", "View the status of applications you have submitted.") %></p>
         </a>
-        <a href="AdvertStatusGlobal.aspx" class="action-card">
+        <a href="<%= ResolveUrl("~/jobs/AdvertStatusGlobal.aspx") %>" class="action-card">
             <p class="action-card__title"><%= ContentProvider.Get("Home_Action_Status_Title", "Status of Advertised Posts") %></p>
             <p class="action-card__desc"><%= ContentProvider.Get("Home_Action_Status_Desc", "Check whether an advertised post is still open or closed.") %></p>
         </a>

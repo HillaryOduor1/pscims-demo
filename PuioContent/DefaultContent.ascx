@@ -36,7 +36,7 @@
 
 <div class="action-grid mb-6">
 
-    <a href="<%= ResolveUrl("~/puio/ActiveJobsAdverts.aspx") %>" class="action-card" data-nav>
+    <a href="<%= ResolveUrl("~/jobs/ActiveJobsAdverts.aspx") %>" class="action-card" data-nav>
         <p class="action-card__title">Advertised Jobs</p>
         <p class="action-card__desc">Browse current vacancies across public universities and independent offices.</p>
     </a>
