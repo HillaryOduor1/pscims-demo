@@ -254,11 +254,11 @@
                             <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">account_balance</span>
                             <span class="sidebar__label">Universities &amp; Ind. Offices</span>
                         </a>
-                        <div class="sidebar__section">Resources</div>
+                        <!-- <div class="sidebar__section">Resources</div>
                         <a href="<%= ResolveUrl("~/jobs/OtherDocs/OnlinInterviewsInstructions.pdf") %>" class="sidebar__link" data-tooltip="Interview Instructions" title="Online Video Interviews Instructions (PDF)" target="_blank" rel="noopener">
                             <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">description</span>
                             <span class="sidebar__label">Interview Instructions</span>
-                        </a>
+                        </a>-->
                         <div class="sidebar__section">Session</div>
                         <a href="<%= ResolveUrl("~/jobs/logout.aspx") %>" class="sidebar__link" data-tooltip="Sign out" title="Sign out of PSCIMS">
                             <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">logout</span>
@@ -272,7 +272,7 @@
                         <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">open_in_new</span>
                         <span class="sidebar__label">publicservice.go.ke</span>
                     </a>
-                    <a href="https://hillary-portfolio-v2.vercel.app" class="sidebar__credit" data-tooltip="Designed and built by Hillary" title="Designed and built by Hillary Oduor" target="_blank" rel="noopener">
+                    <a href="https://hillary-porfolio-v2.vercel.app" class="sidebar__credit" data-tooltip="Designed and built by Hillary" title="Designed and built by Hillary Oduor" target="_blank" rel="noopener">
                         <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">code</span>
                         <span class="sidebar__label">Designed &amp; built by <strong>Hillary</strong></span>
                     </a>
