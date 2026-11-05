@@ -164,12 +164,29 @@
             <div class="sidebar-overlay" id="sidebarOverlay" role="button" tabindex="-1" aria-label="Close navigation" aria-hidden="true"></div>
 
             <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
-                <a href="<%= ResolveUrl("~/jobs/Default.aspx") %>" class="sidebar__brand" title="PSCIMS Home">
+                
+                <!-- DYNAMIC BRAND LINK -->
+                <%
+                    string brandUrl = "~/jobs/Default.aspx";
+                    if (Request.IsAuthenticated && Session["ApplicantId"] != null)
+                    {
+                        if (Session["ApplicantRole"] != null && Session["ApplicantRole"].ToString().ToLower() == "admin")
+                        {
+                            brandUrl = "~/Admin/Default.aspx";
+                        }
+                        else
+                        {
+                            brandUrl = "~/jobs/ApplicantDashboard.aspx";
+                        }
+                    }
+                %>
+                <a href="<%= ResolveUrl(brandUrl) %>" class="sidebar__brand" title="PSCIMS Home">
                     <div class="sidebar__brand-text">
                         <div class="sidebar__brand-title">PSCIMS</div>
                         <div class="sidebar__brand-sub">Public Service Commission</div>
                     </div>
                 </a>
+                <!-- END DYNAMIC BRAND LINK -->
 
                 <nav class="sidebar__nav">
                     <asp:PlaceHolder ID="phAnonymous" runat="server">
